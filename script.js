@@ -175,13 +175,52 @@ function renderLevelItem(item) {
   const barFill = el("div", { class: "level-bar-fill" });
   barFill.style.width = pct + "%";
   const bar = el("div", { class: "level-bar" }, [barFill]);
+  bar.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    dragState = { id: item.id, max: item.max, lastEvent: e };
+    setLevel(item.id, levelValueFromEvent(e, bar, item.max), item.max);
+    renderAll();
+  });
 
   return el(
     "div",
-    { class: `level-item${done ? " done" : ""}`, "data-search": item.name.toLowerCase() },
+    {
+      class: `level-item${done ? " done" : ""}`,
+      "data-search": item.name.toLowerCase(),
+      "data-level-id": item.id,
+    },
     [top, bar]
   );
 }
+
+let dragState = null;
+let dragRafPending = false;
+
+function levelValueFromEvent(e, barEl, max) {
+  const rect = barEl.getBoundingClientRect();
+  const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+  const fraction = rect.width === 0 ? 0 : x / rect.width;
+  return Math.round(fraction * max);
+}
+
+function scheduleDragUpdate(e) {
+  if (!dragState) return;
+  dragState.lastEvent = e;
+  if (dragRafPending) return;
+  dragRafPending = true;
+  requestAnimationFrame(() => {
+    dragRafPending = false;
+    if (!dragState) return;
+    const barEl = document.querySelector(`.level-item[data-level-id="${dragState.id}"] .level-bar`);
+    if (!barEl) return;
+    setLevel(dragState.id, levelValueFromEvent(dragState.lastEvent, barEl, dragState.max), dragState.max);
+    renderAll();
+  });
+}
+
+window.addEventListener("pointermove", scheduleDragUpdate);
+window.addEventListener("pointerup", () => { dragState = null; });
+window.addEventListener("pointercancel", () => { dragState = null; });
 
 function renderCategory(category) {
   const p = computeCategoryProgress(category);

@@ -368,17 +368,25 @@ main {
 }
 
 .level-bar {
-  height: 4px;
+  height: 8px;
   background: var(--bg);
   overflow: hidden;
   border-radius: var(--radius);
+  cursor: pointer;
+  touch-action: none;
+  border: 1px solid transparent;
+}
+
+.level-bar:hover {
+  border-color: var(--accent);
 }
 
 .level-bar-fill {
   height: 100%;
   background: var(--accent);
   border-radius: var(--radius);
-  transition: width 0.2s ease;
+  transition: width 0.1s ease;
+  pointer-events: none;
 }
 
 .level-item.done .level-bar-fill { background: var(--success); }
