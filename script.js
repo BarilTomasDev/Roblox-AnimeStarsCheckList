@@ -116,6 +116,13 @@ function computeWorldProgress(world) {
   let earned = 0;
   let total = 0;
   for (const category of world.categories) {
+    if (category.excludeFromProgress) continue;
+    if (category.type === "index") {
+      const p = computeIndexProgress(category, world);
+      total += 1;
+      if (p.reached >= category.count) earned += 1;
+      continue;
+    }
     const p = computeCategoryProgress(category, world);
     earned += p.earned;
     total += p.total;

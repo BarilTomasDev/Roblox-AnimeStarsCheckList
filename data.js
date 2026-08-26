@@ -24,10 +24,19 @@
     - type: "index"   -> auto-computed milestones, not manually checked
         { id, name, sources, count }
         "sources" lists the ids of "check" categories in the same world to
-        add up (e.g. Pets + Avatars). "count" milestones are spread evenly
-        across the combined total of those categories' items: milestone N
-        is reached once enough of them are checked. Nothing here is
+        add up (e.g. Pets + Avatars). Milestone N is reached once N combined
+        entries from those categories are checked (milestone `count` doesn't
+        require every possible entry, just `count` of them). Nothing here is
         clickable — it just reflects Pets/Avatars progress automatically.
+
+  Any category can also set:
+    excludeFromProgress: true
+        Its own checkboxes/bars still work and still show their own X/Y
+        count, but it's left out of the world %/global % totals. Use this
+        for categories whose real value is only unlocking something else
+        (e.g. Pets/Avatars index entries barely matter on their own — what
+        matters is the Index Milestones they add up to, so Pets/Avatars are
+        excluded and only Index Milestones counts toward progress).
 */
 
 const RARITY_TIERS = [
@@ -84,6 +93,7 @@ const CHECKLIST_DATA = [
         id: "w1-pets",
         name: "Pets (Index)",
         type: "check",
+        excludeFromProgress: true,
         items: [
           { id: "w1-pet-1", name: "Common Pet", rarity: "common" },
           { id: "w1-pet-2", name: "Uncommon Pet", rarity: "uncommon" },
@@ -100,6 +110,7 @@ const CHECKLIST_DATA = [
         id: "w1-avatars",
         name: "Avatars (Index)",
         type: "check",
+        excludeFromProgress: true,
         items: [
           { id: "w1-avatar-1", name: "Common Avatar", rarity: "common" },
           { id: "w1-avatar-2", name: "Uncommon Avatar", rarity: "uncommon" },
