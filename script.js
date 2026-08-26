@@ -172,10 +172,9 @@ function renderLevelItem(item) {
     ]),
   ]);
 
-  const bar = el("div", { class: "level-bar" }, [
-    el("div", { class: "level-bar-fill", style: `width:${pct}%` }),
-  ]);
-  bar.firstChild.style.width = pct + "%";
+  const barFill = el("div", { class: "level-bar-fill" });
+  barFill.style.width = pct + "%";
+  const bar = el("div", { class: "level-bar" }, [barFill]);
 
   return el(
     "div",
