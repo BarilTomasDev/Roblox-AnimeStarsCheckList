@@ -22,7 +22,7 @@
   --rarity-secret: #6b6f7a;
   --rarity-crafted: #e5484d;
 
-  --radius: 4px;
+  --radius: 2px;
 }
 
 * { box-sizing: border-box; }
@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 24px;
+  gap: 14px 24px;
   padding: 14px 24px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
@@ -57,6 +57,7 @@ body {
   display: flex;
   align-items: baseline;
   gap: 8px;
+  flex: 0 0 auto;
 }
 
 .topbar-icon { font-size: 16px; }
@@ -76,9 +77,10 @@ body {
 }
 
 .global-progress {
-  flex: 1;
-  min-width: 220px;
-  max-width: 420px;
+  flex: 1 1 240px;
+  min-width: 200px;
+  max-width: 480px;
+  order: 2;
 }
 
 .global-progress-labels {
@@ -115,6 +117,11 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  margin-left: auto;
+  order: 3;
 }
 
 .auth-area {
@@ -176,10 +183,28 @@ body {
   border-color: var(--danger);
 }
 
+@media (max-width: 720px) {
+  .topbar-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    order: 3;
+  }
+  .global-progress {
+    order: 2;
+    max-width: none;
+    width: 100%;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
 main {
-  max-width: 980px;
+  max-width: 1400px;
   margin: 20px auto 60px;
-  padding: 0 20px;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -220,7 +245,7 @@ main {
   background: var(--bg-elevated-2);
   overflow: hidden;
   width: 100%;
-  max-width: 260px;
+  max-width: 340px;
   border-radius: var(--radius);
 }
 
