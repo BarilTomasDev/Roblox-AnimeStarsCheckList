@@ -25,6 +25,7 @@
   </div>
 
   <div class="topbar-actions">
+    <div id="authArea" class="auth-area"></div>
     <input type="text" id="searchInput" placeholder="Search..." class="search-input">
     <button id="resetBtn" class="btn btn-danger" title="Reset all progress">Reset</button>
   </div>
@@ -36,7 +37,13 @@
   <p>Progress is saved automatically in this browser.</p>
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script src="data.js"></script>
 <script src="script.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-sync.js"></script>
 </body>
 </html>

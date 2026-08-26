@@ -12,8 +12,15 @@ function loadState() {
   }
 }
 
-function saveState() {
+function saveState(skipCloudSync) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if (!skipCloudSync && window.onStateSaved) window.onStateSaved(state);
+}
+
+function replaceState(newState) {
+  state = newState || {};
+  saveState(true);
+  renderAll();
 }
 
 function loadCollapsed() {
