@@ -20,6 +20,7 @@
   --rarity-mythical: #e5548c;
   --rarity-divine: #ffd700;
   --rarity-secret: #6b6f7a;
+  --rarity-crafted: #2dd4bf;
 
   --radius: 4px;
 }
@@ -310,6 +311,7 @@ main {
 }
 .rarity-dot.rarity-divine { background: var(--rarity-divine); }
 .rarity-dot.rarity-secret { background: var(--rarity-secret); }
+.rarity-dot.rarity-crafted { background: var(--rarity-crafted); }
 
 .tier-item {
   background: var(--bg-elevated-2);

@@ -5,7 +5,9 @@
   Entry types available inside a category:
     - type: "check"  -> simple checkbox (pet, quest, achievement...)
         { id, name, rarity? }
-        rarity (optional): "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythical" | "secret" | "divine"
+        rarity (optional): "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythical" | "secret" | "divine" | "crafted"
+        ("crafted" is a separate placeholder tier some pets use after Mythical
+        instead of Secret/Divine — exact rules TBD)
 
     - type: "level"   -> numeric progress (e.g. upgrade level 1 -> 100)
         { id, name, max }
@@ -29,6 +31,13 @@ const RARITY_TIERS = [
   { rarity: "secret", name: "Secret" },
   { rarity: "divine", name: "Divine" },
 ];
+
+function indexMilestones(worldId, count = 14) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `${worldId}-index-${i + 1}`,
+    name: `Milestone ${i + 1}`,
+  }));
+}
 
 const CHECKLIST_DATA = [
   {
@@ -77,7 +86,24 @@ const CHECKLIST_DATA = [
           { id: "w1-pet-1", name: "Common Pet", rarity: "common" },
           { id: "w1-pet-2", name: "Rare Pet", rarity: "rare" },
           { id: "w1-pet-3", name: "Secret Pet", rarity: "secret" },
+          { id: "w1-pet-4", name: "Crafted Pet", rarity: "crafted" },
         ],
+      },
+      {
+        id: "w1-avatars",
+        name: "Avatars (Index)",
+        type: "check",
+        items: [
+          { id: "w1-avatar-1", name: "Common Avatar", rarity: "common" },
+          { id: "w1-avatar-2", name: "Rare Avatar", rarity: "rare" },
+          { id: "w1-avatar-3", name: "Secret Avatar", rarity: "secret" },
+        ],
+      },
+      {
+        id: "w1-index",
+        name: "Index Milestones",
+        type: "check",
+        items: indexMilestones("w1"),
       },
       {
         id: "w1-upgrades",
