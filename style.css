@@ -552,11 +552,7 @@ main {
   gap: 10px;
 }
 
-.level-item-label {
-  font-size: 12.5px;
-}
-
-.tier-item-label {
+.item-title {
   font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
@@ -628,7 +624,7 @@ main {
 }
 
 .level-item.done .level-bar-fill { background: var(--success); }
-.level-item.done .level-item-label { color: var(--success); }
+.level-item.done .item-title { color: var(--success); }
 
 .hidden-by-filter { display: none !important; }
 

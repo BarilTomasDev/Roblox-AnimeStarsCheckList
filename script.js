@@ -215,7 +215,7 @@ function renderLevelItem(item) {
   });
 
   const top = el("div", { class: "level-item-top" }, [
-    el("span", { class: "level-item-label", text: item.name }),
+    el("span", { class: "item-title", text: item.name }),
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       input,
@@ -285,7 +285,7 @@ function renderTierItem(item) {
   });
 
   const top = el("div", { class: "level-item-top" }, [
-    el("span", { class: "tier-item-label", text: item.name }),
+    el("span", { class: "item-title", text: item.name }),
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       valueLabel,
@@ -337,7 +337,7 @@ function renderIndexCategory(category, world) {
   });
 
   const top = el("div", { class: "level-item-top" }, [
-    el("span", { class: "tier-item-label", text: category.name }),
+    el("span", { class: "item-title", text: category.name }),
     valueLabel,
   ]);
 
