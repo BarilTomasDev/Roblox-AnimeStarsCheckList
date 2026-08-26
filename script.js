@@ -191,7 +191,7 @@ function renderLevelItem(item) {
   const bar = el("div", { class: "level-bar" }, [barFill]);
   bar.addEventListener("pointerdown", (e) => {
     e.preventDefault();
-    dragState = { id: item.id, max: item.max, lastEvent: e };
+    dragState = { kind: "level", id: item.id, max: item.max, lastEvent: e };
     setLevel(item.id, levelValueFromEvent(e, bar, item.max), item.max);
     renderAll();
   });
@@ -207,41 +207,84 @@ function renderLevelItem(item) {
   );
 }
 
-function renderTierCategory(category) {
-  const selected = getTierIndex(category.id);
+function tierIndexFromEvent(e, barEl, total) {
+  const rect = barEl.getBoundingClientRect();
+  const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+  const fraction = rect.width === 0 ? 0 : x / rect.width;
+  const step = Math.round(fraction * total);
+  return step - 1;
+}
 
-  const segments = category.items.map((item, i) => {
-    const reached = i <= selected;
-    const isBest = i === selected;
-    const segment = el(
-      "div",
-      {
-        class: `tier-segment rarity-${item.rarity}${reached ? " reached" : ""}${isBest ? " best" : ""}`,
-        "data-search": item.name.toLowerCase(),
-        onclick: () => {
-          setTierIndex(category.id, isBest ? -1 : i);
-          renderAll();
-        },
-      },
-      [
-        el("span", { class: "tier-segment-dot" }),
-        el("span", { class: "tier-segment-label", text: item.name }),
-      ]
-    );
-    return segment;
+function renderTierCategory(category) {
+  const items = category.items;
+  const total = items.length;
+  const selected = getTierIndex(category.id);
+  const step = selected + 1;
+  const pct = (step / total) * 100;
+  const currentName = selected >= 0 ? items[selected].name : "None";
+  const currentRarityClass = selected >= 0 ? `rarity-${items[selected].rarity}` : "";
+
+  const minusBtn = el("button", {
+    class: "level-btn",
+    text: "−",
+    onclick: () => {
+      setTierIndex(category.id, Math.max(-1, selected - 1));
+      renderAll();
+    },
+  });
+  const plusBtn = el("button", {
+    class: "level-btn",
+    text: "+",
+    onclick: () => {
+      setTierIndex(category.id, Math.min(total - 1, selected + 1));
+      renderAll();
+    },
   });
 
-  const bestLabel = el("div", { class: "tier-best-label" }, [
-    document.createTextNode("Best obtained: "),
-    el("span", {
-      class: "tier-best-name",
-      text: selected >= 0 ? category.items[selected].name : "none",
-    }),
+  const valueLabel = el("span", {
+    class: `tier-value ${currentRarityClass}`,
+    text: currentName,
+  });
+
+  const top = el("div", { class: "level-item-top" }, [
+    el("div", { class: "level-item-controls" }, [
+      minusBtn,
+      valueLabel,
+      el("span", { class: "level-max", text: `/ ${items[total - 1].name}` }),
+      plusBtn,
+    ]),
   ]);
 
-  return el("div", { class: "tier-row" }, [
-    el("div", { class: "tier-segments" }, segments),
-    bestLabel,
+  const barFill = el("div", { class: `tier-bar-fill ${currentRarityClass}` });
+  barFill.style.width = pct + "%";
+
+  const ticks = el(
+    "div",
+    { class: "tier-ticks" },
+    items.slice(1).map((_, idx) => {
+      const leftPct = ((idx + 1) / total) * 100;
+      return el("span", { class: "tier-tick", style: `left:${leftPct}%` });
+    })
+  );
+
+  const bar = el("div", { class: "tier-bar" }, [barFill, ticks]);
+  bar.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    dragState = { kind: "tier", id: category.id, total, lastEvent: e };
+    setTierIndex(category.id, tierIndexFromEvent(e, bar, total));
+    renderAll();
+  });
+
+  const labels = el(
+    "div",
+    { class: "tier-labels" },
+    items.map((item) => el("span", { class: "tier-label-item", text: item.name, "data-search": item.name.toLowerCase() }))
+  );
+
+  return el("div", { class: "tier-item", "data-tier-id": category.id }, [
+    top,
+    bar,
+    labels,
   ]);
 }
 
@@ -257,15 +300,25 @@ function levelValueFromEvent(e, barEl, max) {
 
 function scheduleDragUpdate(e) {
   if (!dragState) return;
+  if (e.buttons === 0) {
+    dragState = null;
+    return;
+  }
   dragState.lastEvent = e;
   if (dragRafPending) return;
   dragRafPending = true;
   requestAnimationFrame(() => {
     dragRafPending = false;
     if (!dragState) return;
-    const barEl = document.querySelector(`.level-item[data-level-id="${dragState.id}"] .level-bar`);
-    if (!barEl) return;
-    setLevel(dragState.id, levelValueFromEvent(dragState.lastEvent, barEl, dragState.max), dragState.max);
+    if (dragState.kind === "level") {
+      const barEl = document.querySelector(`.level-item[data-level-id="${dragState.id}"] .level-bar`);
+      if (!barEl) return;
+      setLevel(dragState.id, levelValueFromEvent(dragState.lastEvent, barEl, dragState.max), dragState.max);
+    } else if (dragState.kind === "tier") {
+      const barEl = document.querySelector(`.tier-item[data-tier-id="${dragState.id}"] .tier-bar`);
+      if (!barEl) return;
+      setTierIndex(dragState.id, tierIndexFromEvent(dragState.lastEvent, barEl, dragState.total));
+    }
     renderAll();
   });
 }
