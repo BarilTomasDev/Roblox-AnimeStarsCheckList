@@ -246,8 +246,8 @@ function tierIndexFromEvent(e, barEl, total) {
   const rect = barEl.getBoundingClientRect();
   const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
   const fraction = rect.width === 0 ? 0 : x / rect.width;
-  const step = Math.round(fraction * total);
-  return step - 1;
+  if (fraction <= 0) return -1;
+  return Math.min(total - 1, Math.floor(fraction * total));
 }
 
 function renderTierItem(item) {
