@@ -12,12 +12,14 @@
   --success: #3fb97a;
   --danger: #e5484d;
 
-  --rarity-common: #82869a;
+  --rarity-common: #d7d8de;
+  --rarity-uncommon: #4ade80;
   --rarity-rare: #5b8cff;
   --rarity-epic: #a366e8;
-  --rarity-legendary: #d9a441;
-  --rarity-mythic: #e5548c;
-  --rarity-secret: #e5484d;
+  --rarity-legendary: #f2994a;
+  --rarity-mythical: #e5548c;
+  --rarity-divine: #ffd700;
+  --rarity-secret: #6b6f7a;
 
   --radius: 4px;
 }
@@ -299,10 +301,14 @@ main {
   flex-shrink: 0;
 }
 .rarity-common { background: var(--rarity-common); }
+.rarity-uncommon { background: var(--rarity-uncommon); }
 .rarity-rare { background: var(--rarity-rare); }
 .rarity-epic { background: var(--rarity-epic); }
 .rarity-legendary { background: var(--rarity-legendary); }
-.rarity-mythic { background: var(--rarity-mythic); }
+.rarity-mythical {
+  background: linear-gradient(135deg, #ff5c5c, #f2994a, #ffd700, #4ade80, #5b8cff, #a366e8, #e5548c);
+}
+.rarity-divine { background: var(--rarity-divine); }
 .rarity-secret { background: var(--rarity-secret); }
 
 .tier-row {
@@ -346,11 +352,17 @@ main {
 }
 
 .tier-segment.rarity-common { color: var(--rarity-common); }
+.tier-segment.rarity-uncommon { color: var(--rarity-uncommon); }
 .tier-segment.rarity-rare { color: var(--rarity-rare); }
 .tier-segment.rarity-epic { color: var(--rarity-epic); }
 .tier-segment.rarity-legendary { color: var(--rarity-legendary); }
-.tier-segment.rarity-mythic { color: var(--rarity-mythic); }
+.tier-segment.rarity-mythical { color: var(--rarity-mythical); }
+.tier-segment.rarity-divine { color: var(--rarity-divine); }
 .tier-segment.rarity-secret { color: var(--rarity-secret); }
+
+.tier-segment.rarity-mythical .tier-segment-dot {
+  background: linear-gradient(135deg, #ff5c5c, #f2994a, #ffd700, #4ade80, #5b8cff, #a366e8, #e5548c);
+}
 
 .tier-segment.reached {
   border-bottom-color: currentColor;

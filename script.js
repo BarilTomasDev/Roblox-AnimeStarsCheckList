@@ -232,10 +232,10 @@ function renderTierCategory(category) {
   });
 
   const bestLabel = el("div", { class: "tier-best-label" }, [
-    document.createTextNode("Meilleur obtenu : "),
+    document.createTextNode("Best obtained: "),
     el("span", {
       class: "tier-best-name",
-      text: selected >= 0 ? category.items[selected].name : "aucun",
+      text: selected >= 0 ? category.items[selected].name : "none",
     }),
   ]);
 
@@ -370,7 +370,7 @@ function applySearchFilter() {
 document.getElementById("searchInput").addEventListener("input", applySearchFilter);
 
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (confirm("Réinitialiser toute la progression ? Cette action est irréversible.")) {
+  if (confirm("Reset all progress? This action cannot be undone.")) {
     state = {};
     saveState();
     renderAll();
