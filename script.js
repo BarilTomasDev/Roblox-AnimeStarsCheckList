@@ -101,6 +101,9 @@ function computeCategoryProgress(category, world) {
     const p = computeIndexProgress(category, world);
     return { earned: p.reached, total: category.count };
   }
+  if (category.type === "soon") {
+    return { earned: 0, total: 0 };
+  }
 
   let earned = 0;
   let total = 0;
@@ -403,6 +406,15 @@ window.addEventListener("pointerup", () => { dragState = null; });
 window.addEventListener("pointercancel", () => { dragState = null; });
 
 function renderCategory(category, world) {
+  if (category.type === "soon") {
+    const title = el("h3", { class: "category-title" }, [
+      document.createTextNode(category.name + " "),
+      el("span", { class: "soon-badge", text: "Coming soon" }),
+    ]);
+    const body = el("div", { class: "soon-note", text: "Not implemented yet." });
+    return el("div", { class: "category category-soon" }, [title, body]);
+  }
+
   const p = computeCategoryProgress(category, world);
   const title = el("h3", { class: "category-title" }, [
     document.createTextNode(category.name + " "),

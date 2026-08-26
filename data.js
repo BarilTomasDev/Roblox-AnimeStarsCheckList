@@ -17,12 +17,11 @@ const CHECKLIST_DATA = [
     icon: "🏠",
     categories: [
       {
-        id: "lobby-quests",
-        name: "Quests",
-        type: "check",
+        id: "lobby-gacha",
+        name: "Gacha",
+        type: "tier",
         items: [
-          { id: "lobby-q1", name: "Finish the tutorial" },
-          { id: "lobby-q2", name: "Unlock World 1" },
+          { id: "lobby-gacha-cosmic-scale", name: "Cosmic Scale" },
         ],
       },
       {
@@ -30,9 +29,11 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "lobby-up-strength", name: "Strength", max: 100 },
+          { id: "lobby-up-range", name: "Range", max: 32 },
         ],
       },
+      { id: "lobby-upgrades-mix", name: "Upgrades Mix", type: "soon" },
+      { id: "lobby-professions", name: "Professions", type: "soon" },
     ],
   },
   {
@@ -46,9 +47,10 @@ const CHECKLIST_DATA = [
         type: "tier",
         items: [
           { id: "w1-gacha-doujutsu", name: "Doujutsu" },
-          { id: "w1-gacha-elemental", name: "Elemental" },
         ],
       },
+      { id: "w1-ranks", name: "Ranks", type: "soon" },
+      { id: "w1-passives", name: "Passives", type: "soon" },
       {
         id: "w1-pets",
         name: "Pets (Index)",
@@ -89,11 +91,18 @@ const CHECKLIST_DATA = [
         count: 14,
       },
       {
+        id: "w1-medal-event",
+        name: "Medal Event (Optional)",
+        type: "check",
+        excludeFromProgress: true,
+        items: [{ id: "w1-medal-event-done", name: "Medal Event" }],
+      },
+      {
         id: "w1-upgrades",
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w1-up-level", name: "Player Level", max: 100 },
+          { id: "w1-up-progression", name: "Ninja Progression", max: 100 },
         ],
       },
     ],
