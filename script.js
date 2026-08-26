@@ -77,16 +77,16 @@ function computeCategoryProgress(category) {
   let earned = 0;
   let total = 0;
   for (const item of category.items) {
-    total += 1;
     if (category.type === "check") {
+      total += 1;
       if (isChecked(item.id)) earned += 1;
     } else if (category.type === "level") {
+      total += 1;
       earned += getLevel(item.id, item.max) / item.max;
+    } else if (category.type === "tier") {
+      total += RARITY_TIERS.length;
+      earned += getTierIndex(item.id) + 1;
     }
-  }
-  if (category.type === "tier") {
-    total = category.items.length;
-    earned = getTierIndex(category.id) + 1;
   }
   return { earned, total };
 }
@@ -215,20 +215,20 @@ function tierIndexFromEvent(e, barEl, total) {
   return step - 1;
 }
 
-function renderTierCategory(category) {
-  const items = category.items;
-  const total = items.length;
-  const selected = getTierIndex(category.id);
+function renderTierItem(item) {
+  const tiers = RARITY_TIERS;
+  const total = tiers.length;
+  const selected = getTierIndex(item.id);
   const step = selected + 1;
   const pct = (step / total) * 100;
-  const currentName = selected >= 0 ? items[selected].name : "None";
-  const currentRarityClass = selected >= 0 ? `rarity-${items[selected].rarity}` : "";
+  const currentName = selected >= 0 ? tiers[selected].name : "None";
+  const currentRarityClass = selected >= 0 ? `rarity-${tiers[selected].rarity}` : "";
 
   const minusBtn = el("button", {
     class: "level-btn",
     text: "−",
     onclick: () => {
-      setTierIndex(category.id, Math.max(-1, selected - 1));
+      setTierIndex(item.id, Math.max(-1, selected - 1));
       renderAll();
     },
   });
@@ -236,7 +236,7 @@ function renderTierCategory(category) {
     class: "level-btn",
     text: "+",
     onclick: () => {
-      setTierIndex(category.id, Math.min(total - 1, selected + 1));
+      setTierIndex(item.id, Math.min(total - 1, selected + 1));
       renderAll();
     },
   });
@@ -247,10 +247,11 @@ function renderTierCategory(category) {
   });
 
   const top = el("div", { class: "level-item-top" }, [
+    el("span", { class: "level-item-label", text: item.name }),
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       valueLabel,
-      el("span", { class: "level-max", text: `/ ${items[total - 1].name}` }),
+      el("span", { class: "level-max", text: `/ ${tiers[total - 1].name}` }),
       plusBtn,
     ]),
   ]);
@@ -261,7 +262,7 @@ function renderTierCategory(category) {
   const ticks = el(
     "div",
     { class: "tier-ticks" },
-    items.slice(1).map((_, idx) => {
+    tiers.slice(1).map((_, idx) => {
       const leftPct = ((idx + 1) / total) * 100;
       return el("span", { class: "tier-tick", style: `left:${leftPct}%` });
     })
@@ -270,22 +271,22 @@ function renderTierCategory(category) {
   const bar = el("div", { class: "tier-bar" }, [barFill, ticks]);
   bar.addEventListener("pointerdown", (e) => {
     e.preventDefault();
-    dragState = { kind: "tier", id: category.id, total, lastEvent: e };
-    setTierIndex(category.id, tierIndexFromEvent(e, bar, total));
+    dragState = { kind: "tier", id: item.id, total, lastEvent: e };
+    setTierIndex(item.id, tierIndexFromEvent(e, bar, total));
     renderAll();
   });
 
   const labels = el(
     "div",
     { class: "tier-labels" },
-    items.map((item) => el("span", { class: "tier-label-item", text: item.name, "data-search": item.name.toLowerCase() }))
+    tiers.map((tier) => el("span", { class: "tier-label-item", text: tier.name }))
   );
 
-  return el("div", { class: "tier-item", "data-tier-id": category.id }, [
-    top,
-    bar,
-    labels,
-  ]);
+  return el(
+    "div",
+    { class: "tier-item", "data-tier-id": item.id, "data-search": item.name.toLowerCase() },
+    [top, bar, labels]
+  );
 }
 
 let dragState = null;
@@ -342,7 +343,11 @@ function renderCategory(category) {
       category.items.map((item) => renderCheckItem(item, category))
     );
   } else if (category.type === "tier") {
-    body = renderTierCategory(category);
+    body = el(
+      "div",
+      { class: "level-list" },
+      category.items.map((item) => renderTierItem(item))
+    );
   } else {
     body = el(
       "div",

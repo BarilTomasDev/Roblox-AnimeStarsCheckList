@@ -5,18 +5,30 @@
   Entry types available inside a category:
     - type: "check"  -> simple checkbox (pet, quest, achievement...)
         { id, name, rarity? }
-        rarity (optional): "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythical" | "divine" | "secret"
+        rarity (optional): "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythical" | "secret" | "divine"
 
     - type: "level"   -> numeric progress (e.g. upgrade level 1 -> 100)
         { id, name, max }
         (current value is stored separately, defaults to 0)
 
-    - type: "tier"    -> rarity ladder where only the best drop counts (e.g. gacha)
-        { id, name, rarity }
-        Items MUST be ordered from weakest to strongest.
-        Click the best item obtained: everything below lights up with it,
+    - type: "tier"    -> named gacha banner, only the best drop counts
+        { id, name }
+        "name" is the banner's name (e.g. "Doujutsu"). Every banner uses
+        the same rarity ladder (see RARITY_TIERS below): click the best
+        item obtained on its bar and everything below lights up with it,
         no independent checkboxes.
 */
+
+const RARITY_TIERS = [
+  { rarity: "common", name: "Common" },
+  { rarity: "uncommon", name: "Uncommon" },
+  { rarity: "rare", name: "Rare" },
+  { rarity: "epic", name: "Epic" },
+  { rarity: "legendary", name: "Legendary" },
+  { rarity: "mythical", name: "Mythical" },
+  { rarity: "secret", name: "Secret" },
+  { rarity: "divine", name: "Divine" },
+];
 
 const CHECKLIST_DATA = [
   {
@@ -53,14 +65,8 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w1-gacha-1", name: "Common", rarity: "common" },
-          { id: "w1-gacha-2", name: "Uncommon", rarity: "uncommon" },
-          { id: "w1-gacha-3", name: "Rare", rarity: "rare" },
-          { id: "w1-gacha-4", name: "Epic", rarity: "epic" },
-          { id: "w1-gacha-5", name: "Legendary", rarity: "legendary" },
-          { id: "w1-gacha-6", name: "Mythical", rarity: "mythical" },
-          { id: "w1-gacha-7", name: "Secret", rarity: "secret" },
-          { id: "w1-gacha-8", name: "Divine", rarity: "divine" },
+          { id: "w1-gacha-doujutsu", name: "Doujutsu" },
+          { id: "w1-gacha-elemental", name: "Elemental" },
         ],
       },
       {
