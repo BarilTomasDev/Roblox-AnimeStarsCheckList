@@ -20,6 +20,8 @@
 
   let currentUser = null;
   let pushTimer = null;
+  let unsubscribeSnapshot = null;
+  let lastPushedAt = 0;
 
   function setStatus(text) {
     const el = document.getElementById("syncStatus");
@@ -70,9 +72,11 @@
     setStatus("Syncing...");
     clearTimeout(pushTimer);
     pushTimer = setTimeout(() => {
+      const updatedAt = Date.now();
+      lastPushedAt = updatedAt;
       db.collection("users")
         .doc(currentUser.uid)
-        .set({ state: stateToPush, updatedAt: Date.now() })
+        .set({ state: stateToPush, updatedAt })
         .then(() => setStatus("Synced"))
         .catch((err) => {
           console.error("Cloud sync failed:", err);
@@ -86,6 +90,11 @@
   auth.onAuthStateChanged((user) => {
     currentUser = user;
 
+    if (unsubscribeSnapshot) {
+      unsubscribeSnapshot();
+      unsubscribeSnapshot = null;
+    }
+
     if (!user) {
       window.onStateSaved = null;
       renderSignedOut();
@@ -94,22 +103,34 @@
 
     renderSignedIn(user);
     setStatus("Loading...");
+    window.onStateSaved = pushToCloud;
 
-    db.collection("users")
+    let firstSnapshot = true;
+    unsubscribeSnapshot = db
+      .collection("users")
       .doc(user.uid)
-      .get()
-      .then((doc) => {
-        if (doc.exists && doc.data().state) {
-          replaceState(doc.data().state);
-        } else {
-          pushToCloud(state);
+      .onSnapshot(
+        (doc) => {
+          if (firstSnapshot) {
+            firstSnapshot = false;
+            if (doc.exists && doc.data().state) {
+              replaceState(doc.data().state);
+            } else {
+              pushToCloud(state);
+            }
+            setStatus("Synced");
+            return;
+          }
+
+          const data = doc.data();
+          if (!data || data.updatedAt === lastPushedAt) return;
+          replaceState(data.state || {});
+          setStatus("Synced");
+        },
+        (err) => {
+          console.error("Cloud sync failed:", err);
+          setStatus("Sync failed");
         }
-        setStatus("Synced");
-        window.onStateSaved = pushToCloud;
-      })
-      .catch((err) => {
-        console.error("Failed to load cloud data:", err);
-        setStatus("Sync failed");
-      });
+      );
   });
 })();
