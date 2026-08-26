@@ -1,8 +1,3 @@
-// Optional cloud sync: Google sign-in + Firestore, on top of the existing
-// localStorage-based app. If firebase-config.js still has placeholder
-// values, this whole module quietly does nothing and the site behaves
-// exactly like before (local-only).
-
 (function () {
   const isConfigured =
     typeof FIREBASE_CONFIG !== "undefined" &&
@@ -107,8 +102,6 @@
         if (doc.exists && doc.data().state) {
           replaceState(doc.data().state);
         } else {
-          // First time this account signs in: seed the cloud with
-          // whatever progress already exists locally on this device.
           pushToCloud(state);
         }
         setStatus("Synced");
