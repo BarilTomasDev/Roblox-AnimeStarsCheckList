@@ -305,6 +305,81 @@ main {
 .rarity-mythic { background: var(--rarity-mythic); }
 .rarity-secret { background: var(--rarity-secret); }
 
+.tier-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tier-segments {
+  display: flex;
+  gap: 4px;
+}
+
+.tier-segment {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.tier-segment .tier-segment-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.tier-segment-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tier-segment.rarity-common { color: var(--rarity-common); }
+.tier-segment.rarity-rare { color: var(--rarity-rare); }
+.tier-segment.rarity-epic { color: var(--rarity-epic); }
+.tier-segment.rarity-legendary { color: var(--rarity-legendary); }
+.tier-segment.rarity-mythic { color: var(--rarity-mythic); }
+.tier-segment.rarity-secret { color: var(--rarity-secret); }
+
+.tier-segment.reached {
+  border-bottom-color: currentColor;
+}
+
+.tier-segment.reached .tier-segment-dot {
+  opacity: 1;
+}
+
+.tier-segment.reached .tier-segment-label {
+  color: var(--text);
+}
+
+.tier-segment.best {
+  background: color-mix(in srgb, currentColor 12%, var(--bg-elevated-2));
+  border-color: currentColor;
+}
+
+.tier-best-label {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.tier-best-name {
+  color: var(--text);
+  font-weight: 600;
+  font-family: "JetBrains Mono", monospace;
+}
+
 .level-item {
   background: var(--bg-elevated-2);
   border: 1px solid var(--border);

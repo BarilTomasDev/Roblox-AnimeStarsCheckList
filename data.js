@@ -10,6 +10,12 @@
     - type: "level"   -> progression numérique (ex: upgrade niveau 1 -> 100)
         { id, name, max }
         (la valeur actuelle est stockée séparément, 0 par défaut)
+
+    - type: "tier"    -> échelle de rareté où seul le meilleur obtenu compte (ex: gacha)
+        { id, name, rarity }
+        Les items DOIVENT être classés du plus faible au plus fort.
+        On clique sur le meilleur item obtenu : tout ce qui est en dessous
+        s'allume avec, pas de cases à cocher indépendantes.
 */
 
 const CHECKLIST_DATA = [
@@ -45,7 +51,7 @@ const CHECKLIST_DATA = [
       {
         id: "w1-gacha",
         name: "Gacha",
-        type: "check",
+        type: "tier",
         items: [
           { id: "w1-gacha-1", name: "Item Commun", rarity: "common" },
           { id: "w1-gacha-2", name: "Item Rare", rarity: "rare" },

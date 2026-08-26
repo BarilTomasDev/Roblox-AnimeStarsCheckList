@@ -49,6 +49,16 @@ function toggleCheck(id) {
   saveState();
 }
 
+function getTierIndex(categoryId) {
+  const v = state[categoryId];
+  return Number.isInteger(v) ? v : -1;
+}
+
+function setTierIndex(categoryId, index) {
+  state[categoryId] = index;
+  saveState();
+}
+
 function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
@@ -73,6 +83,10 @@ function computeCategoryProgress(category) {
     } else if (category.type === "level") {
       earned += getLevel(item.id, item.max) / item.max;
     }
+  }
+  if (category.type === "tier") {
+    total = category.items.length;
+    earned = getTierIndex(category.id) + 1;
   }
   return { earned, total };
 }
@@ -193,6 +207,44 @@ function renderLevelItem(item) {
   );
 }
 
+function renderTierCategory(category) {
+  const selected = getTierIndex(category.id);
+
+  const segments = category.items.map((item, i) => {
+    const reached = i <= selected;
+    const isBest = i === selected;
+    const segment = el(
+      "div",
+      {
+        class: `tier-segment rarity-${item.rarity}${reached ? " reached" : ""}${isBest ? " best" : ""}`,
+        "data-search": item.name.toLowerCase(),
+        onclick: () => {
+          setTierIndex(category.id, isBest ? -1 : i);
+          renderAll();
+        },
+      },
+      [
+        el("span", { class: "tier-segment-dot" }),
+        el("span", { class: "tier-segment-label", text: item.name }),
+      ]
+    );
+    return segment;
+  });
+
+  const bestLabel = el("div", { class: "tier-best-label" }, [
+    document.createTextNode("Meilleur obtenu : "),
+    el("span", {
+      class: "tier-best-name",
+      text: selected >= 0 ? category.items[selected].name : "aucun",
+    }),
+  ]);
+
+  return el("div", { class: "tier-row" }, [
+    el("div", { class: "tier-segments" }, segments),
+    bestLabel,
+  ]);
+}
+
 let dragState = null;
 let dragRafPending = false;
 
@@ -236,6 +288,8 @@ function renderCategory(category) {
       { class: "check-grid" },
       category.items.map((item) => renderCheckItem(item, category))
     );
+  } else if (category.type === "tier") {
+    body = renderTierCategory(category);
   } else {
     body = el(
       "div",
