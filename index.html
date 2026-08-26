@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Stars — Checklist</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-title">
+    <span class="topbar-icon">⭐</span>
+    <h1>Anime Stars <span>Checklist</span></h1>
+  </div>
+
+  <div class="global-progress">
+    <div class="global-progress-labels">
+      <span id="globalPercentLabel">0%</span>
+      <span class="global-progress-sub" id="globalCountLabel">0 / 0</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-bar-fill" id="globalProgressFill"></div>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input">
+    <button id="resetBtn" class="btn btn-danger" title="Réinitialiser toute la progression">Reset</button>
+  </div>
+</header>
+
+<main id="worldsContainer"></main>
+
+<footer class="footer">
+  <p>Progression sauvegardée automatiquement dans ce navigateur.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
