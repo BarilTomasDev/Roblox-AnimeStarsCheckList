@@ -247,7 +247,7 @@ function renderTierItem(item) {
   });
 
   const top = el("div", { class: "level-item-top" }, [
-    el("span", { class: "level-item-label", text: item.name }),
+    el("span", { class: "tier-item-label", text: item.name }),
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       valueLabel,
