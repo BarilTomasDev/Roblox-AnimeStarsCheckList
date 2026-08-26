@@ -400,6 +400,41 @@ main {
   padding: 0 2px;
 }
 
+.index-item {
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+}
+
+.index-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: "JetBrains Mono", monospace;
+}
+
+.index-bar {
+  position: relative;
+  height: 10px;
+  background: var(--bg);
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.index-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.index-caption {
+  margin-top: 7px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
 .tier-segment.rarity-mythical .tier-segment-dot {
   background: linear-gradient(135deg, #ff5c5c, #f2994a, #ffd700, #4ade80, #5b8cff, #a366e8, #e5548c);
 }

@@ -73,7 +73,28 @@ function el(tag, attrs = {}, children = []) {
   return node;
 }
 
-function computeCategoryProgress(category) {
+function computeIndexProgress(category, world) {
+  let collected = 0;
+  let possible = 0;
+  for (const sourceId of category.sources) {
+    const source = world.categories.find((c) => c.id === sourceId);
+    if (!source) continue;
+    possible += source.items.length;
+    collected += source.items.filter((item) => isChecked(item.id)).length;
+  }
+
+  const reached = Math.min(collected, category.count);
+  const nextThreshold = reached < category.count ? reached + 1 : null;
+
+  return { collected, possible, reached, nextThreshold };
+}
+
+function computeCategoryProgress(category, world) {
+  if (category.type === "index") {
+    const p = computeIndexProgress(category, world);
+    return { earned: p.reached, total: category.count };
+  }
+
   let earned = 0;
   let total = 0;
   for (const item of category.items) {
@@ -95,7 +116,7 @@ function computeWorldProgress(world) {
   let earned = 0;
   let total = 0;
   for (const category of world.categories) {
-    const p = computeCategoryProgress(category);
+    const p = computeCategoryProgress(category, world);
     earned += p.earned;
     total += p.total;
   }
@@ -289,6 +310,45 @@ function renderTierItem(item) {
   );
 }
 
+function renderIndexCategory(category, world) {
+  const p = computeIndexProgress(category, world);
+  const pct = category.count === 0 ? 0 : (p.reached / category.count) * 100;
+
+  const valueLabel = el("span", {
+    class: "index-value",
+    text: `${p.reached} / ${category.count}`,
+  });
+
+  const top = el("div", { class: "level-item-top" }, [
+    el("span", { class: "tier-item-label", text: category.name }),
+    valueLabel,
+  ]);
+
+  const barFill = el("div", { class: "index-bar-fill" });
+  barFill.style.width = pct + "%";
+
+  const ticks = el(
+    "div",
+    { class: "tier-ticks" },
+    Array.from({ length: category.count - 1 }, (_, i) => {
+      const leftPct = ((i + 1) / category.count) * 100;
+      return el("span", { class: "tier-tick", style: `left:${leftPct}%` });
+    })
+  );
+
+  const bar = el("div", { class: "index-bar" }, [barFill, ticks]);
+
+  const captionText =
+    p.possible === 0
+      ? "No pets/avatars defined yet"
+      : p.nextThreshold !== null
+      ? `${p.collected} / ${p.possible} entries collected — next milestone at ${p.nextThreshold}`
+      : `${p.collected} / ${p.possible} entries collected — all milestones reached`;
+  const caption = el("div", { class: "index-caption", text: captionText });
+
+  return el("div", { class: "index-item" }, [top, bar, caption]);
+}
+
 let dragState = null;
 let dragRafPending = false;
 
@@ -328,8 +388,8 @@ window.addEventListener("pointermove", scheduleDragUpdate);
 window.addEventListener("pointerup", () => { dragState = null; });
 window.addEventListener("pointercancel", () => { dragState = null; });
 
-function renderCategory(category) {
-  const p = computeCategoryProgress(category);
+function renderCategory(category, world) {
+  const p = computeCategoryProgress(category, world);
   const title = el("h3", { class: "category-title" }, [
     document.createTextNode(category.name + " "),
     el("span", { class: "cat-count", text: `(${Math.floor(p.earned)}/${p.total})` }),
@@ -348,6 +408,8 @@ function renderCategory(category) {
       { class: "level-list" },
       category.items.map((item) => renderTierItem(item))
     );
+  } else if (category.type === "index") {
+    body = renderIndexCategory(category, world);
   } else {
     body = el(
       "div",
@@ -394,7 +456,7 @@ function renderWorld(world) {
   const body = el(
     "div",
     { class: "world-body" },
-    world.categories.map((c) => renderCategory(c))
+    world.categories.map((c) => renderCategory(c, world))
   );
 
   return el("div", { class: `world${isCollapsed ? " collapsed" : ""}` }, [header, body]);

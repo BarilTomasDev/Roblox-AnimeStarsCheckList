@@ -19,6 +19,15 @@
         the same rarity ladder (see RARITY_TIERS below): click the best
         item obtained on its bar and everything below lights up with it,
         no independent checkboxes.
+
+  A category can also skip "items" entirely and use:
+    - type: "index"   -> auto-computed milestones, not manually checked
+        { id, name, sources, count }
+        "sources" lists the ids of "check" categories in the same world to
+        add up (e.g. Pets + Avatars). "count" milestones are spread evenly
+        across the combined total of those categories' items: milestone N
+        is reached once enough of them are checked. Nothing here is
+        clickable — it just reflects Pets/Avatars progress automatically.
 */
 
 const RARITY_TIERS = [
@@ -31,13 +40,6 @@ const RARITY_TIERS = [
   { rarity: "secret", name: "Secret" },
   { rarity: "divine", name: "Divine" },
 ];
-
-function indexMilestones(worldId, count = 14) {
-  return Array.from({ length: count }, (_, i) => ({
-    id: `${worldId}-index-${i + 1}`,
-    name: `Milestone ${i + 1}`,
-  }));
-}
 
 const CHECKLIST_DATA = [
   {
@@ -84,9 +86,14 @@ const CHECKLIST_DATA = [
         type: "check",
         items: [
           { id: "w1-pet-1", name: "Common Pet", rarity: "common" },
-          { id: "w1-pet-2", name: "Rare Pet", rarity: "rare" },
-          { id: "w1-pet-3", name: "Secret Pet", rarity: "secret" },
-          { id: "w1-pet-4", name: "Crafted Pet", rarity: "crafted" },
+          { id: "w1-pet-2", name: "Uncommon Pet", rarity: "uncommon" },
+          { id: "w1-pet-3", name: "Rare Pet", rarity: "rare" },
+          { id: "w1-pet-4", name: "Epic Pet", rarity: "epic" },
+          { id: "w1-pet-5", name: "Legendary Pet", rarity: "legendary" },
+          { id: "w1-pet-6", name: "Mythical Pet", rarity: "mythical" },
+          { id: "w1-pet-7", name: "Crafted Pet", rarity: "crafted" },
+          { id: "w1-pet-8", name: "Secret Pet", rarity: "secret" },
+          { id: "w1-pet-9", name: "Divine Pet", rarity: "divine" },
         ],
       },
       {
@@ -95,15 +102,20 @@ const CHECKLIST_DATA = [
         type: "check",
         items: [
           { id: "w1-avatar-1", name: "Common Avatar", rarity: "common" },
-          { id: "w1-avatar-2", name: "Rare Avatar", rarity: "rare" },
-          { id: "w1-avatar-3", name: "Secret Avatar", rarity: "secret" },
+          { id: "w1-avatar-2", name: "Uncommon Avatar", rarity: "uncommon" },
+          { id: "w1-avatar-3", name: "Rare Avatar", rarity: "rare" },
+          { id: "w1-avatar-4", name: "Epic Avatar", rarity: "epic" },
+          { id: "w1-avatar-5", name: "Legendary Avatar", rarity: "legendary" },
+          { id: "w1-avatar-6", name: "Mythical Avatar", rarity: "mythical" },
+          { id: "w1-avatar-7", name: "Secret Avatar", rarity: "secret" },
         ],
       },
       {
         id: "w1-index",
         name: "Index Milestones",
-        type: "check",
-        items: indexMilestones("w1"),
+        type: "index",
+        sources: ["w1-pets", "w1-avatars"],
+        count: 14,
       },
       {
         id: "w1-upgrades",
