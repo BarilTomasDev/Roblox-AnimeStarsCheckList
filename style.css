@@ -544,15 +544,6 @@ main {
 
 .level-item + .level-item { margin-top: 6px; }
 
-.stat-item {
-  background: var(--bg-elevated-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 9px 12px;
-}
-
-.stat-item + .stat-item { margin-top: 6px; }
-
 .level-item-top {
   display: flex;
   justify-content: space-between;
@@ -560,8 +551,6 @@ main {
   margin-bottom: 7px;
   gap: 10px;
 }
-
-.stat-item .level-item-top { margin-bottom: 0; }
 
 .item-title {
   font-size: 15px;

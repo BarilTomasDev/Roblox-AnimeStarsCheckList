@@ -56,17 +56,6 @@ function toggleCheck(id) {
   saveState();
 }
 
-function getStatValue(id) {
-  const v = Number(state[id]);
-  return Number.isFinite(v) ? v : 0;
-}
-
-function setStatValue(id, value) {
-  const v = Math.max(0, Number(value) || 0);
-  state[id] = v;
-  saveState();
-}
-
 function getTierIndex(categoryId) {
   const v = state[categoryId];
   return Number.isInteger(v) ? v : -1;
@@ -112,7 +101,7 @@ function computeCategoryProgress(category, world) {
     const p = computeIndexProgress(category, world);
     return { earned: p.reached, total: category.count };
   }
-  if (category.type === "soon" || category.type === "stat") {
+  if (category.type === "soon") {
     return { earned: 0, total: 0 };
   }
 
@@ -125,6 +114,9 @@ function computeCategoryProgress(category, world) {
     } else if (category.type === "level") {
       total += 1;
       earned += getLevel(item.id, item.max) / item.max;
+    } else if (category.type === "scale") {
+      total += 1;
+      earned += getLevel(item.id, item.levels.length) / item.levels.length;
     } else if (category.type === "tier") {
       total += RARITY_TIERS.length;
       earned += getTierIndex(item.id) + 1;
@@ -256,20 +248,27 @@ function renderLevelItem(item) {
   );
 }
 
-function renderStatItem(item) {
-  const suffix = item.suffix || "x";
-  const value = getStatValue(item.id);
-  const step = item.step || 0.1;
+function formatScaleValue(item, level) {
+  const entry = item.levels[level - 1];
+  const v = item.unit === "x" ? entry.value.toFixed(2) : entry.value.toFixed(1);
+  return item.unit === "x" ? `+${v}x` : `+${v} ${item.unit}`;
+}
+
+function renderScaleItem(item) {
+  const max = item.levels.length;
+  const level = getLevel(item.id, max);
+  const done = level >= max;
+  const pct = Math.round((level / max) * 100);
 
   const input = el("input", {
     class: "level-input",
     type: "number",
     min: "0",
-    step: String(step),
-    value: String(value),
+    max: String(max),
+    value: String(level),
   });
   input.addEventListener("change", () => {
-    setStatValue(item.id, input.value);
+    setLevel(item.id, input.value, max);
     renderAll();
   });
 
@@ -277,7 +276,7 @@ function renderStatItem(item) {
     class: "level-btn",
     text: "−",
     onclick: () => {
-      setStatValue(item.id, Math.round((getStatValue(item.id) - step) * 100) / 100);
+      setLevel(item.id, getLevel(item.id, max) - 1, max);
       renderAll();
     },
   });
@@ -285,7 +284,7 @@ function renderStatItem(item) {
     class: "level-btn",
     text: "+",
     onclick: () => {
-      setStatValue(item.id, Math.round((getStatValue(item.id) + step) * 100) / 100);
+      setLevel(item.id, getLevel(item.id, max) + 1, max);
       renderAll();
     },
   });
@@ -295,15 +294,37 @@ function renderStatItem(item) {
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       input,
-      el("span", { class: "level-max", text: suffix }),
+      el("span", { class: "level-max", text: `/ ${max}` }),
       plusBtn,
     ]),
   ]);
 
+  const barFill = el("div", { class: "level-bar-fill" });
+  barFill.style.width = pct + "%";
+  const bar = el("div", { class: "level-bar" }, [barFill]);
+  bar.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    dragState = { kind: "level", id: item.id, max, lastEvent: e };
+    setLevel(item.id, levelValueFromEvent(e, bar, max), max);
+    renderAll();
+  });
+
+  const captionText =
+    level === 0
+      ? `Level 1 costs ${item.levels[0].cost} Trial Shards`
+      : done
+      ? `Current: ${formatScaleValue(item, level)} — maxed`
+      : `Current: ${formatScaleValue(item, level)} — level ${level + 1} costs ${item.levels[level].cost} Trial Shards`;
+  const caption = el("div", { class: "index-caption", text: captionText });
+
   return el(
     "div",
-    { class: "stat-item", "data-search": item.name.toLowerCase() },
-    [top]
+    {
+      class: `level-item${done ? " done" : ""}`,
+      "data-search": item.name.toLowerCase(),
+      "data-level-id": item.id,
+    },
+    [top, bar, caption]
   );
 }
 
@@ -477,15 +498,11 @@ function renderCategory(category, world) {
     return el("div", { class: "category category-soon" }, [title, body]);
   }
 
+  const p = computeCategoryProgress(category, world);
   const title = el("h3", { class: "category-title" }, [
     document.createTextNode(category.name + " "),
+    el("span", { class: "cat-count", text: `(${Math.floor(p.earned)}/${p.total})` }),
   ]);
-  if (category.type !== "stat") {
-    const p = computeCategoryProgress(category, world);
-    title.appendChild(
-      el("span", { class: "cat-count", text: `(${Math.floor(p.earned)}/${p.total})` })
-    );
-  }
 
   let body;
   if (category.type === "check") {
@@ -502,11 +519,11 @@ function renderCategory(category, world) {
     );
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);
-  } else if (category.type === "stat") {
+  } else if (category.type === "scale") {
     body = el(
       "div",
       { class: "level-list" },
-      category.items.map((item) => renderStatItem(item))
+      category.items.map((item) => renderScaleItem(item))
     );
   } else {
     body = el(
