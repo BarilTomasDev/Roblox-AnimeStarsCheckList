@@ -1,8 +1,10 @@
 const STORAGE_KEY = "animeStarsChecklist";
 const PAGE_KEY = "animeStarsChecklistPage";
+const SIDEBAR_SECTIONS_KEY = "animeStarsChecklistSidebarSections";
 
 let state = loadState();
 let currentPageId = loadCurrentPage();
+let sidebarCollapsedSections = loadSidebarCollapsedSections();
 
 function loadState() {
   try {
@@ -31,6 +33,18 @@ function loadCurrentPage() {
 
 function saveCurrentPage() {
   localStorage.setItem(PAGE_KEY, currentPageId);
+}
+
+function loadSidebarCollapsedSections() {
+  try {
+    return JSON.parse(localStorage.getItem(SIDEBAR_SECTIONS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveSidebarCollapsedSections() {
+  localStorage.setItem(SIDEBAR_SECTIONS_KEY, JSON.stringify(sidebarCollapsedSections));
 }
 
 function isChecked(id) {
@@ -548,29 +562,68 @@ function renderCategory(category, world) {
   return el("div", { class: "category" }, [title, body]);
 }
 
+const NAV_SECTIONS = [
+  { id: "general", label: "General", collapsible: false },
+  { id: "worlds", label: "Worlds", collapsible: true },
+];
+
+function renderPageNavItem(page) {
+  const p = computeWorldProgress(page);
+  const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+  return el(
+    "button",
+    {
+      class: `page-nav-item${page.id === currentPageId ? " active" : ""}`,
+      onclick: () => {
+        currentPageId = page.id;
+        saveCurrentPage();
+        renderAll();
+      },
+    },
+    [
+      el("span", { class: "page-nav-icon", text: page.icon || "🌍" }),
+      el("span", { class: "page-nav-name", text: page.name }),
+      el("span", { class: "page-nav-percent mono", text: pct + "%" }),
+    ]
+  );
+}
+
 function renderPageNav() {
   const nav = document.getElementById("pageNav");
   nav.innerHTML = "";
-  for (const page of CHECKLIST_DATA) {
-    const p = computeWorldProgress(page);
-    const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
-    const item = el(
-      "button",
-      {
-        class: `page-nav-item${page.id === currentPageId ? " active" : ""}`,
-        onclick: () => {
-          currentPageId = page.id;
-          saveCurrentPage();
-          renderAll();
-        },
-      },
-      [
-        el("span", { class: "page-nav-icon", text: page.icon || "🌍" }),
-        el("span", { class: "page-nav-name", text: page.name }),
-        el("span", { class: "page-nav-percent mono", text: pct + "%" }),
-      ]
+
+  for (const section of NAV_SECTIONS) {
+    const pages = CHECKLIST_DATA.filter((page) => (page.section || "general") === section.id);
+    if (pages.length === 0) continue;
+
+    const isCollapsed = section.collapsible && sidebarCollapsedSections[section.id];
+
+    const headerChildren = [
+      el("span", { text: section.label }),
+    ];
+    if (section.collapsible) {
+      headerChildren.push(el("span", { class: "nav-section-chevron", text: "▾" }));
+    }
+
+    const headerAttrs = {
+      class: `nav-section-header${section.collapsible ? " collapsible" : ""}`,
+    };
+    if (section.collapsible) {
+      headerAttrs.onclick = () => {
+        sidebarCollapsedSections[section.id] = !sidebarCollapsedSections[section.id];
+        saveSidebarCollapsedSections();
+        renderAll();
+      };
+    }
+    const header = el("div", headerAttrs, headerChildren);
+
+    const items = el(
+      "div",
+      { class: "nav-section-items" },
+      pages.map((page) => renderPageNavItem(page))
     );
-    nav.appendChild(item);
+
+    nav.appendChild(el("div", { class: `nav-section${isCollapsed ? " collapsed" : ""}` }, [header, items]));
   }
 }
 

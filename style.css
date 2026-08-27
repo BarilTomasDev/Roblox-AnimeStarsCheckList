@@ -112,28 +112,108 @@ body {
   transition: width 0.25s ease;
 }
 
-.auth-area {
+.auth-area { width: 100%; }
+
+.google-signin-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: #3c4043;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.google-signin-btn:hover { filter: brightness(0.96); }
+.google-signin-btn:active { transform: translateY(1px); }
+.google-signin-btn svg { flex-shrink: 0; }
+
+.account-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
-.auth-name {
-  font-size: 12px;
-  color: var(--text-dim);
-  max-width: 140px;
+.account-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.account-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.account-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.sync-status {
-  font-size: 10.5px;
+.account-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
   color: var(--success);
   font-family: "JetBrains Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+.account-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.account-status[data-state="error"] { color: var(--danger); }
+.account-status[data-state="pending"] { color: var(--text-dim); }
+
+.account-signout-btn {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 13px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.account-signout-btn:hover { color: var(--danger); border-color: var(--danger); }
 
 .search-input {
   background: var(--bg);
@@ -206,10 +286,41 @@ body {
 .page-nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 14px;
   overflow-y: auto;
   flex: 1;
 }
+
+.nav-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+}
+.nav-section-header.collapsible {
+  cursor: pointer;
+  user-select: none;
+}
+.nav-section-header.collapsible:hover { color: var(--text); }
+
+.nav-section-chevron {
+  margin-left: auto;
+  font-size: 10px;
+  transition: transform 0.15s ease;
+}
+.nav-section.collapsed .nav-section-chevron { transform: rotate(-90deg); }
+
+.nav-section-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-section.collapsed .nav-section-items { display: none; }
 
 .page-nav-item {
   display: flex;
@@ -251,11 +362,12 @@ body {
 .sidebar-footer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 12px;
+  gap: 10px;
+  padding-top: 14px;
   margin-top: 12px;
   border-top: 1px solid var(--border);
 }
+.sidebar-footer .btn { width: 100%; }
 
 @media (max-width: 720px) {
   .app-layout { flex-direction: column; }
@@ -269,7 +381,16 @@ body {
   .page-nav {
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: flex-start;
     overflow: visible;
+  }
+  .nav-section-header {
+    width: 100%;
+    padding-left: 0;
+  }
+  .nav-section-items {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
   .page-nav-item { width: auto; }
 }
@@ -278,9 +399,6 @@ body {
   flex: 1;
   min-width: 0;
   padding: 20px 24px 60px;
-}
-.page {
-  max-width: 1100px;
 }
 
 .page-header {

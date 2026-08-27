@@ -42,6 +42,7 @@ const CHECKLIST_DATA = [
     id: "world-0",
     name: "World 0 — Lobby",
     icon: "🏠",
+    section: "worlds",
     categories: [
       {
         id: "lobby-gacha",
@@ -80,6 +81,7 @@ const CHECKLIST_DATA = [
     id: "world-1",
     name: "World 1 — Ninja Village",
     icon: "🥷",
+    section: "worlds",
     categories: [
       {
         id: "w1-gacha",
@@ -132,18 +134,21 @@ const CHECKLIST_DATA = [
     id: "global-gamepasses",
     name: "Gamepasses Priority",
     icon: "🎫",
+    section: "general",
     categories: [{ id: "gamepasses-soon", name: "Gamepasses", type: "soon" }],
   },
   {
     id: "global-quests",
     name: "Global Quests",
     icon: "🗺️",
+    section: "general",
     categories: [{ id: "global-quests-soon", name: "Global Quests", type: "soon" }],
   },
   {
     id: "global-promotions",
     name: "Promotions",
-    icon: "📢",
+    icon: "🎖️",
+    section: "general",
     categories: [{ id: "promotions-soon", name: "Promotions", type: "soon" }],
   },
 ];
