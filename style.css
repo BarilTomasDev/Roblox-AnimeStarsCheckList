@@ -388,8 +388,6 @@ main {
   padding: 9px 12px;
 }
 
-.tier-item + .tier-item { margin-top: 6px; }
-
 .tier-value {
   font-size: 12.5px;
   font-weight: 600;
@@ -535,14 +533,18 @@ main {
   font-family: "JetBrains Mono", monospace;
 }
 
+.level-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 6px;
+}
+
 .level-item {
   background: var(--bg-elevated-2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 9px 12px;
 }
-
-.level-item + .level-item { margin-top: 6px; }
 
 .level-item-top {
   display: flex;
@@ -632,6 +634,13 @@ main {
 
 .level-item.done .level-bar-fill { background: var(--success); }
 .level-item.done .item-title { color: var(--success); }
+
+.level-item.stat-colored { border-left: 3px solid var(--stat-color); }
+.level-item.stat-colored .item-title { color: var(--stat-color); }
+.level-item.stat-colored .level-bar-fill { background: var(--stat-color); }
+.level-item.stat-colored.done .item-title { color: var(--success); }
+.level-item.stat-colored.done .level-bar-fill { background: var(--success); }
+.level-item.stat-colored.done { border-left-color: var(--success); }
 
 .hidden-by-filter { display: none !important; }
 

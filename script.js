@@ -317,15 +317,17 @@ function renderScaleItem(item) {
       : `Current: ${formatScaleValue(item, level)} — level ${level + 1} costs ${item.levels[level].cost} Trial Shards`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
-  return el(
+  const wrapper = el(
     "div",
     {
-      class: `level-item${done ? " done" : ""}`,
+      class: `level-item${done ? " done" : ""}${item.color ? " stat-colored" : ""}`,
       "data-search": item.name.toLowerCase(),
       "data-level-id": item.id,
     },
     [top, bar, caption]
   );
+  if (item.color) wrapper.style.setProperty("--stat-color", item.color);
+  return wrapper;
 }
 
 function tierIndexFromEvent(e, barEl, total) {
