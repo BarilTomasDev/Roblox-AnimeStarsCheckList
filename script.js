@@ -56,6 +56,17 @@ function toggleCheck(id) {
   saveState();
 }
 
+function getStatValue(id) {
+  const v = Number(state[id]);
+  return Number.isFinite(v) ? v : 0;
+}
+
+function setStatValue(id, value) {
+  const v = Math.max(0, Number(value) || 0);
+  state[id] = v;
+  saveState();
+}
+
 function getTierIndex(categoryId) {
   const v = state[categoryId];
   return Number.isInteger(v) ? v : -1;
@@ -101,7 +112,7 @@ function computeCategoryProgress(category, world) {
     const p = computeIndexProgress(category, world);
     return { earned: p.reached, total: category.count };
   }
-  if (category.type === "soon") {
+  if (category.type === "soon" || category.type === "stat") {
     return { earned: 0, total: 0 };
   }
 
@@ -242,6 +253,57 @@ function renderLevelItem(item) {
       "data-level-id": item.id,
     },
     [top, bar]
+  );
+}
+
+function renderStatItem(item) {
+  const suffix = item.suffix || "x";
+  const value = getStatValue(item.id);
+  const step = item.step || 0.1;
+
+  const input = el("input", {
+    class: "level-input",
+    type: "number",
+    min: "0",
+    step: String(step),
+    value: String(value),
+  });
+  input.addEventListener("change", () => {
+    setStatValue(item.id, input.value);
+    renderAll();
+  });
+
+  const minusBtn = el("button", {
+    class: "level-btn",
+    text: "−",
+    onclick: () => {
+      setStatValue(item.id, Math.round((getStatValue(item.id) - step) * 100) / 100);
+      renderAll();
+    },
+  });
+  const plusBtn = el("button", {
+    class: "level-btn",
+    text: "+",
+    onclick: () => {
+      setStatValue(item.id, Math.round((getStatValue(item.id) + step) * 100) / 100);
+      renderAll();
+    },
+  });
+
+  const top = el("div", { class: "level-item-top" }, [
+    el("span", { class: "item-title", text: item.name }),
+    el("div", { class: "level-item-controls" }, [
+      minusBtn,
+      input,
+      el("span", { class: "level-max", text: suffix }),
+      plusBtn,
+    ]),
+  ]);
+
+  return el(
+    "div",
+    { class: "stat-item", "data-search": item.name.toLowerCase() },
+    [top]
   );
 }
 
@@ -415,11 +477,15 @@ function renderCategory(category, world) {
     return el("div", { class: "category category-soon" }, [title, body]);
   }
 
-  const p = computeCategoryProgress(category, world);
   const title = el("h3", { class: "category-title" }, [
     document.createTextNode(category.name + " "),
-    el("span", { class: "cat-count", text: `(${Math.floor(p.earned)}/${p.total})` }),
   ]);
+  if (category.type !== "stat") {
+    const p = computeCategoryProgress(category, world);
+    title.appendChild(
+      el("span", { class: "cat-count", text: `(${Math.floor(p.earned)}/${p.total})` })
+    );
+  }
 
   let body;
   if (category.type === "check") {
@@ -436,6 +502,12 @@ function renderCategory(category, world) {
     );
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);
+  } else if (category.type === "stat") {
+    body = el(
+      "div",
+      { class: "level-list" },
+      category.items.map((item) => renderStatItem(item))
+    );
   } else {
     body = el(
       "div",
