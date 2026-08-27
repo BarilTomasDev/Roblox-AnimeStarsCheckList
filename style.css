@@ -604,6 +604,13 @@ main {
   font-size: 12px;
   padding: 4px 2px;
   font-family: "JetBrains Mono", monospace;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.level-input::-webkit-inner-spin-button,
+.level-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .level-max {
