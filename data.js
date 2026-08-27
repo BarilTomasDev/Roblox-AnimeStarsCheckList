@@ -53,8 +53,9 @@ const CHECKLIST_DATA = [
       },
       {
         id: "lobby-range",
-        name: "Range Upgrade",
+        name: "Range Upgrade (Optional)",
         type: "level",
+        excludeFromProgress: true,
         items: [
           { id: "lobby-up-range", name: "Range", max: 32 },
         ],
