@@ -86,8 +86,15 @@ function computeIndexProgress(category, world) {
   for (const sourceId of category.sources) {
     const source = world.categories.find((c) => c.id === sourceId);
     if (!source) continue;
-    possible += source.items.length;
-    collected += source.items.filter((item) => isChecked(item.id)).length;
+    if (source.type === "level") {
+      for (const item of source.items) {
+        possible += item.max;
+        collected += getLevel(item.id, item.max);
+      }
+    } else {
+      possible += source.items.length;
+      collected += source.items.filter((item) => isChecked(item.id)).length;
+    }
   }
 
   const reached = Math.min(collected, category.count);
