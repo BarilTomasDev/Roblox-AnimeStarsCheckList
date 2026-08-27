@@ -128,4 +128,22 @@ const CHECKLIST_DATA = [
       },
     ],
   },
+  {
+    id: "global-gamepasses",
+    name: "Gamepasses Priority",
+    icon: "🎫",
+    categories: [{ id: "gamepasses-soon", name: "Gamepasses", type: "soon" }],
+  },
+  {
+    id: "global-quests",
+    name: "Global Quests",
+    icon: "🗺️",
+    categories: [{ id: "global-quests-soon", name: "Global Quests", type: "soon" }],
+  },
+  {
+    id: "global-promotions",
+    name: "Promotions",
+    icon: "📢",
+    categories: [{ id: "promotions-soon", name: "Promotions", type: "soon" }],
+  },
 ];

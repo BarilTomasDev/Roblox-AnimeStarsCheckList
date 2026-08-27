@@ -1,8 +1,8 @@
 const STORAGE_KEY = "animeStarsChecklist";
-const COLLAPSE_KEY = "animeStarsChecklistCollapsed";
+const PAGE_KEY = "animeStarsChecklistPage";
 
 let state = loadState();
-let collapsed = loadCollapsed();
+let currentPageId = loadCurrentPage();
 
 function loadState() {
   try {
@@ -23,16 +23,14 @@ function replaceState(newState) {
   renderAll();
 }
 
-function loadCollapsed() {
-  try {
-    return JSON.parse(localStorage.getItem(COLLAPSE_KEY)) || {};
-  } catch {
-    return {};
-  }
+function loadCurrentPage() {
+  const saved = localStorage.getItem(PAGE_KEY);
+  if (saved && CHECKLIST_DATA.some((p) => p.id === saved)) return saved;
+  return CHECKLIST_DATA[0].id;
 }
 
-function saveCollapsed() {
-  localStorage.setItem(COLLAPSE_KEY, JSON.stringify(collapsed));
+function saveCurrentPage() {
+  localStorage.setItem(PAGE_KEY, currentPageId);
 }
 
 function isChecked(id) {
@@ -550,53 +548,67 @@ function renderCategory(category, world) {
   return el("div", { class: "category" }, [title, body]);
 }
 
-function renderWorld(world) {
-  const p = computeWorldProgress(world);
-  const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
-  const isCollapsed = !!collapsed[world.id];
-
-  const header = el(
-    "div",
-    {
-      class: "world-header",
-      onclick: () => {
-        collapsed[world.id] = !collapsed[world.id];
-        saveCollapsed();
-        renderAll();
+function renderPageNav() {
+  const nav = document.getElementById("pageNav");
+  nav.innerHTML = "";
+  for (const page of CHECKLIST_DATA) {
+    const p = computeWorldProgress(page);
+    const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+    const item = el(
+      "button",
+      {
+        class: `page-nav-item${page.id === currentPageId ? " active" : ""}`,
+        onclick: () => {
+          currentPageId = page.id;
+          saveCurrentPage();
+          renderAll();
+        },
       },
-    },
-    [
-      el("span", { class: "world-icon", text: world.icon || "🌍" }),
-      el("div", { class: "world-title" }, [
-        el("h2", { text: world.name }),
-        el("div", { class: "world-progress-bar" }, [
-          (() => {
-            const fill = el("div", { class: "world-progress-fill" });
-            fill.style.width = pct + "%";
-            return fill;
-          })(),
-        ]),
+      [
+        el("span", { class: "page-nav-icon", text: page.icon || "🌍" }),
+        el("span", { class: "page-nav-name", text: page.name }),
+        el("span", { class: "page-nav-percent mono", text: pct + "%" }),
+      ]
+    );
+    nav.appendChild(item);
+  }
+}
+
+function renderPageContent(page) {
+  const p = computeWorldProgress(page);
+  const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+
+  const header = el("div", { class: "page-header" }, [
+    el("span", { class: "page-header-icon", text: page.icon || "🌍" }),
+    el("div", { class: "page-header-title" }, [
+      el("h2", { text: page.name }),
+      el("div", { class: "world-progress-bar" }, [
+        (() => {
+          const fill = el("div", { class: "world-progress-fill" });
+          fill.style.width = pct + "%";
+          return fill;
+        })(),
       ]),
-      el("span", { class: "world-percent", text: pct + "%" }),
-      el("span", { class: "chevron", text: "▾" }),
-    ]
-  );
+    ]),
+    el("span", { class: "page-header-percent mono", text: pct + "%" }),
+  ]);
 
   const body = el(
     "div",
     { class: "world-body" },
-    world.categories.map((c) => renderCategory(c, world))
+    page.categories.map((c) => renderCategory(c, page))
   );
 
-  return el("div", { class: `world${isCollapsed ? " collapsed" : ""}` }, [header, body]);
+  return el("div", { class: "page" }, [header, body]);
 }
 
 function renderAll() {
-  const container = document.getElementById("worldsContainer");
+  renderPageNav();
+
+  const page = CHECKLIST_DATA.find((p) => p.id === currentPageId) || CHECKLIST_DATA[0];
+  const container = document.getElementById("pageContent");
   container.innerHTML = "";
-  for (const world of CHECKLIST_DATA) {
-    container.appendChild(renderWorld(world));
-  }
+  container.appendChild(renderPageContent(page));
 
   const g = computeGlobalProgress();
   const gPct = g.total === 0 ? 0 : Math.round((g.earned / g.total) * 100);

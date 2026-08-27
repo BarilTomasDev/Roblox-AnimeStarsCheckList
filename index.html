@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anime Astral — Checklist</title>
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -23,15 +23,20 @@
       <div class="progress-bar-fill" id="globalProgressFill"></div>
     </div>
   </div>
-
-  <div class="topbar-actions">
-    <div id="authArea" class="auth-area"></div>
-    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
-    <button id="resetBtn" class="btn btn-danger" title="Reset all progress">Reset</button>
-  </div>
 </header>
 
-<main id="worldsContainer"></main>
+<div class="app-layout">
+  <nav class="sidebar">
+    <input type="text" id="searchInput" placeholder="Search..." class="search-input sidebar-search">
+    <div id="pageNav" class="page-nav"></div>
+    <div class="sidebar-footer">
+      <div id="authArea" class="auth-area"></div>
+      <button id="resetBtn" class="btn btn-danger" title="Reset all progress">Reset</button>
+    </div>
+  </nav>
+
+  <main id="pageContent"></main>
+</div>
 
 <footer class="footer">
   <p>Progress is saved automatically in this browser.</p>
@@ -41,8 +46,8 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-<script src="data.js?v=1"></script>
-<script src="script.js?v=1"></script>
+<script src="data.js?v=2"></script>
+<script src="script.js?v=2"></script>
 <script src="firebase-config.js?v=1"></script>
 <script src="firebase-sync.js?v=1"></script>
 </body>
