@@ -289,8 +289,13 @@ function renderScaleItem(item) {
     },
   });
 
-  const top = el("div", { class: "level-item-top" }, [
+  const titleGroup = el("div", { class: "item-title-group" }, [
     el("span", { class: "item-title", text: item.name }),
+    done ? el("span", { class: "maxed-badge", text: "MAXED" }) : null,
+  ]);
+
+  const top = el("div", { class: "level-item-top" }, [
+    titleGroup,
     el("div", { class: "level-item-controls" }, [
       minusBtn,
       input,
@@ -524,7 +529,7 @@ function renderCategory(category, world) {
   } else if (category.type === "scale") {
     body = el(
       "div",
-      { class: "level-list" },
+      { class: "level-list scale-grid" },
       category.items.map((item) => renderScaleItem(item))
     );
   } else {
