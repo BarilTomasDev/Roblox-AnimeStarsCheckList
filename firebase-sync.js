@@ -45,6 +45,7 @@
     const btn = document.createElement("button");
     btn.className = "google-signin-btn";
     btn.id = "signInBtn";
+    btn.title = "Saves your progress automatically and syncs it across devices";
     btn.innerHTML = GOOGLE_ICON_SVG + "<span>Sign in with Google</span>";
     btn.addEventListener("click", () => {
       auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch((err) => {
@@ -53,12 +54,7 @@
       });
     });
 
-    const hint = document.createElement("p");
-    hint.className = "auth-hint";
-    hint.textContent = "Saves your progress automatically and syncs it across devices.";
-
     authArea.appendChild(btn);
-    authArea.appendChild(hint);
   }
 
   function renderSignedIn(user) {
