@@ -93,6 +93,15 @@ const CHECKLIST_DATA = [
       },
       { id: "w1-passives", name: "Passives", type: "soon" },
       {
+        id: "w1-automation",
+        name: "Automation",
+        type: "check",
+        items: [
+          { id: "w1-auto-rank-up", name: "Auto Rank Up" },
+          { id: "w1-auto-equip-best", name: "Auto Equip Best" },
+        ],
+      },
+      {
         id: "w1-pets",
         name: "Pets (Index)",
         type: "level",
@@ -126,6 +135,67 @@ const CHECKLIST_DATA = [
         type: "level",
         items: [
           { id: "w1-up-progression", name: "Ninja Progression", max: 100 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-2",
+    name: "World 2",
+    icon: "🌌",
+    section: "worlds",
+    categories: [
+      {
+        id: "w2-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          { id: "w2-gacha-races", name: "Races" },
+          { id: "w2-gacha-divine-techniques", name: "Divine Techniques" },
+        ],
+      },
+      {
+        id: "w2-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w2-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w2-passives",
+        name: "Passives",
+        type: "level",
+        items: [
+          { id: "w2-passive-damage", name: "Damage", max: 8 },
+          { id: "w2-passive-yen", name: "Yen", max: 8 },
+          { id: "w2-passive-luck", name: "Luck", max: 8 },
+          { id: "w2-passive-power", name: "Power", max: 8 },
+        ],
+      },
+      {
+        id: "w2-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w2-up-ki-progression", name: "Ki Progression", max: 100 },
+          { id: "w2-up-ki-evolution", name: "Ki Evolution", max: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "global-achievements",
+    name: "Achievements",
+    icon: "🏆",
+    section: "general",
+    categories: [
+      {
+        id: "achievements-raids",
+        name: "Raids",
+        type: "check",
+        items: [
+          { id: "raid-w1-1", name: "World 1 — Raid 1" },
+          { id: "raid-w1-2", name: "World 1 — Raid 2" },
         ],
       },
     ],
