@@ -73,10 +73,46 @@ const PROF_GACHA_SPEED_COSTS = [
   4800,
 ];
 
+const INDEX_MILESTONE_REWARDS = [...new Array(13).fill(""), "+5% Power"];
+
+function worldIndexStub(n, name, icon) {
+  return {
+    id: `world-${n}`,
+    name: `W${n} - ${name}`,
+    icon,
+    section: "worlds",
+    categories: [
+      {
+        id: `w${n}-pets`,
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: `w${n}-pets-count`, name: "Pets", max: 9 }],
+      },
+      {
+        id: `w${n}-avatars`,
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: `w${n}-avatars-count`, name: "Avatars", max: 7 }],
+      },
+      {
+        id: `w${n}-index`,
+        name: "Index Milestones",
+        type: "index",
+        sources: [`w${n}-pets`, `w${n}-avatars`],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      { id: `world-${n}-soon`, name: `World ${n}`, type: "soon" },
+    ],
+  };
+}
+
 const CHECKLIST_DATA = [
   {
     id: "world-0",
-    name: "World 0 - Lobby",
+    name: "W0 - Lobby",
     icon: "🏠",
     section: "worlds",
     categories: [
@@ -89,15 +125,6 @@ const CHECKLIST_DATA = [
         ],
       },
       {
-        id: "lobby-gamepasses",
-        name: "Gamepasses",
-        type: "check",
-        excludeFromProgress: true,
-        items: [
-          { id: "lobby-dual-sword-gamepass", name: "Dual Sword Gamepass" },
-        ],
-      },
-      {
         id: "lobby-sword-gacha",
         name: "Sword Gacha (Optional)",
         type: "tier",
@@ -105,6 +132,7 @@ const CHECKLIST_DATA = [
         glued: true,
         excludeFromProgress: true,
         items: [
+          { id: "lobby-dual-sword-gamepass", name: "Dual Sword Gamepass", type: "check" },
           { id: "lobby-sword-1", name: "Sword" },
           { id: "lobby-sword-2", name: "Sword (Dual)", requires: "lobby-dual-sword-gamepass" },
         ],
@@ -182,27 +210,10 @@ const CHECKLIST_DATA = [
   },
   {
     id: "world-1",
-    name: "World 1 - Ninja Village",
+    name: "W1 - Ninja Village",
     icon: "🥷",
     section: "worlds",
     categories: [
-      {
-        id: "w1-gacha",
-        name: "Gacha",
-        type: "tier",
-        items: [
-          { id: "w1-gacha-doujutsu", name: "Doujutsu" },
-        ],
-      },
-      {
-        id: "w1-automation",
-        name: "Automation",
-        type: "check",
-        items: [
-          { id: "w1-auto-rank-up", name: "Auto Rank Up" },
-          { id: "w1-auto-equip-best", name: "Auto Equip Best" },
-        ],
-      },
       {
         id: "w1-pets",
         name: "Pets (Index)",
@@ -223,6 +234,31 @@ const CHECKLIST_DATA = [
         type: "index",
         sources: ["w1-pets", "w1-avatars"],
         count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w1-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          { id: "w1-gacha-doujutsu", name: "Doujutsu" },
+        ],
+      },
+      {
+        id: "w1-ranks",
+        name: "Ranks",
+        type: "check",
+        items: [
+          { id: "w1-auto-rank-up", name: "Auto Rank Up" },
+        ],
+      },
+      {
+        id: "w1-avatars-automation",
+        name: "Avatars",
+        type: "check",
+        items: [
+          { id: "w1-auto-equip-best", name: "Auto Equip Best" },
+        ],
       },
       {
         id: "w1-medal-event",
@@ -243,10 +279,32 @@ const CHECKLIST_DATA = [
   },
   {
     id: "world-2",
-    name: "World 2 - Namek City",
+    name: "W2 - Namek City",
     icon: "🌌",
     section: "worlds",
     categories: [
+      {
+        id: "w2-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w2-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w2-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w2-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w2-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w2-pets", "w2-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
       {
         id: "w2-gacha",
         name: "Gacha",
@@ -255,13 +313,6 @@ const CHECKLIST_DATA = [
           { id: "w2-gacha-races", name: "Races" },
           { id: "w2-gacha-divine-techniques", name: "Divine Techniques" },
         ],
-      },
-      {
-        id: "w2-pets",
-        name: "Pets (Index)",
-        type: "level",
-        excludeFromProgress: true,
-        items: [{ id: "w2-pets-count", name: "Pets", max: 9 }],
       },
       {
         id: "w2-passives",
@@ -285,6 +336,15 @@ const CHECKLIST_DATA = [
       },
     ],
   },
+  worldIndexStub(3, "Wano Island", "🏯"),
+  worldIndexStub(4, "Titan Wall", "🧱"),
+  worldIndexStub(5, "Solo City", "🏙️"),
+  worldIndexStub(6, "Slayer Village", "⚔️"),
+  worldIndexStub(7, "Clover Island", "🍀"),
+  worldIndexStub(8, "Summer Art Online", "🏖️"),
+  worldIndexStub(9, "Fire City", "🔥"),
+  worldIndexStub(10, "Hueco World", "🌑"),
+  worldIndexStub(11, "Cursed School", "👹"),
   {
     id: "global-achievements",
     name: "Achievements",
@@ -340,7 +400,7 @@ const CHECKLIST_DATA = [
     categories: [
       {
         id: "titles-list",
-        name: "Titles",
+        name: "Titles (Optional)",
         type: "check",
         excludeFromProgress: true,
         singleColumn: true,

@@ -29,6 +29,32 @@
 
 html, body { height: 100%; }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 body {
   margin: 0;
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
@@ -734,6 +760,12 @@ body {
   margin-top: 7px;
   font-size: 11px;
   color: var(--text-dim);
+}
+
+.index-reward {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--success);
 }
 
 .tier-segment.rarity-mythical .tier-segment-dot {

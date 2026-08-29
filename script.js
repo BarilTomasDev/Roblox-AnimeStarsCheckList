@@ -139,18 +139,23 @@ function computeCategoryProgress(category, world) {
       total += 1;
       earned += getLevel(item.id, item.levels.length) / item.levels.length;
     } else if (category.type === "tier") {
-      total += tiers.length;
-      earned += getTierIndex(item.id) + 1;
+      if (item.type === "check") {
+        total += 1;
+        if (isChecked(item.id)) earned += 1;
+      } else {
+        total += tiers.length;
+        earned += getTierIndex(item.id) + 1;
+      }
     }
   }
   return { earned, total };
 }
 
-function computeWorldProgress(world) {
+function computeWorldProgress(world, includeExcluded) {
   let earned = 0;
   let total = 0;
   for (const category of world.categories) {
-    if (category.excludeFromProgress) continue;
+    if (category.excludeFromProgress && !includeExcluded) continue;
     if (category.type === "index") {
       const p = computeIndexProgress(category, world);
       total += 1;
@@ -475,12 +480,22 @@ function renderIndexCategory(category, world) {
   const barFill = el("div", { class: "index-bar-fill" });
   barFill.style.width = pct + "%";
 
+  const rewardFor = (milestone) => {
+    if (!category.rewards) return null;
+    const reward = category.rewards[milestone - 1];
+    return reward === null || reward === undefined ? "?" : reward;
+  };
+
   const ticks = el(
     "div",
     { class: "tier-ticks" },
     Array.from({ length: category.count - 1 }, (_, i) => {
       const leftPct = ((i + 1) / category.count) * 100;
-      return el("span", { class: "tier-tick", style: `left:${leftPct}%` });
+      const milestone = i + 1;
+      const reward = rewardFor(milestone);
+      const attrs = { class: "tier-tick", style: `left:${leftPct}%` };
+      if (reward) attrs.title = `Milestone ${milestone}: ${reward}`;
+      return el("span", attrs);
     })
   );
 
@@ -494,7 +509,20 @@ function renderIndexCategory(category, world) {
       : `${p.collected} / ${p.possible} entries collected - all milestones reached`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
-  return el("div", { class: "index-item" }, [top, bar, caption]);
+  const children = [top, bar, caption];
+
+  if (category.rewards) {
+    const currentReward = p.reached > 0 ? rewardFor(p.reached) : null;
+    const nextReward = p.nextThreshold !== null ? rewardFor(p.nextThreshold) : null;
+    const rewardBits = [];
+    if (currentReward) rewardBits.push(`Current bonus: ${currentReward}`);
+    if (nextReward) rewardBits.push(`Milestone ${p.nextThreshold} gives: ${nextReward}`);
+    if (rewardBits.length) {
+      children.push(el("div", { class: "index-reward", text: rewardBits.join(" - ") }));
+    }
+  }
+
+  return el("div", { class: "index-item" }, children);
 }
 
 let dragState = null;
@@ -564,7 +592,9 @@ function renderCategory(category, world) {
     body = el(
       "div",
       { class: `level-list${category.glued ? " glued" : ""}` },
-      visibleItems.map((item) => renderTierItem(item, category.tiers))
+      visibleItems.map((item) =>
+        item.type === "check" ? renderCheckItem(item, category) : renderTierItem(item, category.tiers)
+      )
     );
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);
@@ -654,7 +684,7 @@ function renderPageNav() {
 }
 
 function renderPageContent(page) {
-  const p = computeWorldProgress(page);
+  const p = computeWorldProgress(page, page.hideNavPercent);
   const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
 
   const header = el("div", { class: "page-header" }, [
