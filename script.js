@@ -378,12 +378,16 @@ function renderScaleItem(item) {
   });
 
   const costUnit = item.costUnit || "Trial Shards";
+  const costPhrase = (idx) => {
+    const cost = item.levels[idx].cost;
+    return cost == null ? "" : ` costs ${formatCount(cost)} ${costUnit}`;
+  };
   const captionText =
     level === 0
-      ? `Level 1 costs ${formatCount(item.levels[0].cost)} ${costUnit}`
+      ? `Level 1${costPhrase(0)}`
       : done
       ? `Current: ${formatScaleValue(item, level)} - maxed`
-      : `Current: ${formatScaleValue(item, level)} - level ${level + 1} costs ${formatCount(item.levels[level].cost)} ${costUnit}`;
+      : `Current: ${formatScaleValue(item, level)} - level ${level + 1}${costPhrase(level)}`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
   const wrapper = el(
