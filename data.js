@@ -10,6 +10,8 @@ const RARITY_TIERS = [
   { rarity: "divine", name: "Divine" },
 ];
 
+const SWORD_RARITY_TIERS = RARITY_TIERS.slice(0, 7);
+
 const TRIAL_SHARD_COSTS = [
   25, 28, 31, 34, 37, 41, 46, 50, 56, 61, 68, 75, 83, 92, 101, 112, 124, 136,
   151, 167, 184, 203, 225, 248, 275, 303, 335, 370, 409, 452, 500, 552, 610,
@@ -37,6 +39,40 @@ const TRIAL_LUCK_VALUES = [
   4.6, 4.8, 5.0, 5.1, 5.2, 5.4, 5.6, 5.7, 5.9, 6.0,
 ];
 
+function professionLevels(costs, values) {
+  return costs.map((cost, i) => ({ cost, value: values[i] }));
+}
+
+const PROF_PERCENT_VALUES = Array.from({ length: 25 }, (_, i) => (i + 1) * 10);
+const PROF_COINS_VALUES = Array.from({ length: 25 }, (_, i) => Math.round((i + 1) * 10) / 100);
+const PROF_GACHA_SPEED_VALUES = Array.from({ length: 25 }, (_, i) => i + 1);
+
+const PROF_POWER_COSTS = [
+  50, 64.5, 83.2, 107.3, 138.7, 178.6, 230.4, 299.3, 383.4, 499.8, 638.1,
+  821.1, 1100, 1390, 1800, 2300, 2900, 3800, 4900, 6300, 8100, 10500, 13600,
+  17500, 22500,
+];
+const PROF_DAMAGE_COSTS = [
+  500, 680, 924.8, 1300, 1700, 2300, 3200, 4300, 5900, 8000, 10800, 14700,
+  20000, 27200, 37000, 50400, 68500, 93100, 126700, 172300, 234300, 318600,
+  433300, 589300, 801500,
+];
+const PROF_LUCK_COSTS = [
+  250, 355, 504.1, 718, 1020, 1400, 2000, 2900, 4100, 5900, 8300, 11800,
+  16800, 23900, 33900, 48100, 68300, 97000, 137800, 195600, 277800, 394500,
+  560100, 795400, 1100000,
+];
+const PROF_COINS_COSTS = [
+  500, 705, 994, 1400, 2000, 2800, 3900, 5500, 7800, 11000, 15500, 21900,
+  30860, 43510, 61400, 86500, 121970, 172100, 242600, 342100, 482300, 680100,
+  958900, 1400000, 1900000,
+];
+const PROF_GACHA_SPEED_COSTS = [
+  50, 60, 72, 103.7, 124.4, 149.3, 179.2, 215.0, 258.0, 309.6, 371.5, 445.8,
+  535.0, 642.0, 770.4, 924.4, 1100, 1300, 1600, 1900, 2300, 2800, 3300, 4000,
+  4800,
+];
+
 const CHECKLIST_DATA = [
   {
     id: "world-0",
@@ -50,6 +86,27 @@ const CHECKLIST_DATA = [
         type: "tier",
         items: [
           { id: "lobby-gacha-cosmic-scale", name: "Cosmic Scale" },
+        ],
+      },
+      {
+        id: "lobby-gamepasses",
+        name: "Gamepasses",
+        type: "check",
+        excludeFromProgress: true,
+        items: [
+          { id: "lobby-dual-sword-gamepass", name: "Dual Sword Gamepass" },
+        ],
+      },
+      {
+        id: "lobby-sword-gacha",
+        name: "Sword Gacha (Optional)",
+        type: "tier",
+        tiers: SWORD_RARITY_TIERS,
+        glued: true,
+        excludeFromProgress: true,
+        items: [
+          { id: "lobby-sword-1", name: "Sword" },
+          { id: "lobby-sword-2", name: "Sword (Dual)", requires: "lobby-dual-sword-gamepass" },
         ],
       },
       {
@@ -74,7 +131,60 @@ const CHECKLIST_DATA = [
           { id: "lobby-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: trialLevels(TRIAL_LUCK_VALUES) },
         ],
       },
-      { id: "lobby-professions", name: "Professions", type: "soon" },
+      {
+        id: "lobby-professions",
+        name: "Professions",
+        type: "scale",
+        items: [
+          {
+            id: "lobby-prof-power",
+            name: "Power",
+            unit: "%",
+            color: "#a366e8",
+            costUnit: "Global Raid Waves",
+            levels: professionLevels(PROF_POWER_COSTS, PROF_PERCENT_VALUES),
+          },
+          {
+            id: "lobby-prof-damage",
+            name: "Damage",
+            unit: "%",
+            color: "#e5484d",
+            costUnit: "Kills",
+            levels: professionLevels(PROF_DAMAGE_COSTS, PROF_PERCENT_VALUES),
+          },
+          {
+            id: "lobby-prof-luck",
+            name: "Luck",
+            unit: "%",
+            color: "#4ade80",
+            costUnit: "Gacha Rolls",
+            levels: professionLevels(PROF_LUCK_COSTS, PROF_PERCENT_VALUES),
+          },
+          {
+            id: "lobby-prof-coins",
+            name: "Coins",
+            unit: "x",
+            color: "#f2c94c",
+            costUnit: "Star Spins",
+            levels: professionLevels(PROF_COINS_COSTS, PROF_COINS_VALUES),
+          },
+          {
+            id: "lobby-prof-gacha-speed",
+            name: "Gacha Speed",
+            unit: "%",
+            color: "#5b8cff",
+            costUnit: "Global Defense Waves",
+            levels: professionLevels(PROF_GACHA_SPEED_COSTS, PROF_GACHA_SPEED_VALUES),
+          },
+        ],
+      },
+      {
+        id: "lobby-titles",
+        name: "Titles (Optional)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "lobby-titles-count", name: "Titles", max: 10 }],
+      },
     ],
   },
   {
@@ -194,6 +304,7 @@ const CHECKLIST_DATA = [
         name: "Raids",
         type: "check",
         items: [
+          { id: "raid-lobby-1", name: "Lobby - Raid" },
           { id: "raid-w1-1", name: "World 1 - Raid 1" },
           { id: "raid-w1-2", name: "World 1 - Raid 2" },
         ],

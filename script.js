@@ -124,9 +124,11 @@ function computeCategoryProgress(category, world) {
     return { earned: 0, total: 0 };
   }
 
+  const tiers = category.tiers || RARITY_TIERS;
   let earned = 0;
   let total = 0;
   for (const item of category.items) {
+    if (item.requires && !isChecked(item.requires)) continue;
     if (category.type === "check") {
       total += 1;
       if (isChecked(item.id)) earned += 1;
@@ -137,7 +139,7 @@ function computeCategoryProgress(category, world) {
       total += 1;
       earned += getLevel(item.id, item.levels.length) / item.levels.length;
     } else if (category.type === "tier") {
-      total += RARITY_TIERS.length;
+      total += tiers.length;
       earned += getTierIndex(item.id) + 1;
     }
   }
@@ -267,10 +269,19 @@ function renderLevelItem(item) {
   );
 }
 
+function formatCount(n) {
+  const abs = Math.abs(n);
+  const trim = (v) => Number(v.toFixed(2)).toString();
+  if (abs >= 1e6) return trim(n / 1e6) + "M";
+  if (abs >= 1e3) return trim(n / 1e3) + "k";
+  return trim(n);
+}
+
 function formatScaleValue(item, level) {
   const entry = item.levels[level - 1];
-  const v = item.unit === "x" ? entry.value.toFixed(2) : entry.value.toFixed(1);
-  return item.unit === "x" ? `+${v}x` : `+${v} ${item.unit}`;
+  if (item.unit === "x") return `+${entry.value.toFixed(2)}x`;
+  if (item.unit === "%") return `+${Math.round(entry.value)}%`;
+  return `+${entry.value.toFixed(1)} ${item.unit}`;
 }
 
 function renderScaleItem(item) {
@@ -333,12 +344,13 @@ function renderScaleItem(item) {
     renderAll();
   });
 
+  const costUnit = item.costUnit || "Trial Shards";
   const captionText =
     level === 0
-      ? `Level 1 costs ${item.levels[0].cost} Trial Shards`
+      ? `Level 1 costs ${formatCount(item.levels[0].cost)} ${costUnit}`
       : done
       ? `Current: ${formatScaleValue(item, level)} - maxed`
-      : `Current: ${formatScaleValue(item, level)} - level ${level + 1} costs ${item.levels[level].cost} Trial Shards`;
+      : `Current: ${formatScaleValue(item, level)} - level ${level + 1} costs ${formatCount(item.levels[level].cost)} ${costUnit}`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
   const wrapper = el(
@@ -362,8 +374,8 @@ function tierIndexFromEvent(e, barEl, total) {
   return Math.min(total - 1, Math.floor(fraction * total));
 }
 
-function renderTierItem(item) {
-  const tiers = RARITY_TIERS;
+function renderTierItem(item, tiers) {
+  tiers = tiers || RARITY_TIERS;
   const total = tiers.length;
   const selected = getTierIndex(item.id);
   const step = selected + 1;
@@ -538,10 +550,11 @@ function renderCategory(category, world) {
       category.items.map((item) => renderCheckItem(item, category))
     );
   } else if (category.type === "tier") {
+    const visibleItems = category.items.filter((item) => !item.requires || isChecked(item.requires));
     body = el(
       "div",
-      { class: "level-list" },
-      category.items.map((item) => renderTierItem(item))
+      { class: `level-list${category.glued ? " glued" : ""}` },
+      visibleItems.map((item) => renderTierItem(item, category.tiers))
     );
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);

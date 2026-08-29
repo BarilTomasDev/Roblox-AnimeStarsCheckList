@@ -747,6 +747,11 @@ body {
   gap: 6px;
 }
 
+.level-list.glued { gap: 0; }
+.level-list.glued > * + * { margin-top: -1px; }
+.level-list.glued > *:not(:first-child) { border-top-left-radius: 0; border-top-right-radius: 0; }
+.level-list.glued > *:not(:last-child) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
 .scale-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
