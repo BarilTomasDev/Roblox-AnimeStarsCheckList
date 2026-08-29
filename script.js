@@ -691,41 +691,127 @@ document.getElementById("resetBtn").addEventListener("click", () => {
   }
 });
 
+function closeModal() {
+  const overlay = document.getElementById("modalOverlay");
+  if (overlay) overlay.remove();
+  document.removeEventListener("keydown", onModalKeydown);
+}
+
+function onModalKeydown(e) {
+  if (e.key === "Escape") closeModal();
+}
+
+function showModal(title, bodyNodes, actionNodes) {
+  closeModal();
+
+  const closeBtn = el("button", { class: "modal-close", text: "×", onclick: closeModal });
+  const header = el("div", { class: "modal-header" }, [
+    el("h3", { text: title }),
+    closeBtn,
+  ]);
+  const body = el("div", { class: "modal-body" }, bodyNodes);
+  const actions = el("div", { class: "modal-actions" }, actionNodes);
+  const box = el("div", { class: "modal" }, [header, body, actions]);
+
+  const overlay = el("div", { id: "modalOverlay", class: "modal-overlay", onclick: (e) => {
+    if (e.target.id === "modalOverlay") closeModal();
+  } }, [box]);
+
+  document.body.appendChild(overlay);
+  document.addEventListener("keydown", onModalKeydown);
+  return box;
+}
+
 document.getElementById("copyCodeBtn").addEventListener("click", () => {
   const code = btoa(JSON.stringify(state));
-  navigator.clipboard
-    .writeText(code)
-    .then(() => {
-      const btn = document.getElementById("copyCodeBtn");
-      const original = btn.textContent;
-      btn.textContent = "Copied!";
-      setTimeout(() => {
-        btn.textContent = original;
-      }, 1500);
-    })
-    .catch(() => {
-      prompt("Copy this backup code:", code);
-    });
+
+  const textarea = el("textarea", { class: "modal-textarea", readonly: "readonly" });
+  textarea.value = code;
+
+  const copyBtn = el("button", {
+    class: "btn",
+    text: "Copy to Clipboard",
+    onclick: () => {
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+          copyBtn.textContent = "Copied!";
+          setTimeout(() => (copyBtn.textContent = "Copy to Clipboard"), 1500);
+        })
+        .catch(() => {
+          textarea.select();
+          document.execCommand("copy");
+        });
+    },
+  });
+
+  showModal(
+    "Your Backup Code",
+    [
+      el("p", {
+        text:
+          "This code contains your entire progress. Save it somewhere safe, like a notes app or text file.",
+      }),
+      el("p", {
+        text:
+          "To get your progress back later, on this device or a different one, open Restore Code and paste this in.",
+      }),
+      textarea,
+    ],
+    [copyBtn, el("button", { class: "btn", text: "Close", onclick: closeModal })]
+  );
+
+  textarea.focus();
+  textarea.select();
 });
 
 document.getElementById("restoreCodeBtn").addEventListener("click", () => {
-  const code = prompt("Paste your backup code:");
-  if (!code) return;
-  let restored;
-  try {
-    restored = JSON.parse(atob(code.trim()));
-  } catch {
-    alert("That doesn't look like a valid backup code.");
-    return;
-  }
-  if (typeof restored !== "object" || restored === null || Array.isArray(restored)) {
-    alert("That doesn't look like a valid backup code.");
-    return;
-  }
-  if (confirm("Restore this backup code? It will replace your current progress.")) {
-    replaceState(restored);
-    if (window.onStateSaved) window.onStateSaved(state);
-  }
+  const textarea = el("textarea", {
+    class: "modal-textarea",
+    placeholder: "Paste your backup code here...",
+  });
+  const errorText = el("p", { class: "modal-error" });
+
+  const restoreBtn = el("button", {
+    class: "btn btn-danger",
+    text: "Restore",
+    onclick: () => {
+      const code = textarea.value.trim();
+      if (!code) return;
+      let restored;
+      try {
+        restored = JSON.parse(atob(code));
+      } catch {
+        restored = null;
+      }
+      if (typeof restored !== "object" || restored === null || Array.isArray(restored)) {
+        errorText.textContent = "That doesn't look like a valid backup code.";
+        return;
+      }
+      replaceState(restored);
+      if (window.onStateSaved) window.onStateSaved(state);
+      closeModal();
+    },
+  });
+
+  showModal(
+    "Restore from Backup Code",
+    [
+      el("p", {
+        text: "Paste a backup code below to restore your progress.",
+      }),
+      el("p", {
+        class: "modal-warning",
+        text:
+          "This replaces whatever progress is currently saved in this browser. Copy a backup of it first if you might still need it.",
+      }),
+      textarea,
+      errorText,
+    ],
+    [restoreBtn, el("button", { class: "btn", text: "Cancel", onclick: closeModal })]
+  );
+
+  textarea.focus();
 });
 
 renderAll();
