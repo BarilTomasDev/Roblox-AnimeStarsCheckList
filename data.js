@@ -201,7 +201,6 @@ const CHECKLIST_DATA = [
           { id: "w1-gacha-doujutsu", name: "Doujutsu" },
         ],
       },
-      { id: "w1-passives", name: "Passives", type: "soon" },
       {
         id: "w1-automation",
         name: "Automation",
