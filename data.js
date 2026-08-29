@@ -47,10 +47,12 @@ function noCostLevels(values) {
   return values.map((value) => ({ value, cost: null }));
 }
 
-const scaleValues = (values, factor) => values.map((v) => Math.round(v * factor * 100) / 100);
-const W6_POWER_VALUES = scaleValues(TRIAL_MULT_VALUES, 1.5);
-const W6_XP_DROP_VALUES = scaleValues(TRIAL_XP_DROP_VALUES, 1.5);
-const W6_LUCK_VALUES = scaleValues(TRIAL_LUCK_VALUES, 1.5);
+function linearLevels(step, count) {
+  return Array.from({ length: count }, (_, i) => Math.round(step * (i + 1) * 1000) / 1000);
+}
+const W6_POWER_VALUES = linearLevels(0.1, 60);
+const W6_XP_DROP_VALUES = linearLevels(1.5 / 60, 60);
+const W6_LUCK_VALUES = linearLevels(9.0 / 60, 60);
 
 const PROF_PERCENT_VALUES = Array.from({ length: 25 }, (_, i) => (i + 1) * 10);
 const PROF_COINS_VALUES = Array.from({ length: 25 }, (_, i) => Math.round((i + 1) * 10) / 100);
