@@ -601,7 +601,7 @@ function renderCategory(category, world) {
   } else if (category.type === "scale") {
     body = el(
       "div",
-      { class: "level-list scale-grid" },
+      { class: `level-list${category.items.length > 1 ? " scale-grid" : ""}` },
       category.items.map((item) => renderScaleItem(item))
     );
   } else {
