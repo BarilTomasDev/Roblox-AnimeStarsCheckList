@@ -11,6 +11,7 @@
   --accent: #5b8cff;
   --success: #3fb97a;
   --danger: #e5484d;
+  --warning: #f2994a;
 
   --rarity-common: #d7d8de;
   --rarity-uncommon: #4ade80;
@@ -109,6 +110,26 @@ body {
   flex: 1 1 240px;
   min-width: 200px;
   max-width: 480px;
+}
+
+.disclaimer-btn {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--warning);
+  border-radius: var(--radius);
+  background: #f2994a1a;
+  color: var(--warning);
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.disclaimer-btn:hover {
+  background: var(--warning);
+  color: var(--bg);
 }
 
 .global-progress-labels {

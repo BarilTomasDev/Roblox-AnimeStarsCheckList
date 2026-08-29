@@ -883,4 +883,25 @@ document.getElementById("restoreCodeBtn").addEventListener("click", () => {
   textarea.focus();
 });
 
+document.getElementById("disclaimerBtn").addEventListener("click", () => {
+  showModal(
+    "Data Accuracy Notice",
+    [
+      el("p", {
+        text: "This checklist may be missing some values, and some values could be wrong.",
+      }),
+      el("p", {
+        text:
+          "Most of this data was found on Discord rather than confirmed directly in-game, since some of it is genuinely hard to obtain (high-level costs, rare drop rates, etc).",
+      }),
+      el(
+        "p",
+        { text: "If you spot something wrong or missing, reach out on Discord: " },
+        [el("strong", { text: "bariltomas" })]
+      ),
+    ],
+    [el("button", { class: "btn", text: "Close", onclick: closeModal })]
+  );
+});
+
 renderAll();
