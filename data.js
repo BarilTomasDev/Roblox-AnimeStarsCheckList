@@ -1,4 +1,3 @@
-
 const RARITY_TIERS = [
   { rarity: "common", name: "Common" },
   { rarity: "uncommon", name: "Uncommon" },
