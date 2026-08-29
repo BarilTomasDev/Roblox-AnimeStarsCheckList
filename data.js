@@ -75,6 +75,15 @@ const PROF_GACHA_SPEED_COSTS = [
 
 const INDEX_MILESTONE_REWARDS = [...new Array(13).fill(""), "+5% Power"];
 
+const KI_EVOLUTION_VALUES = [
+  1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5.96, 7.45, 9.31, 11.64, 14.55,
+  18.19, 22.74, 28.42, 35.53, 44.41, 55.51, 69.39, 86.74,
+];
+const KI_EVOLUTION_COSTS = [
+  170, 289, 491, 835, 1400, 2400, 4100, 7000, 11900, 20200, 34300, 58300,
+  99000, 168400, 286200, 486600, 827100, 1406000, 2390000, 4063000,
+];
+
 function worldIndexStub(n, name, icon) {
   return {
     id: `world-${n}`,
@@ -153,10 +162,10 @@ const CHECKLIST_DATA = [
         items: [
           { id: "lobby-stat-power", name: "Power", unit: "x", color: "#a366e8", levels: trialLevels(TRIAL_MULT_VALUES) },
           { id: "lobby-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", levels: trialLevels(TRIAL_MULT_VALUES) },
-          { id: "lobby-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: trialLevels(TRIAL_MULT_VALUES) },
-          { id: "lobby-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: trialLevels(TRIAL_XP_DROP_VALUES) },
-          { id: "lobby-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: trialLevels(TRIAL_XP_DROP_VALUES) },
           { id: "lobby-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: trialLevels(TRIAL_LUCK_VALUES) },
+          { id: "lobby-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: trialLevels(TRIAL_MULT_VALUES) },
+          { id: "lobby-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: trialLevels(TRIAL_XP_DROP_VALUES) },
+          { id: "lobby-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: trialLevels(TRIAL_XP_DROP_VALUES) },
         ],
       },
       {
@@ -331,7 +340,21 @@ const CHECKLIST_DATA = [
         type: "level",
         items: [
           { id: "w2-up-ki-progression", name: "Ki Progression", max: 100 },
-          { id: "w2-up-ki-evolution", name: "Ki Evolution", max: 10 },
+        ],
+      },
+      {
+        id: "w2-ki-evolution",
+        name: "Ki Evolution",
+        type: "scale",
+        items: [
+          {
+            id: "w2-up-ki-evolution",
+            name: "Ki Evolution",
+            unit: "x",
+            color: "#a366e8",
+            costUnit: "Shards",
+            levels: professionLevels(KI_EVOLUTION_COSTS, KI_EVOLUTION_VALUES),
+          },
         ],
       },
     ],
