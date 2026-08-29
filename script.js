@@ -258,15 +258,17 @@ function renderLevelItem(item) {
     renderAll();
   });
 
-  return el(
+  const wrapper = el(
     "div",
     {
-      class: `level-item${done ? " done" : ""}`,
+      class: `level-item${done ? " done" : ""}${item.color ? " stat-colored" : ""}`,
       "data-search": item.name.toLowerCase(),
       "data-level-id": item.id,
     },
     [top, bar]
   );
+  if (item.color) wrapper.style.setProperty("--stat-color", item.color);
+  return wrapper;
 }
 
 function formatCount(n) {

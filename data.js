@@ -275,10 +275,10 @@ const CHECKLIST_DATA = [
         name: "Passives",
         type: "level",
         items: [
-          { id: "w2-passive-damage", name: "Damage", max: 8 },
-          { id: "w2-passive-yen", name: "Yen", max: 8 },
-          { id: "w2-passive-luck", name: "Luck", max: 8 },
-          { id: "w2-passive-power", name: "Power", max: 8 },
+          { id: "w2-passive-damage", name: "Damage", max: 8, color: "#e5484d" },
+          { id: "w2-passive-yen", name: "Yen", max: 8, color: "#f2c94c" },
+          { id: "w2-passive-luck", name: "Luck", max: 8, color: "#4ade80" },
+          { id: "w2-passive-power", name: "Power", max: 8, color: "#a366e8" },
         ],
       },
       {
