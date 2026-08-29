@@ -75,6 +75,53 @@ const PROF_GACHA_SPEED_COSTS = [
 
 const INDEX_MILESTONE_REWARDS = [...new Array(13).fill(""), "+5% Power"];
 
+const W3_YEN_COSTS = [
+  200e6, 830e6, 3.4e9, 14.3e9, 59.3e9, 246.2e9, 1e12, 4.2e12, 17.6e12, 73e12,
+  303e12, 1.3e15, 5.2e15, 21.7e15, 89.9e15, 373e15, 1.5e18, 6.4e18, 26.7e18,
+  110.6e18, 459.2e18, 1.9e21, 7.9e21, 32.8e21, 136.2e21, 565.2e21, 2.3e24,
+  9.7e24, 40.4e24, 167.7e24, 695.8e24, 2.9e27, 12e27, 49.7e27, 206.4e27,
+  856.5e27, 3.6e30, 14.8e30, 61.2e30, 254e30,
+];
+
+function comboLevels(costs, parts) {
+  return costs.map((cost, i) => ({
+    cost,
+    value: parts.map((p) => ({ label: p.label, unit: p.unit, value: p.values[i] })),
+  }));
+}
+
+const OBS_HAKI_COSTS = [
+  2500, 3000, 3800, 4900, 6200, 7900, 10100, 12900, 16400, 21000, 26700,
+  34100, 43400, 55400, 70600, 90000, 114800, 146300, 186600, 237900, 303300,
+  386700, 493000, 628600, 801400,
+];
+const OBS_HAKI_PCT = [
+  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170,
+  180, 190, 200, 210, 220, 230, 240, 250,
+];
+
+const ARM_HAKI_COSTS = [
+  5000, 7500, 9700, 12500, 16100, 20800, 26800, 34600, 44600, 57500, 74200,
+  95700, 123500, 159300, 205500, 265000, 341900, 441100, 569000, 734000,
+  946800, 1200000, 1600000, 2000000, 2600000,
+];
+const ARM_HAKI_DAMAGE_PCT = OBS_HAKI_PCT;
+const ARM_HAKI_DROP = [
+  0, 0.1, 0.1, 0.2, 0.2, 0.2, 0.3, 0.3, 0.4, 0.4, 0.4, 0.5, 0.5, 0.6, 0.6, 0.6,
+  0.7, 0.7, 0.8, 0.8, 0.8, 0.9, 0.9, 1, 1,
+];
+
+const CONQ_HAKI_COSTS = [
+  500, 1000, 1200, 1500, 1900, 2400, 2900, 3600, 4500, 5600, 6900, 8600,
+  10700, 13200, 16400, 20300, 25200, 31300, 38800, 48100, 59600, 73900,
+  91700, 113600, 140900,
+];
+const CONQ_HAKI_LUCK = [
+  0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2,
+  3.4, 3.6, 3.8, 4, 4.2, 4.4, 4.6, 4.8, 5.0,
+];
+const CONQ_HAKI_YEN_PCT = OBS_HAKI_PCT;
+
 const KI_EVOLUTION_VALUES = [
   1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5.96, 7.45, 9.31, 11.64, 14.55,
   18.19, 22.74, 28.42, 35.53, 44.41, 55.51, 69.39, 86.74,
@@ -404,8 +451,53 @@ const CHECKLIST_DATA = [
           { id: "w3-up-fruit-progression", name: "Fruit Progression", max: 100 },
         ],
       },
-      { id: "w3-stats-soon", name: "Stat Upgrades", type: "soon" },
-      { id: "w3-haki-soon", name: "Haki Specializations", type: "soon" },
+      {
+        id: "w3-stats",
+        name: "Stat Upgrades",
+        type: "scale",
+        items: [
+          { id: "w3-stat-power", name: "Power", unit: "x", color: "#a366e8", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
+          { id: "w3-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
+          { id: "w3-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_LUCK_VALUES) },
+          { id: "w3-stat-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
+          { id: "w3-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_XP_DROP_VALUES) },
+          { id: "w3-stat-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_XP_DROP_VALUES) },
+        ],
+      },
+      {
+        id: "w3-haki",
+        name: "Haki Specializations",
+        type: "scale",
+        items: [
+          {
+            id: "w3-haki-observation",
+            name: "Observation Haki",
+            costUnit: "Kills",
+            levels: comboLevels(OBS_HAKI_COSTS, [
+              { label: "Power", unit: "%", values: OBS_HAKI_PCT },
+              { label: "XP", unit: "%", values: OBS_HAKI_PCT },
+            ]),
+          },
+          {
+            id: "w3-haki-armament",
+            name: "Armament Haki",
+            costUnit: "Sword Rolls",
+            levels: comboLevels(ARM_HAKI_COSTS, [
+              { label: "Damage", unit: "%", values: ARM_HAKI_DAMAGE_PCT },
+              { label: "Drop", unit: "Drop", values: ARM_HAKI_DROP },
+            ]),
+          },
+          {
+            id: "w3-haki-conqueror",
+            name: "Conqueror Haki",
+            costUnit: "Gamemode Waves",
+            levels: comboLevels(CONQ_HAKI_COSTS, [
+              { label: "Luck", unit: "Luck", values: CONQ_HAKI_LUCK },
+              { label: "Yen", unit: "%", values: CONQ_HAKI_YEN_PCT },
+            ]),
+          },
+        ],
+      },
     ],
   },
   worldIndexStub(4, "Titan Wall", "🧱"),

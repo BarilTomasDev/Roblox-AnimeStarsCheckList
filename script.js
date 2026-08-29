@@ -284,16 +284,29 @@ function renderLevelItem(item) {
   return wrapper;
 }
 
+const COUNT_SUFFIXES = [
+  [1e30, "No"], [1e27, "Oc"], [1e24, "Sp"], [1e21, "Sx"], [1e18, "Qi"],
+  [1e15, "Qa"], [1e12, "T"], [1e9, "B"], [1e6, "M"], [1e3, "k"],
+];
+
 function formatCount(n) {
   const abs = Math.abs(n);
   const trim = (v) => Number(v.toFixed(2)).toString();
-  if (abs >= 1e6) return trim(n / 1e6) + "M";
-  if (abs >= 1e3) return trim(n / 1e3) + "k";
+  for (const [value, suffix] of COUNT_SUFFIXES) {
+    if (abs >= value) return trim(n / value) + suffix;
+  }
   return trim(n);
+}
+
+function formatScalePart(part) {
+  if (part.unit === "x") return `+${part.value.toFixed(2)}x ${part.label}`;
+  if (part.unit === "%") return `+${Math.round(part.value)}% ${part.label}`;
+  return `+${part.value.toFixed(1)} ${part.label}`;
 }
 
 function formatScaleValue(item, level) {
   const entry = item.levels[level - 1];
+  if (Array.isArray(entry.value)) return entry.value.map(formatScalePart).join(", ");
   if (item.unit === "x") return `+${entry.value.toFixed(2)}x`;
   if (item.unit === "%") return `+${Math.round(entry.value)}%`;
   return `+${entry.value.toFixed(1)} ${item.unit}`;
