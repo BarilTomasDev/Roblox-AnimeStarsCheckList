@@ -834,10 +834,3 @@ body {
 
 .hidden-by-filter { display: none !important; }
 
-.footer {
-  text-align: center;
-  color: var(--text-dim);
-  font-size: 11px;
-  padding: 20px;
-  font-family: "JetBrains Mono", monospace;
-}
