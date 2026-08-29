@@ -618,9 +618,10 @@ function renderCategory(category, world) {
     body = renderIndexCategory(category, world);
   } else if (category.type === "scale") {
     const visibleItems = category.items.filter((item) => !item.requires || isChecked(item.requires));
+    const useGrid = visibleItems.length > 1 && !visibleItems.some((item) => item.type === "check");
     body = el(
       "div",
-      { class: `level-list${visibleItems.length > 1 ? " scale-grid" : ""}` },
+      { class: `level-list${useGrid ? " scale-grid" : ""}` },
       visibleItems.map((item) =>
         item.type === "check" ? renderCheckItem(item, category) : renderScaleItem(item)
       )
