@@ -83,6 +83,22 @@ const W3_YEN_COSTS = [
   856.5e27, 3.6e30, 14.8e30, 61.2e30, 254e30,
 ];
 
+const SKILL_TREE_COSTS = [
+  150, 275, 525, 1100, 2100, 4200, 8400, 16800, 33600, 67200, 134400, 268800,
+  536700,
+];
+const SKILL_TREE_MULT = [
+  1.05, 1.1, 1.2, 1.3, 1.4, 1.55, 1.7, 1.85, 2.05, 2.3, 2.55, 2.85, 3.15,
+];
+const SKILL_TREE_POWER_MULT = [...SKILL_TREE_MULT.slice(0, 11), 3.2, ...SKILL_TREE_MULT.slice(12)];
+const SKILL_TREE_XP = [
+  1.05, 1.1, 1.15, 1.25, 1.35, 1.45, 1.55, 1.7, 1.85, 2, 2.15, 2.35, 2.55,
+];
+const SKILL_TREE_DROP = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3];
+const SKILL_TREE_LUCK = [
+  0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25,
+];
+
 function comboLevels(costs, parts) {
   return costs.map((cost, i) => ({
     cost,
@@ -603,7 +619,19 @@ const CHECKLIST_DATA = [
           { id: "w5-up-mana-progression", name: "Mana Progression", max: 100 },
         ],
       },
-      { id: "w5-skill-tree-soon", name: "Skill Tree", type: "soon" },
+      {
+        id: "w5-skill-tree",
+        name: "Skill Tree",
+        type: "scale",
+        items: [
+          { id: "w5-skill-power", name: "Power", unit: "x", color: "#a366e8", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_POWER_MULT) },
+          { id: "w5-skill-yen", name: "Yen", unit: "x", color: "#f2c94c", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_MULT) },
+          { id: "w5-skill-luck", name: "Luck", unit: "Luck", color: "#4ade80", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_LUCK) },
+          { id: "w5-skill-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_MULT) },
+          { id: "w5-skill-drop", name: "Drop", unit: "Drop", color: "#5b8cff", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_DROP) },
+          { id: "w5-skill-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_XP) },
+        ],
+      },
       { id: "w5-elixir-soon", name: "Elixir of Life", type: "soon" },
     ],
   },
