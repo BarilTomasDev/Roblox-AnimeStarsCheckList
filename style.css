@@ -76,9 +76,8 @@ body {
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 0 24px;
-  height: 56px;
+  gap: 20px;
+  padding: 10px 24px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
 }
@@ -86,11 +85,22 @@ body {
 .topbar-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 0 0 auto;
 }
 
-.topbar-icon { font-size: 16px; }
+.topbar-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
 
 .topbar-brand h1 {
   font-size: 15px;
@@ -107,33 +117,55 @@ body {
   text-transform: none;
 }
 
-.topbar-progress {
+.topbar-progress-card {
   flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 420px;
+  max-width: 440px;
   margin: 0 auto;
+  padding: 6px 14px;
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
-.topbar-percent {
-  flex: 0 0 auto;
-  width: 38px;
-  font-size: 13px;
+.topbar-progress-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.topbar-progress-label {
+  font-size: 9.5px;
   font-weight: 700;
-  color: var(--accent);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
 .topbar-count {
   flex: 0 0 auto;
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-dim);
+}
+
+.topbar-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-percent {
+  flex: 0 0 auto;
+  width: 34px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
 }
 
 .progress-bar {
   flex: 1 1 auto;
-  height: 6px;
-  background: var(--bg-elevated-2);
+  height: 7px;
+  background: var(--bg);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -143,6 +175,7 @@ body {
   height: 100%;
   width: 0%;
   background: var(--accent);
+  box-shadow: inset 0 1px 0 #ffffff26;
   transition: width 0.25s ease;
 }
 
@@ -309,17 +342,15 @@ body {
 
 @media (max-width: 720px) {
   .topbar {
-    height: auto;
     flex-wrap: wrap;
     padding: 12px 16px;
   }
-  .topbar-progress {
+  .topbar-progress-card {
     order: 3;
     max-width: none;
     width: 100%;
     margin: 0;
   }
-  .topbar-count { display: none; }
 }
 
 .app-layout {

@@ -4,22 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anime Astral - Checklist</title>
-<link rel="stylesheet" href="style.css?v=18">
+<link rel="stylesheet" href="style.css?v=19">
 </head>
 <body>
 
 <header class="topbar">
   <div class="topbar-brand">
-    <span class="topbar-icon">⭐</span>
+    <span class="topbar-mark">⭐</span>
     <h1>Anime Astral <span>Checklist</span></h1>
   </div>
 
-  <div class="topbar-progress">
-    <span id="globalPercentLabel" class="topbar-percent mono">0%</span>
-    <div class="progress-bar">
-      <div class="progress-bar-fill" id="globalProgressFill"></div>
+  <div class="topbar-progress-card">
+    <div class="topbar-progress-top">
+      <span class="topbar-progress-label">Global Progress</span>
+      <span class="topbar-count mono" id="globalCountLabel">0 / 0</span>
     </div>
-    <span class="topbar-count mono" id="globalCountLabel">0 / 0</span>
+    <div class="topbar-progress-row">
+      <span id="globalPercentLabel" class="topbar-percent mono">0%</span>
+      <div class="progress-bar">
+        <div class="progress-bar-fill" id="globalProgressFill"></div>
+      </div>
+    </div>
   </div>
 
   <button id="disclaimerBtn" class="disclaimer-btn" title="Data accuracy notice">!</button>
