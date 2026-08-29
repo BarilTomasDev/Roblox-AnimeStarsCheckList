@@ -40,7 +40,7 @@ const TRIAL_LUCK_VALUES = [
 const CHECKLIST_DATA = [
   {
     id: "world-0",
-    name: "World 0 — Lobby",
+    name: "World 0 - Lobby",
     icon: "🏠",
     section: "worlds",
     categories: [
@@ -79,7 +79,7 @@ const CHECKLIST_DATA = [
   },
   {
     id: "world-1",
-    name: "World 1 — Ninja Village",
+    name: "World 1 - Ninja Village",
     icon: "🥷",
     section: "worlds",
     categories: [
@@ -141,7 +141,7 @@ const CHECKLIST_DATA = [
   },
   {
     id: "world-2",
-    name: "World 2",
+    name: "World 2 - Namek City",
     icon: "🌌",
     section: "worlds",
     categories: [
@@ -194,8 +194,8 @@ const CHECKLIST_DATA = [
         name: "Raids",
         type: "check",
         items: [
-          { id: "raid-w1-1", name: "World 1 — Raid 1" },
-          { id: "raid-w1-2", name: "World 1 — Raid 2" },
+          { id: "raid-w1-1", name: "World 1 - Raid 1" },
+          { id: "raid-w1-2", name: "World 1 - Raid 2" },
         ],
       },
     ],

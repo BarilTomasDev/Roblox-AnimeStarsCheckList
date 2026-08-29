@@ -337,8 +337,8 @@ function renderScaleItem(item) {
     level === 0
       ? `Level 1 costs ${item.levels[0].cost} Trial Shards`
       : done
-      ? `Current: ${formatScaleValue(item, level)} — maxed`
-      : `Current: ${formatScaleValue(item, level)} — level ${level + 1} costs ${item.levels[level].cost} Trial Shards`;
+      ? `Current: ${formatScaleValue(item, level)} - maxed`
+      : `Current: ${formatScaleValue(item, level)} - level ${level + 1} costs ${item.levels[level].cost} Trial Shards`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
   const wrapper = el(
@@ -468,8 +468,8 @@ function renderIndexCategory(category, world) {
     p.possible === 0
       ? "No pets/avatars defined yet"
       : p.nextThreshold !== null
-      ? `${p.collected} / ${p.possible} entries collected — next milestone at ${p.nextThreshold}`
-      : `${p.collected} / ${p.possible} entries collected — all milestones reached`;
+      ? `${p.collected} / ${p.possible} entries collected - next milestone at ${p.nextThreshold}`
+      : `${p.collected} / ${p.possible} entries collected - all milestones reached`;
   const caption = el("div", { class: "index-caption", text: captionText });
 
   return el("div", { class: "index-item" }, [top, bar, caption]);
@@ -688,6 +688,43 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     state = {};
     saveState();
     renderAll();
+  }
+});
+
+document.getElementById("copyCodeBtn").addEventListener("click", () => {
+  const code = btoa(JSON.stringify(state));
+  navigator.clipboard
+    .writeText(code)
+    .then(() => {
+      const btn = document.getElementById("copyCodeBtn");
+      const original = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1500);
+    })
+    .catch(() => {
+      prompt("Copy this backup code:", code);
+    });
+});
+
+document.getElementById("restoreCodeBtn").addEventListener("click", () => {
+  const code = prompt("Paste your backup code:");
+  if (!code) return;
+  let restored;
+  try {
+    restored = JSON.parse(atob(code.trim()));
+  } catch {
+    alert("That doesn't look like a valid backup code.");
+    return;
+  }
+  if (typeof restored !== "object" || restored === null || Array.isArray(restored)) {
+    alert("That doesn't look like a valid backup code.");
+    return;
+  }
+  if (confirm("Restore this backup code? It will replace your current progress.")) {
+    replaceState(restored);
+    if (window.onStateSaved) window.onStateSaved(state);
   }
 });
 

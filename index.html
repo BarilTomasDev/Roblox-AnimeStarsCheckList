@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anime Astral — Checklist</title>
-<link rel="stylesheet" href="style.css?v=4">
+<title>Anime Astral - Checklist</title>
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -31,6 +31,10 @@
     <div id="pageNav" class="page-nav"></div>
     <div class="sidebar-footer">
       <div id="authArea" class="auth-area"></div>
+      <div class="backup-row">
+        <button id="copyCodeBtn" class="btn" title="Copy a backup code for your progress">Copy Code</button>
+        <button id="restoreCodeBtn" class="btn" title="Restore progress from a backup code">Restore Code</button>
+      </div>
       <button id="resetBtn" class="btn btn-danger" title="Reset all progress">Reset</button>
     </div>
   </nav>
@@ -42,8 +46,8 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-<script src="data.js?v=5"></script>
-<script src="script.js?v=3"></script>
+<script src="data.js?v=6"></script>
+<script src="script.js?v=4"></script>
 <script src="firebase-config.js?v=1"></script>
 <script src="firebase-sync.js?v=2"></script>
 </body>
