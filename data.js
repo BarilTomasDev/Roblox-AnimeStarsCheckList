@@ -648,13 +648,11 @@ const CHECKLIST_DATA = [
           {
             id: "w5-elixir-level",
             name: "Elixir of Life",
+            unit: "x",
+            color: "#e5484d",
             costUnit: "Kills",
             requires: "w5-elixir-crafted",
-            levels: comboLevels(ELIXIR_COSTS, [
-              { label: "Power", unit: "x", values: ELIXIR_MULT },
-              { label: "Damage", unit: "x", values: ELIXIR_MULT },
-              { label: "Yen", unit: "x", values: ELIXIR_MULT },
-            ]),
+            levels: professionLevels(ELIXIR_COSTS, ELIXIR_MULT),
           },
         ],
       },
