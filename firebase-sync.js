@@ -74,7 +74,8 @@
     const status = document.createElement("div");
     status.id = "syncStatus";
     status.className = "account-status";
-    status.textContent = "Synced";
+    status.title = "Your progress is saved to your Google account and kept in sync across devices";
+    status.textContent = "Progress saved";
 
     const info = document.createElement("div");
     info.className = "account-info";
@@ -98,7 +99,7 @@
 
   function pushToCloud(stateToPush) {
     if (!currentUser) return;
-    setStatus("Syncing...", "pending");
+    setStatus("Saving...", "pending");
     clearTimeout(pushTimer);
     pushTimer = setTimeout(() => {
       const updatedAt = Date.now();
@@ -106,10 +107,10 @@
       db.collection("users")
         .doc(currentUser.uid)
         .set({ state: stateToPush, updatedAt })
-        .then(() => setStatus("Synced"))
+        .then(() => setStatus("Progress saved"))
         .catch((err) => {
           console.error("Cloud sync failed:", err);
-          setStatus("Sync failed", "error");
+          setStatus("Save failed", "error");
         });
     }, 800);
   }
@@ -147,18 +148,18 @@
             } else {
               pushToCloud(state);
             }
-            setStatus("Synced");
+            setStatus("Progress saved");
             return;
           }
 
           const data = doc.data();
           if (!data || data.updatedAt === lastPushedAt) return;
           replaceState(data.state || {});
-          setStatus("Synced");
+          setStatus("Progress saved");
         },
         (err) => {
           console.error("Cloud sync failed:", err);
-          setStatus("Sync failed", "error");
+          setStatus("Save failed", "error");
         }
       );
   });
