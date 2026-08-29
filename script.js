@@ -591,8 +591,15 @@ const NAV_SECTIONS = [
 ];
 
 function renderPageNavItem(page) {
-  const p = computeWorldProgress(page);
-  const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+  const children = [
+    el("span", { class: "page-nav-icon", text: page.icon || "🌍" }),
+    el("span", { class: "page-nav-name", text: page.name }),
+  ];
+  if (!page.hideNavPercent) {
+    const p = computeWorldProgress(page);
+    const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+    children.push(el("span", { class: "page-nav-percent mono", text: pct + "%" }));
+  }
   return el(
     "button",
     {
@@ -603,11 +610,7 @@ function renderPageNavItem(page) {
         renderAll();
       },
     },
-    [
-      el("span", { class: "page-nav-icon", text: page.icon || "🌍" }),
-      el("span", { class: "page-nav-name", text: page.name }),
-      el("span", { class: "page-nav-percent mono", text: pct + "%" }),
-    ]
+    children
   );
 }
 
