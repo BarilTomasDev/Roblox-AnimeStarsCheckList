@@ -136,8 +136,13 @@ function computeCategoryProgress(category, world) {
       total += 1;
       earned += getLevel(item.id, item.max) / item.max;
     } else if (category.type === "scale") {
-      total += 1;
-      earned += getLevel(item.id, item.levels.length) / item.levels.length;
+      if (item.type === "check") {
+        total += 1;
+        if (isChecked(item.id)) earned += 1;
+      } else {
+        total += 1;
+        earned += getLevel(item.id, item.levels.length) / item.levels.length;
+      }
     } else if (category.type === "tier") {
       if (item.type === "check") {
         total += 1;
@@ -612,10 +617,13 @@ function renderCategory(category, world) {
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);
   } else if (category.type === "scale") {
+    const visibleItems = category.items.filter((item) => !item.requires || isChecked(item.requires));
     body = el(
       "div",
-      { class: `level-list${category.items.length > 1 ? " scale-grid" : ""}` },
-      category.items.map((item) => renderScaleItem(item))
+      { class: `level-list${visibleItems.length > 1 ? " scale-grid" : ""}` },
+      visibleItems.map((item) =>
+        item.type === "check" ? renderCheckItem(item, category) : renderScaleItem(item)
+      )
     );
   } else {
     body = el(

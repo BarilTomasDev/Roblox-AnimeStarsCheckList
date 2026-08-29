@@ -99,6 +99,13 @@ const SKILL_TREE_LUCK = [
   0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25,
 ];
 
+const ELIXIR_MULT = [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5];
+const ELIXIR_COSTS = [
+  400, 2100, 5400, 11475, 22275, 41006, 72900, 126435, 215282, 361367,
+  599716, 986072, 1608854, 2607901, 4200000,
+];
+const GENOS_EXTRA_POWER = [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5];
+
 function comboLevels(costs, parts) {
   return costs.map((cost, i) => ({
     cost,
@@ -632,7 +639,25 @@ const CHECKLIST_DATA = [
           { id: "w5-skill-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Leveling Coins", levels: professionLevels(SKILL_TREE_COSTS, SKILL_TREE_XP) },
         ],
       },
-      { id: "w5-elixir-soon", name: "Elixir of Life", type: "soon" },
+      {
+        id: "w5-elixir",
+        name: "Elixir of Life",
+        type: "scale",
+        items: [
+          { id: "w5-elixir-crafted", name: "Elixir of Life Crafted?", type: "check" },
+          {
+            id: "w5-elixir-level",
+            name: "Elixir of Life",
+            costUnit: "Kills",
+            requires: "w5-elixir-crafted",
+            levels: comboLevels(ELIXIR_COSTS, [
+              { label: "Power", unit: "x", values: ELIXIR_MULT },
+              { label: "Damage", unit: "x", values: ELIXIR_MULT },
+              { label: "Yen", unit: "x", values: ELIXIR_MULT },
+            ]),
+          },
+        ],
+      },
     ],
   },
   worldIndexStub(6, "Slayer Village", "⚔️"),
