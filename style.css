@@ -75,41 +75,75 @@ body {
   flex: 0 0 auto;
   z-index: 10;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 14px 24px;
-  padding: 14px 24px;
+  gap: 24px;
+  padding: 0 24px;
+  height: 56px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
 }
 
-.topbar-title {
+.topbar-brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   flex: 0 0 auto;
 }
 
 .topbar-icon { font-size: 16px; }
 
-.topbar-title h1 {
+.topbar-brand h1 {
   font-size: 15px;
   margin: 0;
   font-weight: 700;
   letter-spacing: 0.01em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.topbar-title h1 span {
+.topbar-brand h1 span {
   font-weight: 400;
   color: var(--text-dim);
   text-transform: none;
 }
 
-.global-progress {
-  flex: 1 1 240px;
-  min-width: 200px;
-  max-width: 480px;
+.topbar-progress {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.topbar-percent {
+  flex: 0 0 auto;
+  width: 38px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.topbar-count {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.progress-bar {
+  flex: 1 1 auto;
+  height: 6px;
+  background: var(--bg-elevated-2);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.25s ease;
 }
 
 .disclaimer-btn {
@@ -130,36 +164,6 @@ body {
 .disclaimer-btn:hover {
   background: var(--warning);
   color: var(--bg);
-}
-
-.global-progress-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-bottom: 5px;
-  font-family: "JetBrains Mono", monospace;
-}
-
-#globalPercentLabel {
-  font-weight: 600;
-  color: var(--accent);
-  font-size: 12px;
-}
-
-.progress-bar {
-  height: 6px;
-  background: var(--bg-elevated-2);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.progress-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: var(--accent);
-  transition: width 0.25s ease;
 }
 
 .auth-area { width: 100%; }
@@ -304,10 +308,18 @@ body {
 }
 
 @media (max-width: 720px) {
-  .global-progress {
+  .topbar {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+  }
+  .topbar-progress {
+    order: 3;
     max-width: none;
     width: 100%;
+    margin: 0;
   }
+  .topbar-count { display: none; }
 }
 
 .app-layout {
