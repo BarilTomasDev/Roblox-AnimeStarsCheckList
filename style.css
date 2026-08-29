@@ -27,13 +27,17 @@
 
 * { box-sizing: border-box; }
 
+html, body { height: 100%; }
+
 body {
   margin: 0;
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .mono {
@@ -41,8 +45,7 @@ body {
 }
 
 .topbar {
-  position: sticky;
-  top: 0;
+  flex: 0 0 auto;
   z-index: 10;
   display: flex;
   flex-wrap: wrap;
@@ -260,22 +263,20 @@ body {
 
 .app-layout {
   display: flex;
-  align-items: flex-start;
-  min-height: calc(100vh - 64px);
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .sidebar {
   flex: 0 0 240px;
   width: 240px;
-  position: sticky;
-  top: 65px;
-  align-self: flex-start;
-  height: calc(100vh - 65px);
   display: flex;
   flex-direction: column;
   padding: 16px 12px;
   border-right: 1px solid var(--border);
   background: var(--bg-elevated);
+  overflow-y: auto;
 }
 
 .sidebar-search {
@@ -370,14 +371,17 @@ body {
 .sidebar-footer .btn { width: 100%; }
 
 @media (max-width: 720px) {
-  .app-layout { flex-direction: column; }
+  html, body { height: auto; }
+  body { overflow: visible; }
+  .app-layout { flex-direction: column; min-height: 0; }
   .sidebar {
-    position: static;
     width: 100%;
     height: auto;
+    overflow-y: visible;
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
+  #pageContent { overflow-y: visible; }
   .page-nav {
     flex-direction: row;
     flex-wrap: wrap;
@@ -399,6 +403,7 @@ body {
   flex: 1;
   min-width: 0;
   padding: 20px 24px 60px;
+  overflow-y: auto;
 }
 
 .page-header {

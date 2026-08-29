@@ -151,4 +151,11 @@ const CHECKLIST_DATA = [
     section: "general",
     categories: [{ id: "promotions-soon", name: "Promotions", type: "soon" }],
   },
+  {
+    id: "global-relics",
+    name: "Relics",
+    icon: "🏺",
+    section: "general",
+    categories: [{ id: "relics-soon", name: "Relics", type: "soon" }],
+  },
 ];
