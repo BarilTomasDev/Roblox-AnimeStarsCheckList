@@ -536,6 +536,12 @@ body {
   gap: 6px;
 }
 
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .check-item {
   display: flex;
   align-items: center;
@@ -888,25 +894,9 @@ body {
 .check-item.stat-colored {
   border-left: 3px solid var(--stat-color);
   padding-left: 10px;
-  background: color-mix(in srgb, var(--stat-color) 9%, var(--bg-elevated-2));
-}
-.check-item.stat-colored:hover {
-  background: color-mix(in srgb, var(--stat-color) 15%, var(--bg-elevated-2));
-  border-left-color: var(--stat-color);
 }
 .check-item.stat-colored .check-item-label {
   color: var(--stat-color);
-  font-size: 13.5px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--stat-color) 55%, transparent);
-}
-.check-item.stat-colored.done {
-  border-left-color: var(--stat-color);
-  background: color-mix(in srgb, var(--stat-color) 16%, var(--bg-elevated-2));
-}
-.check-item.stat-colored input {
-  accent-color: var(--stat-color);
 }
 
 .maxed-badge {

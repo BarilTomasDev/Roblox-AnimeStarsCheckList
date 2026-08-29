@@ -296,6 +296,7 @@ const CHECKLIST_DATA = [
         name: "Titles",
         type: "check",
         excludeFromProgress: true,
+        singleColumn: true,
         items: [
           { id: "w1-medal-event-done", name: "Medal Partner", color: "#ffd700", subtitle: "+2.5x Power, +1.75x Damage, +1.25x Yen, +0.75x Drop" },
           { id: "title-uchiha-prodigy", name: "Uchiha Prodigy", color: "#e5484d", subtitle: "+1 Luck" },

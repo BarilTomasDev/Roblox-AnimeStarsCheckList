@@ -556,7 +556,7 @@ function renderCategory(category, world) {
   if (category.type === "check") {
     body = el(
       "div",
-      { class: "check-grid" },
+      { class: category.singleColumn ? "check-list" : "check-grid" },
       category.items.map((item) => renderCheckItem(item, category))
     );
   } else if (category.type === "tier") {
