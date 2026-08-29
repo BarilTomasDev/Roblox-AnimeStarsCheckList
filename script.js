@@ -177,11 +177,7 @@ function computeGlobalProgress() {
 
 function renderCheckItem(item, category) {
   const done = isChecked(item.id);
-  const label = el("span", {
-    class: "check-item-label",
-    text: item.name,
-    style: item.color ? `color:${item.color}` : "",
-  });
+  const label = el("span", { class: "check-item-label", text: item.name });
   const checkbox = el("input", {
     type: "checkbox",
     onchange: () => {
@@ -207,11 +203,12 @@ function renderCheckItem(item, category) {
   const wrapper = el(
     "label",
     {
-      class: `check-item${done ? " done" : ""}${item.subtitle ? " check-item-tall" : ""}`,
+      class: `check-item${done ? " done" : ""}${item.subtitle ? " check-item-tall" : ""}${item.color ? " stat-colored" : ""}`,
       "data-search": item.name.toLowerCase(),
     },
     children
   );
+  if (item.color) wrapper.style.setProperty("--stat-color", item.color);
   return wrapper;
 }
 
