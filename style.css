@@ -372,6 +372,20 @@ body {
 }
 .sidebar-footer .btn { width: 100%; }
 
+.backup-hint {
+  margin: 0;
+  font-size: 10.5px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.auth-hint {
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
 .backup-row {
   display: flex;
   gap: 6px;

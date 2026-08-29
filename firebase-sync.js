@@ -52,7 +52,13 @@
         alert("Sign-in failed: " + err.message);
       });
     });
+
+    const hint = document.createElement("p");
+    hint.className = "auth-hint";
+    hint.textContent = "Saves your progress automatically and syncs it across devices.";
+
     authArea.appendChild(btn);
+    authArea.appendChild(hint);
   }
 
   function renderSignedIn(user) {
