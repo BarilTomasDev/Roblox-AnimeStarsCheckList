@@ -629,7 +629,7 @@ function renderCategory(category, world) {
 }
 
 const NAV_SECTIONS = [
-  { id: "general", label: "General", collapsible: false },
+  { id: "general", label: "General", collapsible: true },
   { id: "worlds", label: "Worlds", collapsible: true },
 ];
 
