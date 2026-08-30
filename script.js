@@ -151,6 +151,9 @@ function computeCategoryProgress(category, world) {
         total += tiers.length;
         earned += getTierIndex(item.id) + 1;
       }
+    } else if (category.type === "priority") {
+      total += 1;
+      if (isChecked(item.id)) earned += 1;
     }
   }
   return { earned, total };
@@ -220,6 +223,54 @@ function renderCheckItem(item, category) {
   );
   if (item.color) wrapper.style.setProperty("--stat-color", item.color);
   return wrapper;
+}
+
+function renderPriorityCard(item) {
+  const done = isChecked(item.id);
+  const checkbox = el("input", {
+    type: "checkbox",
+    class: "priority-card-check",
+    onchange: () => {
+      toggleCheck(item.id);
+      renderAll();
+    },
+  });
+  checkbox.checked = done;
+
+  const icon = el("div", { class: "priority-card-icon", text: item.name.slice(0, 1) });
+  if (item.color) icon.style.setProperty("--stat-color", item.color);
+
+  const children = [
+    el("span", { class: "priority-card-rank mono", text: `#${item.rank}` }),
+    checkbox,
+    icon,
+    el("div", { class: "priority-card-name", text: item.name }),
+  ];
+  if (item.subtitle) {
+    children.push(el("div", { class: "priority-card-subtitle", text: item.subtitle }));
+  }
+
+  return el(
+    "label",
+    { class: `priority-card${done ? " done" : ""}`, "data-search": item.name.toLowerCase() },
+    children
+  );
+}
+
+function renderPriorityCategory(category) {
+  const rows = category.tiers.map((t) => {
+    const items = category.items.filter((item) => item.tier === t.label);
+    if (items.length === 0) return null;
+    const label = el("div", { class: "priority-tier-label", text: t.label });
+    label.style.setProperty("--tier-color", t.color);
+    const cards = el(
+      "div",
+      { class: "priority-tier-items" },
+      items.map((item) => renderPriorityCard(item))
+    );
+    return el("div", { class: "priority-tier-row" }, [label, cards]);
+  });
+  return el("div", { class: "priority-tierlist" }, rows);
 }
 
 function renderLevelItem(item) {
@@ -618,6 +669,8 @@ function renderCategory(category, world) {
         item.type === "check" ? renderCheckItem(item, category) : renderTierItem(item, category.tiers)
       )
     );
+  } else if (category.type === "priority") {
+    body = renderPriorityCategory(category);
   } else if (category.type === "index") {
     body = renderIndexCategory(category, world);
   } else if (category.type === "scale") {
