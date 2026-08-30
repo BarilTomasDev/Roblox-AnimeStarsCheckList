@@ -34,41 +34,37 @@ const TRIAL_SHARD_COSTS = extendByRatio(
     674, 745, 823, 910, 1000, 1100, 1200,
   ],
   1.1,
-  20
+  10
 );
 
 function trialLevels(values) {
   return values.map((value, i) => ({ value, cost: TRIAL_SHARD_COSTS[i] }));
 }
 
-const TRIAL_MULT_VALUES = extendByStep(
-  [
-    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5,
-    1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0,
-    3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0,
-  ],
-  0.1,
-  20
-);
-const TRIAL_XP_DROP_VALUES = extendByStep(
-  [
-    0.03, 0.05, 0.08, 0.1, 0.12, 0.15, 0.18, 0.2, 0.23, 0.25, 0.28, 0.3, 0.33,
-    0.35, 0.38, 0.4, 0.43, 0.45, 0.48, 0.5, 0.53, 0.55, 0.58, 0.6, 0.62, 0.65,
-    0.68, 0.7, 0.73, 0.75, 0.78, 0.8, 0.83, 0.85, 0.88, 0.9, 0.93, 0.95, 0.98,
-    1.0,
-  ],
-  0.025,
-  20
-);
-const TRIAL_LUCK_VALUES = extendByStep(
-  [
-    0.1, 0.3, 0.4, 0.6, 0.8, 0.9, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 1.9, 2.1, 2.2,
-    2.4, 2.5, 2.7, 2.9, 3.0, 3.1, 3.3, 3.4, 3.6, 3.8, 3.9, 4.0, 4.2, 4.3, 4.5,
-    4.6, 4.8, 5.0, 5.1, 5.2, 5.4, 5.6, 5.7, 5.9, 6.0,
-  ],
-  0.15,
-  20
-);
+const TRIAL_MULT_BASE = [
+  0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5,
+  1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0,
+  3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0,
+];
+const TRIAL_XP_DROP_BASE = [
+  0.03, 0.05, 0.08, 0.1, 0.12, 0.15, 0.18, 0.2, 0.23, 0.25, 0.28, 0.3, 0.33,
+  0.35, 0.38, 0.4, 0.43, 0.45, 0.48, 0.5, 0.53, 0.55, 0.58, 0.6, 0.62, 0.65,
+  0.68, 0.7, 0.73, 0.75, 0.78, 0.8, 0.83, 0.85, 0.88, 0.9, 0.93, 0.95, 0.98,
+  1.0,
+];
+const TRIAL_LUCK_BASE = [
+  0.1, 0.3, 0.4, 0.6, 0.8, 0.9, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 1.9, 2.1, 2.2,
+  2.4, 2.5, 2.7, 2.9, 3.0, 3.1, 3.3, 3.4, 3.6, 3.8, 3.9, 4.0, 4.2, 4.3, 4.5,
+  4.6, 4.8, 5.0, 5.1, 5.2, 5.4, 5.6, 5.7, 5.9, 6.0,
+];
+
+const TRIAL_MULT_VALUES = extendByStep(TRIAL_MULT_BASE, 0.1, 10);
+const TRIAL_XP_DROP_VALUES = extendByStep(TRIAL_XP_DROP_BASE, 0.025, 10);
+const TRIAL_LUCK_VALUES = extendByStep(TRIAL_LUCK_BASE, 0.15, 10);
+
+const WANO_MULT_VALUES = extendByStep(TRIAL_MULT_BASE, 0.1, 20);
+const WANO_XP_DROP_VALUES = extendByStep(TRIAL_XP_DROP_BASE, 0.025, 20);
+const WANO_LUCK_VALUES = extendByStep(TRIAL_LUCK_BASE, 0.15, 20);
 
 function professionLevels(costs, values) {
   return costs.map((cost, i) => ({ cost, value: values[i] }));
@@ -122,7 +118,7 @@ const W3_YEN_COSTS = [
   303e12, 1.3e15, 5.2e15, 21.7e15, 89.9e15, 373e15, 1.5e18, 6.4e18, 26.7e18,
   110.6e18, 459.2e18, 1.9e21, 7.9e21, 32.8e21, 136.2e21, 565.2e21, 2.3e24,
   9.7e24, 40.4e24, 167.7e24, 695.8e24, 2.9e27, 12e27, 49.7e27, 206.4e27,
-  856.5e27, 3.6e30, 14.8e30, 61.2e30, 254e30,
+  856.5e27, 3.6e30, 14.8e30, 61.2e30, 254e30, ...new Array(20).fill(null),
 ];
 
 const SKILL_TREE_COSTS = [
@@ -680,12 +676,12 @@ const CHECKLIST_DATA = [
         name: "Stat Upgrades",
         type: "scale",
         items: [
-          { id: "w3-stat-power", name: "Power", unit: "x", color: "#a366e8", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
-          { id: "w3-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
-          { id: "w3-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_LUCK_VALUES) },
-          { id: "w3-stat-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_MULT_VALUES) },
-          { id: "w3-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_XP_DROP_VALUES) },
-          { id: "w3-stat-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, TRIAL_XP_DROP_VALUES) },
+          { id: "w3-stat-power", name: "Power", unit: "x", color: "#a366e8", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_MULT_VALUES) },
+          { id: "w3-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_MULT_VALUES) },
+          { id: "w3-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_LUCK_VALUES) },
+          { id: "w3-stat-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_MULT_VALUES) },
+          { id: "w3-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_XP_DROP_VALUES) },
+          { id: "w3-stat-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Yen", levels: professionLevels(W3_YEN_COSTS, WANO_XP_DROP_VALUES) },
         ],
       },
       {
