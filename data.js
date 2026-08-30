@@ -814,9 +814,9 @@ const CHECKLIST_DATA = [
           { label: "D", color: "#5b8cff" },
         ],
         items: [
-          { id: "gp-1", rank: 1, tier: "S", name: "Remote Star", color: "#ffd700" },
-          { id: "gp-2", rank: 2, tier: "S", name: "+1 Sword Equip", color: "#5b8cff" },
-          { id: "gp-3", rank: 3, tier: "S", name: "2x Power", color: "#a366e8" },
+          { id: "gp-1", rank: 1, tier: "S", name: "Remote Star", color: "#ffd700", image: "https://tr.rbxcdn.com/180DAY-b2000c3696b838db5246d7845b0ff713/420/420/Image/Png/noFilter" },
+          { id: "gp-2", rank: 2, tier: "S", name: "+1 Sword Equip", color: "#5b8cff", image: "https://tr.rbxcdn.com/180DAY-1a03244f238aa88ed2d3c76e400ac58a/420/420/Image/Png/noFilter" },
+          { id: "gp-3", rank: 3, tier: "S", name: "2x Power", color: "#a366e8", image: "https://tr.rbxcdn.com/180DAY-47beb1ed959ccd961d05e9f1bb0edeae/420/420/Image/Png/noFilter" },
           { id: "gp-4", rank: 4, tier: "A", name: "More Drops (+5)", color: "#5b8cff" },
           { id: "gp-5", rank: 5, tier: "A", name: "VIP", subtitle: "Note 1", color: "#ffd700" },
           { id: "gp-6", rank: 6, tier: "A", name: "Fast Click", color: "#5b8cff" },

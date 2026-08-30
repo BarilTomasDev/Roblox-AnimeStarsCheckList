@@ -237,7 +237,9 @@ function renderPriorityCard(item) {
   });
   checkbox.checked = done;
 
-  const icon = el("div", { class: "priority-card-icon", text: item.name.slice(0, 1) });
+  const icon = item.image
+    ? el("img", { class: "priority-card-icon priority-card-img", src: item.image, alt: "" })
+    : el("div", { class: "priority-card-icon", text: item.name.slice(0, 1) });
   if (item.color) icon.style.setProperty("--stat-color", item.color);
 
   const children = [
