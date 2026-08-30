@@ -728,13 +728,30 @@ function renderPageContent(page) {
     el("span", { class: "page-header-percent mono", text: pct + "%" }),
   ]);
 
+  const children = [header];
+
+  if (page.sourceNote) {
+    children.push(
+      el("div", { class: "page-source-note" }, [
+        document.createTextNode(page.sourceNote.text + " "),
+        el("a", {
+          href: page.sourceNote.url,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          text: "Source",
+        }),
+      ])
+    );
+  }
+
   const body = el(
     "div",
     { class: "world-body" },
     page.categories.map((c) => renderCategory(c, page))
   );
+  children.push(body);
 
-  return el("div", { class: "page" }, [header, body]);
+  return el("div", { class: "page" }, children);
 }
 
 function renderAll() {

@@ -557,6 +557,19 @@ body {
   border-radius: var(--radius);
 }
 
+.page-source-note {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin: 10px 0 4px;
+}
+
+.page-source-note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.page-source-note a:hover { text-decoration: underline; }
+
 .world-progress-fill {
   height: 100%;
   background: var(--accent);
