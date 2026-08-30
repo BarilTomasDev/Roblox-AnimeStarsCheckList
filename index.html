@@ -5,30 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="bariltomas">
 <title>Anime Astral - Checklist</title>
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="topbar-brand">
-    <span class="topbar-mark">⭐</span>
-    <h1>Anime Astral <span>Checklist</span></h1>
-  </div>
-
-  <div class="topbar-progress-card">
-    <div class="topbar-progress-top">
-      <span class="topbar-progress-label">Global Progress</span>
-      <span class="topbar-count mono" id="globalCountLabel">0 / 0</span>
+  <div class="topbar-row">
+    <div class="topbar-brand">
+      <span class="topbar-mark">⭐</span>
+      <h1>Anime Astral <span>Checklist</span></h1>
     </div>
-    <div class="topbar-progress-row">
+
+    <div class="topbar-stats">
       <span id="globalPercentLabel" class="topbar-percent mono">0%</span>
-      <div class="progress-bar">
-        <div class="progress-bar-fill" id="globalProgressFill"></div>
-      </div>
+      <span class="topbar-count mono" id="globalCountLabel">0 / 0</span>
+      <button id="disclaimerBtn" class="disclaimer-btn" title="Data accuracy notice">!</button>
     </div>
   </div>
 
-  <button id="disclaimerBtn" class="disclaimer-btn" title="Data accuracy notice">!</button>
+  <div class="topbar-bar">
+    <div class="topbar-bar-fill" id="globalProgressFill"></div>
+  </div>
 </header>
 
 <div class="app-layout">

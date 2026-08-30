@@ -74,20 +74,22 @@ body {
 .topbar {
   flex: 0 0 auto;
   z-index: 10;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 24px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
+}
+
+.topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 11px 24px 9px;
 }
 
 .topbar-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-self: start;
 }
 
 .topbar-mark {
@@ -118,79 +120,49 @@ body {
   text-transform: none;
 }
 
-.topbar-progress-card {
-  justify-self: center;
-  width: 420px;
-  max-width: 100%;
-  padding: 6px 14px;
-  background: var(--bg-elevated-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.topbar-progress-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.topbar-progress-label {
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.topbar-count {
-  flex: 0 0 auto;
-  font-size: 10.5px;
-  color: var(--text-dim);
-}
-
-.topbar-progress-row {
+.topbar-stats {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 .topbar-percent {
-  flex: 0 0 auto;
-  width: 34px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 800;
   color: var(--accent);
 }
 
-.progress-bar {
-  flex: 1 1 auto;
-  height: 7px;
-  background: var(--bg);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+.topbar-count {
+  font-size: 11px;
+  color: var(--text-dim);
+  padding-left: 14px;
+  border-left: 1px solid var(--border);
 }
 
-.progress-bar-fill {
+.topbar-bar {
+  height: 3px;
+  background: var(--bg-elevated-2);
+  overflow: hidden;
+}
+
+.topbar-bar-fill {
   height: 100%;
   width: 0%;
   background: var(--accent);
-  box-shadow: inset 0 1px 0 #ffffff26;
+  box-shadow: 0 0 6px 0 var(--accent);
   transition: width 0.25s ease;
 }
 
 .disclaimer-btn {
-  justify-self: end;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border: 1px solid var(--warning);
   border-radius: var(--radius);
   background: #f2994a1a;
   color: var(--warning);
   font-family: "JetBrains Mono", monospace;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
@@ -341,17 +313,15 @@ body {
   border-color: var(--danger);
 }
 
-@media (max-width: 720px) {
-  .topbar {
-    display: flex;
+@media (max-width: 480px) {
+  .topbar-row {
     flex-wrap: wrap;
-    padding: 12px 16px;
+    gap: 8px;
+    padding: 10px 16px 8px;
   }
-  .topbar-progress-card {
-    order: 3;
-    max-width: none;
+  .topbar-stats {
     width: 100%;
-    margin: 0;
+    justify-content: space-between;
   }
 }
 
