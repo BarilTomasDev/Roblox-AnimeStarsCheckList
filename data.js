@@ -1013,13 +1013,15 @@ const CHECKLIST_DATA = [
     name: "Promotions",
     icon: "🎖️",
     section: "general",
-    hideNavPercent: true,
+    sourceNote: {
+      text: "This rank/mission data is extracted from a Discord message and isn't an official or nominative ranking.",
+      url: "https://discord.com/channels/1340825930326741054/1529249282228621312",
+    },
     categories: [
       {
         id: "promotions-ranks",
         name: "Promotions",
         type: "promotion",
-        excludeFromProgress: true,
         ranks: PROMOTION_RANKS,
       },
     ],
