@@ -243,7 +243,7 @@ function renderPriorityCard(item) {
   if (item.color) icon.style.setProperty("--stat-color", item.color);
 
   const children = [
-    el("span", { class: "priority-card-rank mono", text: `#${item.rank}` }),
+    el("span", { class: "priority-card-rank mono", text: item.rank != null ? `#${item.rank}` : "?" }),
     checkbox,
     icon,
     el("div", { class: "priority-card-name", text: item.name }),

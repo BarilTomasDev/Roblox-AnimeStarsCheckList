@@ -812,6 +812,7 @@ const CHECKLIST_DATA = [
           { label: "B", color: "#ffd700" },
           { label: "C", color: "#4ade80" },
           { label: "D", color: "#5b8cff" },
+          { label: "X", color: "#6b6f7a" },
         ],
         items: [
           { id: "gp-1", rank: 1, tier: "S", name: "Remote Star", color: "#ffd700", image: "https://tr.rbxcdn.com/180DAY-b2000c3696b838db5246d7845b0ff713/420/420/Image/Png/noFilter" },
@@ -836,13 +837,8 @@ const CHECKLIST_DATA = [
           { id: "gp-20", rank: 20, tier: "D", name: "Ultra Luck", color: "#a366e8" },
           { id: "gp-21", rank: 21, tier: "D", name: "Super Luck", color: "#ffd700" },
           { id: "gp-22", rank: 22, tier: "D", name: "Big Storage", color: "#f2994a" },
+          { id: "gp-2x-exp", tier: "X", name: "2x Exp", color: "#e5548c" },
         ],
-      },
-      {
-        id: "gamepasses-unranked",
-        name: "Not Yet Ranked",
-        type: "check",
-        items: [{ id: "gp-2x-exp", name: "2x Exp", color: "#e5548c" }],
       },
     ],
   },

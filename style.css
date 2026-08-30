@@ -811,8 +811,10 @@ body {
 }
 
 .priority-card-img {
-  object-fit: cover;
-  padding: 0;
+  object-fit: contain;
+  background: none;
+  border: none;
+  border-radius: 0;
 }
 
 .priority-card-name {
