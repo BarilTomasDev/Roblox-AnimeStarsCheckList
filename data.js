@@ -263,7 +263,7 @@ const PROMOTION_RANKS = [
   },
   {
     stats: ["+260% Power", "+120% Damage", "+140% Yen", "+1.5 Luck", "+60% XP", "+0.25 Drop", "+5.25 Walkspeed", "+3% CritChance", "+25% CritDamage"],
-    missions: ["Reach Player Level 80", "Reach Rank 32", "Reach Range Level 16", "Complete 6 Index Maps", "Complete 6 Side Quests", "Reach Slayer Relic Max Level", "Reach Slayer Relic Ascension 3", "Clear 2,000 Infinity Castle Waves"],
+    missions: ["Reach Player Level 80", "Reach Rank 32", "Reach Range Level 16", "Roll 1,200 Magic Attributes Gacha", "Summon 5,000 Pets in Clover Island", "Join Clover Raid 1 Time"],
   },
   {
     stats: ["+280% Power", "+130% Damage", "+150% Yen", "+1.5 Luck", "+75% XP", "+0.3 Drop", "+5.5 Walkspeed", "+3% CritChance", "+30% CritDamage"],
