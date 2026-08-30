@@ -837,6 +837,7 @@ function buildSearchIndex() {
           pageId: page.id,
           pageIcon: page.icon || "🌍",
           pageName: page.name,
+          categoryName: category.name,
           itemId: item.id,
           itemName: item.name,
         });
@@ -909,11 +910,14 @@ function renderSearchResults(query) {
     const rows = group.items
       .slice(0, 6)
       .map((m) =>
-        el("button", {
-          class: "search-result-row",
-          text: m.itemName,
-          onclick: () => goToSearchResult(m.pageId, m.itemId),
-        })
+        el(
+          "button",
+          { class: "search-result-row", onclick: () => goToSearchResult(m.pageId, m.itemId) },
+          [
+            document.createTextNode(m.itemName + " "),
+            el("span", { class: "search-result-cat", text: `(${m.categoryName})` }),
+          ]
+        )
       );
     const groupChildren = [
       el("div", { class: "search-result-group-title", text: `${group.icon} ${group.name}` }),

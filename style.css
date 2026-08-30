@@ -404,6 +404,11 @@ body {
 
 .search-result-row:hover { background: var(--bg-elevated); color: var(--accent); }
 
+.search-result-cat {
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
 .search-result-more {
   padding: 4px 8px;
   font-size: 10.5px;
