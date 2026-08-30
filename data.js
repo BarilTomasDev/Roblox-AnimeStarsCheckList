@@ -196,6 +196,165 @@ const KI_EVOLUTION_COSTS = [
   99000, 168400, 286200, 486600, 827100, 1406000, 2390000,
 ];
 
+const PROMOTION_RANKS = [
+  {
+    stats: [],
+    missions: ["Reach Level 2", "Defeat 100 enemies", "Reach Rank 1"],
+  },
+  {
+    stats: ["+10% Power", "+5% Damage", "+5% Yen", "+2 Walkspeed"],
+    missions: ["Reach Rank 2", "Reach Range Level 2", "Defeat 750 Enemies", "Roll 250 Doujutsu Gacha"],
+  },
+  {
+    stats: ["+20% Power", "+10% Damage", "+10% Yen", "+0.1 Luck", "+2 Walkspeed"],
+    missions: ["Reach Player Level 10", "Reach Rank 4", "Summon 2500 Pets in Ninja Village", "Obtain any accessory", "Defeat Itachi 500 Times"],
+  },
+  {
+    stats: ["+30% Power", "+15% Damage", "+15% Yen", "+0.1 Luck", "+5% XP", "+2 Walkspeed"],
+    missions: ["Reach Player Level 15", "Reach Rank 6", "Complete 1 Side Quest", "Complete 1 Map Index", "Join Ninja Raid 5x", "Clear Waves in Ninja Raid"],
+  },
+  {
+    stats: ["+40% Power", "+20% Damage", "+20% Yen", "+0.2 Luck", "+5% XP", "+0.05 Drop", "+2.25 Walkspeed"],
+    missions: ["Reach Player Level 20", "Reach Rank 8", "Reach Range Level 4", "Roll Races Gacha: 500", "Summon Pets in Namek City: 7500", "Defeat Enemies: 3000"],
+  },
+  {
+    stats: ["+55% Power", "+25% Damage", "+30% Yen", "+0.2 Luck", "+10% XP", "+0.05 Drop", "+2.5 Walkspeed"],
+    missions: ["Reach Player Level 25", "Reach Rank 10", "Reach Range Level 5", "Complete 2 Side Quests", "Complete 2 Index Maps", "Reach Dragon Relic Level 25", "Complete 1 Ninja Raid"],
+  },
+  {
+    stats: ["+70% Power", "+30% Damage", "+40% Yen", "+0.3 Luck", "+10% XP", "+0.1 Drop", "+2.75 Walkspeed"],
+    missions: ["Reach Player Level 30", "Reach Rank 12", "Reach Range Level 6", "Roll 2,500 Haki Gacha", "Summon 12,500 Pets in World 3", "Defeat 6,000 Enemies"],
+  },
+  {
+    stats: ["+85% Power", "+35% Damage", "+50% Yen", "+0.3 Luck", "+15% XP", "+0.1 Drop", "+3 Walkspeed"],
+    missions: ["Reach Player Level 35", "Reach Rank 14", "Reach Range Level 7", "Defeat White Beard 1,500 Times", "Complete 3 Index Maps", "Obtain 3 Accessories"],
+  },
+  {
+    stats: ["+100% Power", "+40% Damage", "+60% Yen", "+0.5 Luck", "+15% XP", "+0.1 Drop", "+3.25 Walkspeed"],
+    missions: ["Reach Player Level 40", "Reach Rank 16", "Reach Range Level 8", "Join Titan Defense 25 Times"],
+  },
+  {
+    stats: ["+120% Power", "+50% Damage", "+70% Yen", "+0.5 Luck", "+25% XP", "+0.1 Drop", "+3.5 Walkspeed"],
+    missions: ["Reach Player Level 45", "Reach Rank 18", "Defeat 12,000 Enemies", "Defeat 2,000 Armored Titans", "Clear 500 Waves in Titan Defense"],
+  },
+  {
+    stats: ["+140% Power", "+60% Damage", "+80% Yen", "+0.75 Luck", "+25% XP", "+0.15 Drop", "+3.75 Walkspeed", "+1% CritChance", "+5% CritDamage"],
+    missions: ["Reach Player Level 20", "Reach Rank 20", "Reach Range Level 10", "Complete 4 Side Quests", "Reach Level 50 Titan Relic", "Complete 10 Titan Defense"],
+  },
+  {
+    stats: ["+160% Power", "+70% Damage", "+90% Yen", "+0.75 Luck", "+35% XP", "+0.15 Drop", "+4 Walkspeed", "+1% CritChance", "+10% CritDamage"],
+    missions: ["Reach Player Level 55", "Reach Rank 22", "Reach Range Level 11", "Roll Hunter Gacha 5,000 Times", "Summon Solo City Pets 35,000 Times"],
+  },
+  {
+    stats: ["+180% Power", "+80% Damage", "+100% Yen", "+1 Luck", "+35% XP", "+0.15 Drop", "+4.25 Walkspeed", "+2% CritChance", "+10% CritDamage"],
+    missions: ["Reach Player Level 60", "Reach Rank 24", "Reach Range Level 12", "Defeat 20,000 Enemies", "Defeat W5 World Boss 3,000 Times"],
+  },
+  {
+    stats: ["+200% Power", "+90% Damage", "+110% Yen", "+1 Luck", "+45% XP", "+0.2 Drop", "+4.5 Walkspeed", "+2% CritChance", "+15% CritDamage"],
+    missions: ["Reach Player Level 65", "Reach Rank 26", "Reach Range Level 13", "Complete 5 Map Index", "Obtain 6 of Any Accessory"],
+  },
+  {
+    stats: ["+220% Power", "+100% Damage", "+120% Yen", "+1.25 Luck", "+45% XP", "+0.2 Drop", "+4.75 Walkspeed", "+2% CritChance", "+20% CritDamage"],
+    missions: ["Reach Player Level 70", "Reach Rank 28", "Reach Range Level 14", "Roll 10,000 Demon Moon Gacha", "Summon 75,000 Pets in W6", "Reach Slayer Relic Level 25"],
+  },
+  {
+    stats: ["+240% Power", "+110% Damage", "+130% Yen", "+1.25 Luck", "+60% XP", "+0.25 Drop", "+5 Walkspeed", "+2% CritChance", "+20% CritDamage"],
+    missions: ["Reach Player Level 75", "Reach Rank 30", "Reach Range Level 15", "Defeat 35,000 Enemies", "Defeat W6 World Boss 4,000 Times", "Join Infinity Castle 50 Times"],
+  },
+  {
+    stats: ["+260% Power", "+120% Damage", "+140% Yen", "+1.5 Luck", "+60% XP", "+0.25 Drop", "+5.25 Walkspeed", "+3% CritChance", "+25% CritDamage"],
+    missions: ["Reach Player Level 80", "Reach Rank 32", "Reach Range Level 16", "Complete 6 Index Maps", "Complete 6 Side Quests", "Reach Slayer Relic Max Level", "Reach Slayer Relic Ascension 3", "Clear 2,000 Infinity Castle Waves"],
+  },
+  {
+    stats: ["+280% Power", "+130% Damage", "+150% Yen", "+1.5 Luck", "+75% XP", "+0.3 Drop", "+5.5 Walkspeed", "+3% CritChance", "+30% CritDamage"],
+    missions: ["Reach Player Level 90", "Reach Rank 34", "Reach Range Level 18", "Roll 25,000 World 7 Gacha", "Summon 150,000 Pets in World 7", "Join Clover Raid 100 Times"],
+  },
+  {
+    stats: ["+300% Power", "+140% Damage", "+160% Yen", "+1.75 Luck", "+75% XP", "+0.3 Drop", "+5.75 Walkspeed", "+3% CritChance", "+30% CritDamage"],
+    missions: ["Reach Player Level 100", "Reach Rank 36", "Reach Range Level 20", "Defeat 50,000 Enemies", "Defeat World 7 World Boss 5,000 Times", "Complete 7 Map Index", "Obtain 7 of Any Accessory", "Complete Clover Raid 5 Times"],
+  },
+  {
+    stats: ["+325% Power", "+150% Damage", "+170% Yen", "+1.75 Luck", "+90% XP", "+0.35 Drop", "+6 Walkspeed", "+3% CritChance", "+35% CritDamage"],
+    missions: ["Reach Player Level 110", "Reach Rank 38", "Reach Range Level 21", "Roll 50,000 W8 (SAO) Gacha", "Summon 300,000 Pets in W8 (SAO)", "Join Beach Defense 100 Times"],
+  },
+  {
+    stats: ["+350% Power", "+160% Damage", "+180% Yen", "+2 Luck", "+90% XP", "+0.35 Drop", "+6.25 Walkspeed", "+4% CritChance", "+35% CritDamage"],
+    missions: ["Reach Player Level 120", "Reach Rank 40", "Reach Range Level 22", "Defeat 70,000 Enemies", "Defeat Quinella 6,000 Times", "Complete 8 Map Index", "Clear 2,500 Beach Defense Waves"],
+  },
+  {
+    stats: ["+375% Power", "+175% Damage", "+190% Yen", "+2 Luck", "+110% XP", "+0.4 Drop", "+6.5 Walkspeed", "+4% CritChance", "+40% CritDamage"],
+    missions: ["Reach Player Level 130", "Reach Rank 43", "Reach Range Level 23", "Roll 100,000 W9 (Fire City) Gacha", "Summon 500,000 Pets in W9 (Fire City)", "Join Fire City Dungeons 15 Times"],
+  },
+  {
+    stats: ["+400% Power", "+190% Damage", "+200% Yen", "+2.25 Luck", "+110% XP", "+0.4 Drop", "+6.75 Walkspeed", "+4% CritChance", "+40% CritDamage"],
+    missions: ["Reach Player Level 135", "Reach Rank 45", "Reach Range Level 24", "Defeat 90,000 Enemies", "Defeat Sho 7,500 Times", "Clear 500 Fire City Dungeon Waves"],
+  },
+  {
+    stats: ["+430% Power", "+205% Damage", "+215% Yen", "+2.25 Luck", "+130% XP", "+0.45 Drop", "+7 Walkspeed", "+4% CritChance", "+45% CritDamage"],
+    missions: ["Reach Player Level 140", "Reach Rank 47", "Reach Range Level 25", "Complete 9 Side Quests", "Complete 9 Map Index", "Obtain 12 of Any Accessory", "Complete Fire Dungeon 5 Times"],
+  },
+  {
+    stats: ["+465% Power", "+225% Damage", "+230% Yen", "+2.5 Luck", "+130% XP", "+0.45 Drop", "+7.25 Walkspeed", "+5% CritChance", "+45% CritDamage"],
+    missions: ["Reach Player Level 145", "Reach Rank 49", "Reach Range Level 26", "Roll 150,000 Soul Artifact Gacha (W10)", "Defeat 120,000 Enemies", "Summon 1,000,000 Pets in Hueco World", "Complete 10 Side Quests"],
+  },
+  {
+    stats: ["+500% Power", "+250% Damage", "+250% Yen", "+2.5 Luck", "+150% XP", "+0.5 Drop", "+7.5 Walkspeed", "+5% CritChance", "+50% CritDamage"],
+    missions: ["Reach Player Level 150", "Reach Rank 52", "Reach Range Level 28", "Defeat Ainz (World 10 WB) 10,000 Times", "Complete 10 Side Quests", "Obtain 15 Accessories", "Join 150 Soul Raids", "Complete 10,000 Soul Raid Waves"],
+  },
+  {
+    stats: ["+540% Power", "+275% Damage", "+270% Yen", "+2.75 Luck", "+165% XP", "+0.55 Drop", "+7.75 Walkspeed", "+5% CritChance", "+50% CritDamage"],
+    missions: ["Reach Player Level 155", "Reach Rank 54", "Roll 175,000 Innate Technique Gacha", "Defeat 115,000 Enemies", "Complete 11 Index Maps"],
+  },
+  {
+    stats: ["+585% Power", "+300% Damage", "+295% Yen", "+2.75 Luck", "+180% XP", "+0.55 Drop", "+8 Walkspeed", "+6% CritChance", "+55% CritDamage"],
+    missions: ["Reach Player Level 150 (was 160 before)", "Reach Rank 52 (was 57 before)", "Complete 11 Side Quests", "Obtain 20 of Any Accessory", "Roll 7,000 Innate Technique Gacha (W11) (was 200,000 before)", "Summon 28,000 Pets in W11 (was 1,250,000 before)"],
+  },
+  {
+    stats: ["+630% Power", "+325% Damage", "+320% Yen", "+3 Luck", "+200% XP", "+0.6 Drop", "+8.25 Walkspeed", "+6% CritChance", "+55% CritDamage"],
+    missions: ["Reach Player Level 155", "Reach Rank 54", "Join Cursed Rush V1 3 Times", "Complete 600 Cursed Rush V1 Waves", "Defeat Sukuna (World 11 World Boss) 2,000 Times", "Defeat 13,000 Enemies"],
+  },
+  {
+    stats: ["+690% Power", "+350% Damage", "+345% Yen", "+3.25 Luck", "+220% XP", "+0.6 Drop", "+8.5 Walkspeed", "+6% CritChance", "+60% CritDamage", "+1 Pet Slot"],
+    missions: ["Reach Player Level 160", "Reach Rank 57", "Obtain 8 Accessories", "Complete 12 Side Quests", "Roll 9,000 Gacha in W12", "Open 36,000 Stars in W12"],
+  },
+  {
+    stats: ["+750% Power", "+375% Damage", "+370% Yen", "+3.5 Luck", "+240% XP", "+0.65 Drop", "+8.75 Walkspeed", "+7% CritChance", "+60% CritDamage", "+2 Pet Slots"],
+    missions: ["Reach Player Level 165", "Reach Rank 60", "Join Sins Raid 3 Times", "Clear 300 Waves in Sins Raid", "Defeat Zeldris (Sins Raid Boss) 5,000 Times", "Defeat Arthur (W12 WB) 3,200 Times"],
+  },
+  {
+    stats: ["+815% Power", "+400% Damage", "+395% Yen", "+3.75 Luck", "+260% XP", "+0.65 Drop", "+9 Walkspeed", "+7% CritChance", "+65% CritDamage", "+0.25% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 170", "Reach Rank 64", "Complete 13 Side Quests", "Obtain 9 of Any Accessory", "Roll 11,000 W13 Gacha", "Summon 45,000 Pets in World 13"],
+  },
+  {
+    stats: ["+885% Power", "+425% Damage", "+420% Yen", "+4 Luck", "+280% XP", "+0.7 Drop", "+9.25 Walkspeed", "+8% CritChance", "+65% CritDamage", "+0.50% Shiny Chance"],
+    missions: ["Reach Player Level 185", "Reach Rank 76", "Join Hero Defense 250 Times", "Clear 10,000 Waves at Hero Defense", "Defeat Monster Garou 25,000 Times", "Defeat Cosmic Garou 10,000 Times"],
+  },
+  {
+    stats: ["+960% Power", "+450% Damage", "+445% Yen", "+4.25 Luck", "+300% XP", "+0.7 Drop", "+9.25 Walkspeed", "+8% CritChance", "+70% CritDamage", "+0.50% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 190", "Reach Rank 72", "Complete 14 Side Quests", "Obtain 10 of Any Accessory", "Roll 14,000 Spirits (W14) Gacha", "Summon 55,000 Pets in Tempest Federation"],
+  },
+  {
+    stats: ["+1040% Power", "+480% Damage", "+475% Yen", "+4.25 Luck", "+320% XP", "+0.75 Drop", "+9.5 Walkspeed", "+8.5% CritChance", "+70% CritDamage", "+0.75% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 200", "Reach Rank 76", "Defeat 18,000 Enemies", "Defeat Velgrynd 7,500 Times", "Defeat Rudra 4,000 Times", "Complete 14 Index Maps"],
+  },
+  {
+    stats: ["+1130% Power", "+510% Damage", "+505% Yen", "+4.25 Luck", "+340% XP", "+0.75 Drop", "+9.5 Walkspeed", "+8.5% CritChance", "+70% CritDamage", "+0.75% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 210", "Reach Rank 80", "Complete 15 Side Quests", "Obtain 12 of Any Accessory", "Roll 17,000 W15 Gacha", "Summon 65,000 Pets in W15"],
+  },
+  {
+    stats: [],
+    missions: ["Reach Player Level 220", "Reach Rank 84", "Defeat 22,000 Enemies in World 15", "Defeat Hisoka 9,000 Times", "Defeat Chrollo 5,000 Times", "Complete 15 Map Index"],
+  },
+  {
+    stats: ["+1310% Power", "+570% Damage", "+565% Yen", "+4.75 Luck", "+380% XP", "+0.8 Drop", "+9.75 Walkspeed", "+9% CritChance", "+80% CritDamage", "+1% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 225", "Reach Rank 88", "Complete 16 Side Quests", "Obtain 14 of Any Accessory", "Roll 20,000 W16 Gacha", "Summon 75,000 Pets in W16"],
+  },
+  {
+    stats: ["+1410% Power", "+600% Damage", "+595% Yen", "+4.75 Luck", "+400% XP", "+0.85 Drop", "+10 Walkspeed", "+9.5% CritChance", "+80% CritDamage", "+1.25% Shiny Chance", "+2 Pet Slots"],
+    missions: ["Reach Player Level 230", "Reach Rank 92", "Join Owl Suppression 5 Times", "Clear 500 Waves in Owl Suppression", "Defeat Eto 7,000 Times", "Defeat Arima 4,000 Times", "Complete 16 Index Maps"],
+  },
+];
+
 function worldIndexStub(n, name, icon) {
   return {
     id: `world-${n}`,
@@ -854,7 +1013,16 @@ const CHECKLIST_DATA = [
     name: "Promotions",
     icon: "🎖️",
     section: "general",
-    categories: [{ id: "promotions-soon", name: "Promotions", type: "soon" }],
+    hideNavPercent: true,
+    categories: [
+      {
+        id: "promotions-ranks",
+        name: "Promotions",
+        type: "promotion",
+        excludeFromProgress: true,
+        ranks: PROMOTION_RANKS,
+      },
+    ],
   },
   {
     id: "global-relics",

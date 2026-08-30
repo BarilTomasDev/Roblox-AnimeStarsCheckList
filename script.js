@@ -1,10 +1,12 @@
 const STORAGE_KEY = "animeStarsChecklist";
 const PAGE_KEY = "animeStarsChecklistPage";
 const SIDEBAR_SECTIONS_KEY = "animeStarsChecklistSidebarSections";
+const PROMO_RANK_KEY = "animeStarsChecklistPromoRank";
 
 let state = loadState();
 let currentPageId = loadCurrentPage();
 let sidebarCollapsedSections = loadSidebarCollapsedSections();
+let viewedPromoRank = loadViewedPromoRank();
 
 function loadState() {
   try {
@@ -45,6 +47,20 @@ function loadSidebarCollapsedSections() {
 
 function saveSidebarCollapsedSections() {
   localStorage.setItem(SIDEBAR_SECTIONS_KEY, JSON.stringify(sidebarCollapsedSections));
+}
+
+function loadViewedPromoRank() {
+  const v = Number(localStorage.getItem(PROMO_RANK_KEY));
+  return Number.isFinite(v) && v >= 0 ? v : 0;
+}
+
+function saveViewedPromoRank(rank) {
+  viewedPromoRank = rank;
+  localStorage.setItem(PROMO_RANK_KEY, String(rank));
+}
+
+function promoMissionId(rankIdx, missionIdx) {
+  return `promo-r${rankIdx}-m${missionIdx}`;
 }
 
 function isChecked(id) {
@@ -122,6 +138,17 @@ function computeCategoryProgress(category, world) {
   }
   if (category.type === "soon") {
     return { earned: 0, total: 0 };
+  }
+  if (category.type === "promotion") {
+    let earned = 0;
+    let total = 0;
+    category.ranks.forEach((rank, rankIdx) => {
+      rank.missions.forEach((_, missionIdx) => {
+        total += 1;
+        if (isChecked(promoMissionId(rankIdx, missionIdx))) earned += 1;
+      });
+    });
+    return { earned, total };
   }
 
   const tiers = category.tiers || RARITY_TIERS;
@@ -538,6 +565,112 @@ function renderTierItem(item, tiers) {
   );
 }
 
+function isPromoRankComplete(category, rankIdx) {
+  return category.ranks[rankIdx].missions.every((_, i) => isChecked(promoMissionId(rankIdx, i)));
+}
+
+function computeUnlockedPromoRank(category) {
+  const maxRank = category.ranks.length - 1;
+  let unlocked = 0;
+  while (unlocked < maxRank && isPromoRankComplete(category, unlocked)) unlocked++;
+  return unlocked;
+}
+
+function renderPromotionCategory(category) {
+  const maxRank = category.ranks.length - 1;
+  const unlocked = computeUnlockedPromoRank(category);
+  let viewed = Math.min(Math.max(viewedPromoRank, 0), Math.min(unlocked, maxRank));
+  if (viewed !== viewedPromoRank) saveViewedPromoRank(viewed);
+
+  const rank = category.ranks[viewed];
+  const goTo = (idx) => {
+    saveViewedPromoRank(idx);
+    renderAll();
+  };
+
+  const prevAttrs = { class: "promo-nav-btn", text: "←", onclick: () => goTo(viewed - 1) };
+  if (viewed === 0) prevAttrs.disabled = "disabled";
+  const nextAttrs = { class: "promo-nav-btn", text: "→", onclick: () => goTo(viewed + 1) };
+  if (viewed >= unlocked) nextAttrs.disabled = "disabled";
+
+  const indexStrip = el(
+    "div",
+    { class: "promo-index" },
+    category.ranks.map((_, idx) => {
+      const locked = idx > unlocked;
+      const itemAttrs = {
+        class: `promo-index-item${idx === viewed ? " active" : ""}${locked ? " locked" : ""}${!locked && isPromoRankComplete(category, idx) ? " done" : ""}`,
+        text: String(idx),
+        onclick: () => goTo(idx),
+      };
+      if (locked) itemAttrs.disabled = "disabled";
+      return el("button", itemAttrs);
+    })
+  );
+
+  const statsPanel = rank.stats.length
+    ? el(
+        "div",
+        { class: "promo-stats-grid" },
+        rank.stats.map((s) => el("div", { class: "promo-stat-chip", text: s }))
+      )
+    : el("div", { class: "promo-stats-empty", text: "No bonus stats at this rank." });
+
+  const missionsList = el(
+    "div",
+    { class: "promo-missions" },
+    rank.missions.map((text, i) => {
+      const id = promoMissionId(viewed, i);
+      const done = isChecked(id);
+      const checkbox = el("input", {
+        type: "checkbox",
+        onchange: () => {
+          toggleCheck(id);
+          renderAll();
+        },
+      });
+      checkbox.checked = done;
+      return el("label", { class: `promo-mission${done ? " done" : ""}` }, [
+        checkbox,
+        el("span", { class: "promo-mission-text", text }),
+      ]);
+    })
+  );
+
+  const allDone = isPromoRankComplete(category, viewed);
+  const completeAllAttrs = {
+    class: "btn promo-complete-all",
+    text: allDone ? "All missions complete" : "Complete All Missions",
+    onclick: () => {
+      rank.missions.forEach((_, i) => {
+        const id = promoMissionId(viewed, i);
+        if (!isChecked(id)) toggleCheck(id);
+      });
+      renderAll();
+    },
+  };
+  if (allDone) completeAllAttrs.disabled = "disabled";
+
+  const header = el("div", { class: "promo-header" }, [
+    el("button", prevAttrs),
+    el("div", { class: "promo-rank-title" }, [
+      el("span", { class: "promo-rank-label", text: "RANK" }),
+      el("span", { class: "promo-rank-number", text: String(viewed) }),
+    ]),
+    el("button", nextAttrs),
+  ]);
+
+  return el("div", { class: "promo-page" }, [
+    indexStrip,
+    header,
+    el("div", { class: "promo-section-label", text: "Stats" }),
+    statsPanel,
+    el("div", { class: "promo-section-label", text: "Missions" }),
+    missionsList,
+    el("button", completeAllAttrs),
+  ]);
+}
+
 function renderIndexCategory(category, world) {
   const p = computeIndexProgress(category, world);
   const pct = category.count === 0 ? 0 : (p.reached / category.count) * 100;
@@ -647,6 +780,9 @@ function renderCategory(category, world) {
     ]);
     const body = el("div", { class: "soon-note", text: "Not implemented yet." });
     return el("div", { class: "category category-soon" }, [title, body]);
+  }
+  if (category.type === "promotion") {
+    return renderPromotionCategory(category);
   }
 
   const p = computeCategoryProgress(category, world);
