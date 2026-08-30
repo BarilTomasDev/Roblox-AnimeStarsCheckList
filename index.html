@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="bariltomas">
 <title>Anime Astral - Checklist</title>
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 
@@ -30,7 +30,10 @@
 
 <div class="app-layout">
   <nav class="sidebar">
-    <input type="text" id="searchInput" placeholder="Search..." class="search-input sidebar-search">
+    <div class="sidebar-search-wrap">
+      <input type="text" id="searchInput" placeholder="Search everything..." class="search-input sidebar-search" autocomplete="off">
+      <div id="searchResults" class="search-results"></div>
+    </div>
     <div id="pageNav" class="page-nav"></div>
     <div class="sidebar-footer">
       <div id="authArea" class="auth-area"></div>
@@ -52,7 +55,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script src="data.js?v=44"></script>
-<script src="script.js?v=30"></script>
+<script src="script.js?v=31"></script>
 <script src="firebase-config.js?v=1"></script>
 <script src="firebase-sync.js?v=5"></script>
 </body>

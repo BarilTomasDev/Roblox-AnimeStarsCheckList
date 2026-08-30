@@ -217,7 +217,7 @@ function renderCheckItem(item, category) {
     "label",
     {
       class: `check-item${done ? " done" : ""}${item.subtitle ? " check-item-tall" : ""}${item.color ? " stat-colored" : ""}`,
-      "data-search": item.name.toLowerCase(),
+      "data-item-id": item.id,
     },
     children
   );
@@ -254,7 +254,7 @@ function renderPriorityCard(item) {
 
   return el(
     "label",
-    { class: `priority-card${done ? " done" : ""}`, "data-search": item.name.toLowerCase() },
+    { class: `priority-card${done ? " done" : ""}`, "data-item-id": item.id },
     children
   );
 }
@@ -333,7 +333,7 @@ function renderLevelItem(item) {
     "div",
     {
       class: `level-item${done ? " done" : ""}${item.color ? " stat-colored" : ""}`,
-      "data-search": item.name.toLowerCase(),
+      "data-item-id": item.id,
       "data-level-id": item.id,
     },
     [top, bar]
@@ -447,7 +447,7 @@ function renderScaleItem(item) {
     "div",
     {
       class: `level-item${done ? " done" : ""}${item.color ? " stat-colored" : ""}`,
-      "data-search": item.name.toLowerCase(),
+      "data-item-id": item.id,
       "data-level-id": item.id,
     },
     [top, bar, caption]
@@ -533,7 +533,7 @@ function renderTierItem(item, tiers) {
 
   return el(
     "div",
-    { class: "tier-item", "data-tier-id": item.id, "data-search": item.name.toLowerCase() },
+    { class: "tier-item", "data-tier-id": item.id, "data-item-id": item.id },
     [top, bar, labels]
   );
 }
@@ -823,19 +823,124 @@ function renderAll() {
   document.getElementById("globalCountLabel").textContent = `${Math.floor(g.earned)} / ${g.total}`;
   document.getElementById("globalProgressFill").style.width = gPct + "%";
 
-  applySearchFilter();
+  applyPendingHighlight();
 }
 
-function applySearchFilter() {
-  const query = document.getElementById("searchInput").value.trim().toLowerCase();
-  const items = document.querySelectorAll("[data-search]");
-  items.forEach((node) => {
-    const matches = !query || node.getAttribute("data-search").includes(query);
-    node.classList.toggle("hidden-by-filter", !matches);
-  });
+function buildSearchIndex() {
+  const index = [];
+  for (const page of CHECKLIST_DATA) {
+    for (const category of page.categories) {
+      if (!category.items) continue;
+      for (const item of category.items) {
+        if (!item.id || !item.name) continue;
+        index.push({
+          pageId: page.id,
+          pageIcon: page.icon || "🌍",
+          pageName: page.name,
+          itemId: item.id,
+          itemName: item.name,
+        });
+      }
+    }
+  }
+  return index;
 }
 
-document.getElementById("searchInput").addEventListener("input", applySearchFilter);
+const SEARCH_INDEX = buildSearchIndex();
+let pendingHighlightId = null;
+
+function applyPendingHighlight() {
+  if (!pendingHighlightId) return;
+  const id = pendingHighlightId;
+  pendingHighlightId = null;
+  const node = document.querySelector(`[data-item-id="${CSS.escape(id)}"]`);
+  if (!node) return;
+  node.scrollIntoView({ behavior: "smooth", block: "center" });
+  node.classList.add("search-highlight");
+  setTimeout(() => node.classList.remove("search-highlight"), 1800);
+}
+
+function goToSearchResult(pageId, itemId) {
+  currentPageId = pageId;
+  saveCurrentPage();
+  pendingHighlightId = itemId;
+  document.getElementById("searchInput").value = "";
+  document.getElementById("searchInput").blur();
+  closeSearchResults();
+  renderAll();
+}
+
+function closeSearchResults() {
+  const container = document.getElementById("searchResults");
+  container.classList.remove("open");
+  container.innerHTML = "";
+}
+
+function renderSearchResults(query) {
+  const container = document.getElementById("searchResults");
+  if (!query) {
+    closeSearchResults();
+    return;
+  }
+
+  const q = query.toLowerCase();
+  const matches = SEARCH_INDEX.filter((entry) => entry.itemName.toLowerCase().includes(q));
+
+  const inputRect = document.getElementById("searchInput").getBoundingClientRect();
+  container.style.top = inputRect.bottom + 6 + "px";
+  container.style.left = inputRect.left + "px";
+  container.style.width = inputRect.width + "px";
+
+  container.innerHTML = "";
+  container.classList.add("open");
+
+  if (matches.length === 0) {
+    container.appendChild(el("div", { class: "search-empty", text: "No matches." }));
+    return;
+  }
+
+  const byPage = new Map();
+  for (const m of matches) {
+    if (!byPage.has(m.pageId)) byPage.set(m.pageId, { icon: m.pageIcon, name: m.pageName, items: [] });
+    byPage.get(m.pageId).items.push(m);
+  }
+
+  for (const group of byPage.values()) {
+    const rows = group.items
+      .slice(0, 6)
+      .map((m) =>
+        el("button", {
+          class: "search-result-row",
+          text: m.itemName,
+          onclick: () => goToSearchResult(m.pageId, m.itemId),
+        })
+      );
+    const groupChildren = [
+      el("div", { class: "search-result-group-title", text: `${group.icon} ${group.name}` }),
+      ...rows,
+    ];
+    if (group.items.length > 6) {
+      groupChildren.push(
+        el("div", { class: "search-result-more", text: `+${group.items.length - 6} more` })
+      );
+    }
+    container.appendChild(el("div", { class: "search-result-group" }, groupChildren));
+  }
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  renderSearchResults(e.target.value.trim());
+});
+document.getElementById("searchInput").addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    e.target.value = "";
+    closeSearchResults();
+    e.target.blur();
+  }
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".sidebar-search-wrap")) closeSearchResults();
+});
 
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (confirm("Reset all progress? This action cannot be undone.")) {
