@@ -462,6 +462,16 @@ body {
 }
 .sidebar-footer .btn { width: 100%; }
 
+.credits-row { display: flex; justify-content: center; }
+
+.credits-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
 .footer-divider {
   display: flex;
   align-items: center;

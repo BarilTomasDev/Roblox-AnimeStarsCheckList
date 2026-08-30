@@ -1003,4 +1003,11 @@ document.getElementById("disclaimerBtn").addEventListener("click", () => {
   );
 });
 
+document.getElementById("creditsRow").appendChild(
+  el("div", { class: "credits-text" }, [
+    document.createTextNode("Made by "),
+    discordChip("bariltomas"),
+  ])
+);
+
 renderAll();
