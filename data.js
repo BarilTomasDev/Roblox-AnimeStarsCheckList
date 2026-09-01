@@ -1090,7 +1090,7 @@ const CHECKLIST_DATA = [
         type: "tier",
         items: [
           { id: "w9-gacha-battalion", name: "Battalion" },
-          { id: "w9-gacha-frame-cores", name: "Frame Cores" },
+          { id: "w9-gacha-frame-cores", name: "Flame Cores" },
         ],
       },
       {
@@ -1220,12 +1220,12 @@ const CHECKLIST_DATA = [
         type: "check",
         items: [
           { id: "raid-lobby-1", name: "Lobby - Raid" },
-          { id: "raid-w1-1", name: "World 1 - Raid 1" },
-          { id: "raid-w1-2", name: "World 1 - Raid 2" },
-          { id: "raid-w4-1", name: "World 4 - Raid" },
-          { id: "raid-w6-1", name: "World 6 - Raid" },
+          { id: "raid-w1-1", name: "Ninja Raid" },
+          { id: "raid-w1-2", name: "Tomb Raid" },
+          { id: "raid-w4-1", name: "Titan Wall Defense" },
+          { id: "raid-w6-1", name: "Infinite Castle" },
           { id: "raid-w7-1", name: "Clover Raid" },
-          { id: "raid-w10-1", name: "World 10 - Raid" },
+          { id: "raid-w10-1", name: "Soul Raid" },
         ],
       },
     ],
