@@ -369,8 +369,19 @@ function renderLevelItem(item) {
   return wrapper;
 }
 
+const GREEK_LETTERS = [
+  "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο",
+  "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω",
+];
+
+function greekTierSuffixes(prefix, startExp) {
+  return GREEK_LETTERS.map((letter, i) => [Math.pow(10, startExp + i * 3), `${prefix}${letter}`]).reverse();
+}
+
 const COUNT_SUFFIXES = [
-  [1e30, "No"], [1e27, "Oc"], [1e24, "Sp"], [1e21, "Sx"], [1e18, "Qi"],
+  ...greekTierSuffixes("Y", 108),
+  ...greekTierSuffixes("B", 36),
+  [1e33, "De"], [1e30, "No"], [1e27, "Oc"], [1e24, "Sp"], [1e21, "Sx"], [1e18, "Qi"],
   [1e15, "Qa"], [1e12, "T"], [1e9, "B"], [1e6, "M"], [1e3, "k"],
 ];
 
