@@ -66,6 +66,13 @@ const WANO_MULT_VALUES = extendByStep(TRIAL_MULT_BASE, 0.1, 20);
 const WANO_XP_DROP_VALUES = extendByStep(TRIAL_XP_DROP_BASE, 0.025, 20);
 const WANO_LUCK_VALUES = extendByStep(TRIAL_LUCK_BASE, 0.15, 20);
 
+const W9_DUNGEON_COIN_COSTS = [
+  25, 28, 32, 37, 42, 48, 55, 63, 71, 81, 93, 106, 120, 137, 157, 178, 203,
+  232, 264, 301, 344, 392, 447, 509, 580, 662, 754, 860, 980, 1100, 1300,
+  1500, 1700, 1900, 2200, 2500, 2800, 3200, 3600, 4100, 4700, 5400, 6100,
+  7000, 8000, 9100, 10400, 11800, 13500, 15400, ...new Array(10).fill(null),
+];
+
 function professionLevels(costs, values) {
   return costs.map((cost, i) => ({ cost, value: values[i] }));
 }
@@ -1099,17 +1106,18 @@ const CHECKLIST_DATA = [
         name: "Stat Upgrades",
         type: "scale",
         items: [
-          { id: "w9-stat-power", name: "Power", unit: "x", color: "#a366e8", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w9-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w9-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: noCostLevels(W6_LUCK_VALUES) },
-          { id: "w9-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w9-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: noCostLevels(W6_XP_DROP_VALUES) },
-          { id: "w9-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w9-stat-power", name: "Power", unit: "x", color: "#a366e8", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_MULT_VALUES) },
+          { id: "w9-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_MULT_VALUES) },
+          { id: "w9-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_LUCK_VALUES) },
+          { id: "w9-stat-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_MULT_VALUES) },
+          { id: "w9-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_XP_DROP_VALUES) },
+          { id: "w9-stat-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_XP_DROP_VALUES) },
           {
             id: "w9-titan-equip",
             name: "+1 Titan Equip",
             type: "check",
-            subtitle: "Costs 55,000 Tokens (exact currency name unknown)",
+            color: "#f2994a",
+            subtitle: "Costs 55,000 Dungeon Coins",
           },
         ],
       },
