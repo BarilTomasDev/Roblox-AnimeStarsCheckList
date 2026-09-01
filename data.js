@@ -1049,7 +1049,72 @@ const CHECKLIST_DATA = [
       },
     ],
   },
-  worldIndexStub(9, "Fire City", "🔥"),
+  {
+    id: "world-9",
+    name: "W9 - Fire City",
+    icon: "🔥",
+    section: "worlds",
+    categories: [
+      {
+        id: "w9-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w9-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w9-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w9-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w9-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w9-pets", "w9-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w9-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          { id: "w9-gacha-battalion", name: "Battalion" },
+          { id: "w9-gacha-frame-cores", name: "Frame Cores" },
+        ],
+      },
+      {
+        id: "w9-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w9-up-fire-progression", name: "Fire Progression", max: 100 },
+        ],
+      },
+      {
+        id: "w9-stats",
+        name: "Stat Upgrades",
+        type: "scale",
+        items: [
+          { id: "w9-stat-power", name: "Power", unit: "x", color: "#a366e8", levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w9-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w9-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: noCostLevels(W6_LUCK_VALUES) },
+          { id: "w9-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w9-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w9-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: noCostLevels(W6_XP_DROP_VALUES) },
+          {
+            id: "w9-titan-equip",
+            name: "+1 Titan Equip",
+            type: "check",
+            subtitle: "Costs 55,000 Tokens (exact currency name unknown)",
+          },
+        ],
+      },
+    ],
+  },
   worldIndexStub(10, "Hueco World", "🌑"),
   worldIndexStub(11, "Cursed School", "👹"),
   {
