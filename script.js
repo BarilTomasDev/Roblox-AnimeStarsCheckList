@@ -215,6 +215,12 @@ function computeGlobalProgress() {
   return { earned, total };
 }
 
+function progressPercent(earned, total) {
+  if (total === 0) return 0;
+  if (earned >= total) return 100;
+  return Math.min(99, Math.round((earned / total) * 100));
+}
+
 function renderCheckItem(item, category) {
   const done = isChecked(item.id);
   const label = el("span", { class: "check-item-label", text: item.name });
@@ -866,7 +872,7 @@ function renderPageNavItem(page) {
   ];
   if (!page.hideNavPercent) {
     const p = computeWorldProgress(page);
-    const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+    const pct = progressPercent(p.earned, p.total);
     children.push(el("span", { class: "page-nav-percent mono", text: pct + "%" }));
   }
   return el(
@@ -924,7 +930,7 @@ function renderPageNav() {
 
 function renderPageContent(page) {
   const p = computeWorldProgress(page, page.hideNavPercent);
-  const pct = p.total === 0 ? 0 : Math.round((p.earned / p.total) * 100);
+  const pct = progressPercent(p.earned, p.total);
 
   const header = el("div", { class: "page-header" }, [
     el("span", { class: "page-header-icon", text: page.icon || "🌍" }),
@@ -976,7 +982,7 @@ function renderAll() {
   container.appendChild(renderPageContent(page));
 
   const g = computeGlobalProgress();
-  const gPct = g.total === 0 ? 0 : Math.round((g.earned / g.total) * 100);
+  const gPct = progressPercent(g.earned, g.total);
   document.getElementById("globalPercentLabel").textContent = gPct + "%";
   document.getElementById("globalCountLabel").textContent = `${Math.floor(g.earned)} / ${g.total}`;
   document.getElementById("globalProgressFill").style.width = gPct + "%";
