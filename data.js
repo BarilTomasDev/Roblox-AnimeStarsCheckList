@@ -735,8 +735,34 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w3-gacha-hakis", name: "Hakis" },
-          { id: "w3-gacha-demon-fruits", name: "Demon Fruits" },
+          {
+            id: "w3-gacha-hakis",
+            name: "Hakis",
+            rarityValues: [
+              "1.25x Power (Sanje)",
+              "1.50x Power (Zorro)",
+              "2x Power (Mehowk)",
+              "2.50x Power (Royleigh)",
+              "3.50x Power (Luffe)",
+              "5x Power (Beard White)",
+              "10x Power (Gol De Rogar)",
+              "15x Power (Shunks)",
+            ],
+          },
+          {
+            id: "w3-gacha-demon-fruits",
+            name: "Demon Fruits",
+            rarityValues: [
+              "1.25x Power, 1.05x Yen (Rubber Fruit)",
+              "1.50x Power, 1.10x Yen (Flame Fruit)",
+              "2x Power, 1.15x Yen (Magma Fruit)",
+              "2.50x Power, 1.20x Yen (Quake Fruit)",
+              "3.50x Power, 1.25x Yen (Light Fruit)",
+              "5x Power, 1.50x Yen (Operation Fruit)",
+              "10x Power, 2x Yen (Darkness Fruit)",
+              "15x Power, 3x Yen (Sun God Fruit)",
+            ],
+          },
         ],
       },
       {
@@ -744,7 +770,7 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w3-up-fruit-progression", name: "Fruit Progression", max: 100 },
+          { id: "w3-up-fruit-progression", name: "Fruit Progression", max: 100, maxCaption: "+10x Damage" },
         ],
       },
       {
@@ -794,6 +820,18 @@ const CHECKLIST_DATA = [
           },
         ],
       },
+      {
+        id: "w3-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w3-side-quest-1",
+            name: "Kill 2500 Worldboss (White Beard)",
+            subtitle: "+50% Power, +18 Potions II",
+          },
+        ],
+      },
     ],
   },
   {
@@ -829,8 +867,34 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w4-gacha-family", name: "Family" },
-          { id: "w4-gacha-humanity-arsenal", name: "Humanity Arsenal" },
+          {
+            id: "w4-gacha-family",
+            name: "Family",
+            rarityValues: [
+              "1.25x Power (Wagenor)",
+              "1.50x Power (Sprenger)",
+              "2x Power (Leonart)",
+              "2.50x Power (Zohe)",
+              "3.50x Power (Broun)",
+              "5x Power (Rezz)",
+              "10x Power (Yeagor)",
+              "15x Power (Ackermon)",
+            ],
+          },
+          {
+            id: "w4-gacha-humanity-arsenal",
+            name: "Humanity Arsenal",
+            rarityValues: [
+              "1.25x Power (Training Blades)",
+              "1.50x Power (Garrison Rifle)",
+              "2x Power (Ultrahard Steel Blades)",
+              "2.50x Power (ODM Gear)",
+              "3.50x Power (Anti-Personnel ODM Gear)",
+              "5x Power (Thunder Spears)",
+              "10x Power (Anti-Titan Rifle)",
+              "15x Power (Marley Anti-Titan Artillery)",
+            ],
+          },
         ],
       },
       {
@@ -840,8 +904,35 @@ const CHECKLIST_DATA = [
         glued: true,
         items: [
           { id: "w4-dual-titan-gamepass", name: "Dual Titan Gamepass", type: "check" },
-          { id: "w4-titan-1", name: "Titan" },
-          { id: "w4-titan-2", name: "Titan (Dual)", requires: "w4-dual-titan-gamepass" },
+          {
+            id: "w4-titan-1",
+            name: "Titan",
+            rarityValues: [
+              "1.2x Power (Jaw Titan)",
+              "1.50x Power (Female Titan)",
+              "1.8x Power (Armored Titan)",
+              "2x Power (Zeke)",
+              "2.50x Power (Attack Titan)",
+              "4x Power (Dread Hammer)",
+              "6.5x Power (Colossal)",
+              "13x Power (Final Titan)",
+            ],
+          },
+          {
+            id: "w4-titan-2",
+            name: "Titan (Dual)",
+            requires: "w4-dual-titan-gamepass",
+            rarityValues: [
+              "1.2x Power (Jaw Titan)",
+              "1.50x Power (Female Titan)",
+              "1.8x Power (Armored Titan)",
+              "2x Power (Zeke)",
+              "2.50x Power (Attack Titan)",
+              "4x Power (Dread Hammer)",
+              "6.5x Power (Colossal)",
+              "13x Power (Final Titan)",
+            ],
+          },
         ],
       },
       {
@@ -849,7 +940,19 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w4-up-dmt-progression", name: "DMT Progression", max: 100 },
+          { id: "w4-up-dmt-progression", name: "DMT Progression", max: 100, maxCaption: "+10x Damage" },
+        ],
+      },
+      {
+        id: "w4-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w4-side-quest-1",
+            name: "Kill 2500 Worldboss (Armored Titan)",
+            subtitle: "+50% Power, +18 Potions II",
+          },
         ],
       },
     ],
@@ -887,8 +990,34 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w5-gacha-hunter-class", name: "Hunter Class" },
-          { id: "w5-gacha-powerful-monarchs", name: "Powerful Monarchs" },
+          {
+            id: "w5-gacha-hunter-class",
+            name: "Hunter Class",
+            rarityValues: [
+              "1.25x Power (Fighter)",
+              "1.50x Power (Assassin)",
+              "2x Power (Ranger)",
+              "2.50x Power (Mage)",
+              "3.50x Power (Tank)",
+              "5x Power (Necromancer)",
+              "10x Power (Shadow Monarch)",
+              "15x Power (Dragon Monarch)",
+            ],
+          },
+          {
+            id: "w5-gacha-powerful-monarchs",
+            name: "Powerful Monarchs",
+            rarityValues: [
+              "1.25x Power, 1.05x Damage (Legia)",
+              "1.50x Power, 1.10x Damage (Tarnak)",
+              "2x Power, 1.15x Damage (Yogumunt)",
+              "2.50x Power, 1.20x Damage (Querehsha)",
+              "3.50x Power, 1.25x Damage (Sillad)",
+              "5x Power, 1.50x Damage (Rakan)",
+              "10x Power, 2x Damage (Baran)",
+              "15x Power, 3x Damage (Antares)",
+            ],
+          },
         ],
       },
       {
@@ -896,7 +1025,7 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w5-up-mana-progression", name: "Mana Progression", max: 100 },
+          { id: "w5-up-mana-progression", name: "Mana Progression", max: 100, maxCaption: "+10x Power" },
         ],
       },
       {
@@ -926,6 +1055,18 @@ const CHECKLIST_DATA = [
             costUnit: "Kills",
             requires: "w5-elixir-crafted",
             levels: professionLevels(ELIXIR_COSTS, ELIXIR_MULT),
+          },
+        ],
+      },
+      {
+        id: "w5-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w5-side-quest-1",
+            name: "Kill 2500 Worldboss (Beleon)",
+            subtitle: "+75% Power, +25% Damage, +18 Potions II",
           },
         ],
       },
