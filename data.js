@@ -10,6 +10,7 @@ const RARITY_TIERS = [
 ];
 
 const SWORD_RARITY_TIERS = RARITY_TIERS.slice(0, 7);
+const ASTRAL_RARITY_TIERS = [...RARITY_TIERS, { rarity: "astral", name: "Astral" }];
 
 function extendByStep(base, step, extraCount) {
   const last = base[base.length - 1];
@@ -200,6 +201,14 @@ const KI_EVOLUTION_VALUES = [
   1.25, 1.56, 1.95, 2.44, 3.05, 3.81, 4.77, 5.96, 7.45, 9.31, 11.64, 14.55,
   18.19, 22.74, 28.42, 35.53, 44.41, 55.51, 69.39, 86.74,
 ];
+const MONSTER_CELL_VALUES = [
+  1.16, 1.34, 1.56, 1.82, 2.11, 2.45, 2.85, 3.31, 3.85, 4.47, 5.19, 6.03,
+  7.0, 8.14, 9.45, 10.98, 12.76, 14.82, 17.21, 20,
+];
+const MONSTER_CELL_COSTS = [
+  178, 317, 564, 1000, 1700, 3100, 5600, 10000, 17900, 31900, 56800, 101100,
+  180000, 320000, 570500, 1000000, 1800000, 3200000, 5700000, null,
+];
 const KI_EVOLUTION_COSTS = [
   100, 170, 289, 491, 835, 1400, 2400, 4100, 7000, 11900, 20200, 34300, 58300,
   99000, 168400, 286200, 486600, 827100, 1406000, 2390000,
@@ -364,40 +373,6 @@ const PROMOTION_RANKS = [
   },
 ];
 
-function worldIndexStub(n, name, icon) {
-  return {
-    id: `world-${n}`,
-    name: `W${n} - ${name}`,
-    icon,
-    section: "worlds",
-    categories: [
-      {
-        id: `w${n}-pets`,
-        name: "Pets (Index)",
-        type: "level",
-        excludeFromProgress: true,
-        items: [{ id: `w${n}-pets-count`, name: "Pets", max: 9 }],
-      },
-      {
-        id: `w${n}-avatars`,
-        name: "Avatars (Index)",
-        type: "level",
-        excludeFromProgress: true,
-        items: [{ id: `w${n}-avatars-count`, name: "Avatars", max: 7 }],
-      },
-      {
-        id: `w${n}-index`,
-        name: "Index Milestones",
-        type: "index",
-        sources: [`w${n}-pets`, `w${n}-avatars`],
-        count: 14,
-        rewards: INDEX_MILESTONE_REWARDS,
-      },
-      { id: `world-${n}-soon`, name: `World ${n}`, type: "soon" },
-    ],
-  };
-}
-
 const CHECKLIST_DATA = [
   {
     id: "world-0",
@@ -410,7 +385,20 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "lobby-gacha-cosmic-scale", name: "Cosmic Scale" },
+          {
+            id: "lobby-gacha-cosmic-scale",
+            name: "Cosmic Scale",
+            rarityValues: [
+              "1.25x Power (Stardust)",
+              "1.50x Power (Meteor)",
+              "2x Power (Planet)",
+              "2.50x Power (Star)",
+              "3.50x Power (Nebula)",
+              "5x Power (Galaxy)",
+              "10x Power (Universe)",
+              "15x Power (Astral)",
+            ],
+          },
         ],
       },
       {
@@ -422,8 +410,33 @@ const CHECKLIST_DATA = [
         excludeFromProgress: true,
         items: [
           { id: "lobby-dual-sword-gamepass", name: "Dual Sword Gamepass", type: "check" },
-          { id: "lobby-sword-1", name: "Sword" },
-          { id: "lobby-sword-2", name: "Sword (Dual)", requires: "lobby-dual-sword-gamepass" },
+          {
+            id: "lobby-sword-1",
+            name: "Sword",
+            rarityValues: [
+              "1.1x Power (Slingshot)",
+              "1.2x Power (Great Axe)",
+              "1.4x Power (Saw Sword)",
+              "1.5x Power (Mom Sword)",
+              "2.0x Power (Dragon Z Blade)",
+              "2.8x Power (Yozu)",
+              "4.5x Power (Sungo Dagger)",
+            ],
+          },
+          {
+            id: "lobby-sword-2",
+            name: "Sword (Dual)",
+            requires: "lobby-dual-sword-gamepass",
+            rarityValues: [
+              "1.1x Power (Slingshot)",
+              "1.2x Power (Great Axe)",
+              "1.4x Power (Saw Sword)",
+              "1.5x Power (Mom Sword)",
+              "2.0x Power (Dragon Z Blade)",
+              "2.8x Power (Yozu)",
+              "4.5x Power (Sungo Dagger)",
+            ],
+          },
         ],
       },
       {
@@ -1553,7 +1566,509 @@ const CHECKLIST_DATA = [
       },
     ],
   },
-  worldIndexStub(11, "Cursed School", "👹"),
+  {
+    id: "world-11",
+    name: "W11 - Cursed School",
+    icon: "👹",
+    section: "worlds",
+    categories: [
+      {
+        id: "w11-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w11-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w11-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w11-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w11-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w11-pets", "w11-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w11-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          {
+            id: "w11-gacha-innate-techniques",
+            name: "Innate Techniques",
+            rarityValues: [
+              "1.25x Power (Cursed Speech)",
+              "1.50x Power (Blood Manipulation)",
+              "2x Power (Boogie Woogie)",
+              "2.50x Power (Projection Sorcery)",
+              "3.50x Power (Copy)",
+              "5x Power (Ten Shadows Techniques)",
+              "10x Power (Idle Transfiguration)",
+              "15x Power (Limitless)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w11-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w11-up-cursed-progression", name: "Cursed Progression", max: 100, maxCaption: "+10x Power" },
+        ],
+      },
+      {
+        id: "w11-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w11-side-quest-1",
+            name: "Kill 2500 Worldboss (Sukuna)",
+            subtitle: "+150% Power, +75% Damage, +18 Potions II",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-12",
+    name: "W12 - Lion Kingdom",
+    icon: "🦁",
+    section: "worlds",
+    categories: [
+      {
+        id: "w12-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w12-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w12-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w12-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w12-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w12-pets", "w12-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w12-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          {
+            id: "w12-gacha-legendary-orders",
+            name: "Legendary Orders",
+            rarityValues: [
+              "1.25x Power (Holy Knights)",
+              "1.50x Power (Weird Fangs)",
+              "2x Power (Dawn Roar)",
+              "2.50x Power (Pleiades Of The Azure Sky)",
+              "3.50x Power (Four Archangels)",
+              "5x Power (Ten Commandments)",
+              "10x Power (Seven Deadly Sins)",
+              "20x Power (Chaos Knights)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w12-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w12-up-lion-progression", name: "Lion Progression", max: 100, maxCaption: "+10x Power" },
+        ],
+      },
+      {
+        id: "w12-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w12-side-quest-1",
+            name: "Kill 2500 Worldboss (Arthur)",
+            subtitle: "+150% Power, +75% Damage, +18 Potions II",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-13",
+    name: "W13 - Z City",
+    icon: "👊",
+    section: "worlds",
+    categories: [
+      {
+        id: "w13-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w13-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w13-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w13-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w13-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w13-pets", "w13-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w13-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          {
+            id: "w13-gacha-hero-arsenal",
+            name: "Hero Arsenal",
+            rarityValues: [
+              "1.25x Power (Mumen Rider Helmet)",
+              "1.50x Power (Golden Ball Slingshot)",
+              "2x Power (Stinger Bamboo Spear)",
+              "2.50x Power (Metal Bat)",
+              "3.50x Power (Atomic Katana)",
+              "5x Power (Flashy Flash Sword)",
+              "10x Power (Genos Power Core)",
+              "20x Power (Saitama Gloves)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w13-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w13-up-hero-progression", name: "Hero Progression", max: 100, maxCaption: "+10x Power" },
+        ],
+      },
+      {
+        id: "w13-monster-cell-absorb",
+        name: "Monster Cell Absorb",
+        type: "scale",
+        items: [
+          {
+            id: "w13-monster-cell-absorb-level",
+            name: "Monster Cell Absorb",
+            unit: "x",
+            color: "#e5484d",
+            costUnit: "Monster Cells",
+            levels: professionLevels(MONSTER_CELL_COSTS, MONSTER_CELL_VALUES),
+          },
+        ],
+      },
+      {
+        id: "w13-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w13-side-quest-1",
+            name: "Kill 2500 Worldboss (Cosmic Garou)",
+            subtitle: "+150% Power, +75% Damage",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-14",
+    name: "W14 - Tempest Federation",
+    icon: "🌀",
+    section: "worlds",
+    categories: [
+      {
+        id: "w14-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w14-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w14-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w14-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w14-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w14-pets", "w14-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w14-gacha",
+        name: "Gacha",
+        type: "tier",
+        items: [
+          {
+            id: "w14-gacha-spirits",
+            name: "Spirits",
+            rarityValues: [
+              "1.25x Power (Earth Spirit)",
+              "1.50x Power (Water Spirit)",
+              "2x Power (Wind Spirit)",
+              "2.50x Power (Fire Spirit)",
+              "3.50x Power (Light Spirit)",
+              "5x Power (Dark Spirit)",
+              "10x Power (Greater Spirit)",
+              "20x Power (Spirit Queen Essence)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w14-primordial-demons",
+        name: "Primordial Demons",
+        type: "tier",
+        items: [
+          {
+            id: "w14-gacha-primordial-demons",
+            name: "Primordial Demon",
+            rarityValues: [
+              "+2.5 Luck (Misery)",
+              "1.5x Yen (Rain)",
+              "1.5x XP (Ultima)",
+              "+0.25 Drop (Testarossa)",
+              "2x Damage (Carrera)",
+              "2x Power (Diablo)",
+              "3x Power, 4x Damage (Guy Crimson)",
+              "6x Power, 3x Damage, +0.1 Drop (Demon Diablo)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w14-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w14-up-tempest-progression", name: "Tempest Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+        ],
+      },
+      {
+        id: "w14-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w14-side-quest-1",
+            name: "Kill 2500 Worldboss (Rudra)",
+            subtitle: "+150% Power, +75% Damage",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-15",
+    name: "W15 - Zaban City",
+    icon: "🎴",
+    section: "worlds",
+    categories: [
+      {
+        id: "w15-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w15-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w15-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w15-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w15-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w15-pets", "w15-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w15-gacha",
+        name: "Gacha",
+        type: "tier",
+        tiers: ASTRAL_RARITY_TIERS,
+        items: [
+          {
+            id: "w15-gacha-hunter-badges",
+            name: "Hunter Badges",
+            rarityValues: [
+              "1.25x Power (Rookie)",
+              "1.50x Power (Explorer)",
+              "2x Power (Hunter)",
+              "2.50x Power (Elite)",
+              "3.50x Power (Master)",
+              "5x Power (Star Hunter)",
+              "10x Power (Zodiac)",
+              "20x Power (Chairman)",
+              "40x Power, 2x Damage, 1.50x Yen (World's Strongest Hunter)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w15-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w15-up-hunter-progression", name: "Hunter Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+        ],
+      },
+      {
+        id: "w15-hunter-specialization",
+        name: "Hunter Specialization",
+        type: "check",
+        items: [
+          { id: "w15-hunter-spec-1", name: "Get Any Accessories", subtitle: "+1 Drop" },
+          { id: "w15-hunter-spec-2", name: "Same Server Friend Luck", subtitle: "+7.5 Luck" },
+          { id: "w15-hunter-spec-3", name: "Spend Yen", subtitle: "+500% Yen" },
+          { id: "w15-hunter-spec-4", name: "Consume Any Potions", subtitle: "+500% Power" },
+        ],
+      },
+      {
+        id: "w15-nen-awakening",
+        name: "Nen Awakening",
+        type: "level",
+        items: [
+          { id: "w15-nen-enhancement", name: "Enhancement", max: 150, color: "#e5484d", maxCaption: "+1000% Damage" },
+          { id: "w15-nen-emission", name: "Emission", max: 150, color: "#a366e8", maxCaption: "+1000% Power" },
+          { id: "w15-nen-transmutation", name: "Transmutation", max: 150, color: "#f2c94c", maxCaption: "+1000% Yen" },
+          { id: "w15-nen-conjuration", name: "Conjuration", max: 150, color: "#5b8cff", maxCaption: "+1.00 Drop" },
+          { id: "w15-nen-manipulation", name: "Manipulation", max: 150, color: "#4ade80", maxCaption: "+10.00 Luck" },
+          { id: "w15-nen-specialization", name: "Specialization", max: 150, color: "#e5548c", maxCaption: "+200% XP" },
+        ],
+      },
+      {
+        id: "w15-skill-tree",
+        name: "Zaban Skill Tree",
+        type: "level",
+        items: [
+          { id: "w15-skill-power", name: "Power", max: 10, color: "#a366e8", maxCaption: "+135%" },
+          { id: "w15-skill-drop", name: "Drop", max: 10, color: "#5b8cff", maxCaption: "+1.00" },
+          { id: "w15-skill-damage", name: "Damage", max: 10, color: "#e5484d", maxCaption: "+130%" },
+          { id: "w15-skill-yen", name: "Yen", max: 10, color: "#f2c94c", maxCaption: "+130%" },
+          { id: "w15-skill-luck", name: "Luck", max: 10, color: "#4ade80", maxCaption: "+2.5" },
+          { id: "w15-skill-xp", name: "XP", max: 10, color: "#e5548c", maxCaption: "+100%" },
+        ],
+      },
+      {
+        id: "w15-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w15-side-quest-1",
+            name: "Kill 2500 Worldboss (Chrollo)",
+            subtitle: "+200% Power, +125% Damage",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "world-16",
+    name: "W16 - Tokyo Ward",
+    icon: "👁️",
+    section: "worlds",
+    categories: [
+      {
+        id: "w16-pets",
+        name: "Pets (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w16-pets-count", name: "Pets", max: 9 }],
+      },
+      {
+        id: "w16-avatars",
+        name: "Avatars (Index)",
+        type: "level",
+        excludeFromProgress: true,
+        items: [{ id: "w16-avatars-count", name: "Avatars", max: 7 }],
+      },
+      {
+        id: "w16-index",
+        name: "Index Milestones",
+        type: "index",
+        sources: ["w16-pets", "w16-avatars"],
+        count: 14,
+        rewards: INDEX_MILESTONE_REWARDS,
+      },
+      {
+        id: "w16-gacha",
+        name: "Gacha",
+        type: "tier",
+        tiers: ASTRAL_RARITY_TIERS,
+        items: [
+          {
+            id: "w16-gacha-ccg-extermination",
+            name: "CCG Extermination",
+            rarityValues: [
+              "1.25x Power (Final Class Briefcase)",
+              "1.50x Power (Enhanced Quinque)",
+              "2x Power (Special Class Armor)",
+              "2.50x Power (Arata Prototype Suit)",
+              "3.50x Power (Owl Suppression Quinque)",
+              "5x Power (White Reaper Arsenal)",
+              "10x Power (Owl Quinque: Dominion)",
+              "20x Power (Absolute Suppression Protocol)",
+              "40x Power, 2x Damage, 1.5x Yen (Dragon Eradication Authority)",
+            ],
+          },
+        ],
+      },
+      {
+        id: "w16-upgrades",
+        name: "Upgrades",
+        type: "level",
+        items: [
+          { id: "w16-up-ghoul-progression", name: "Ghoul Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+        ],
+      },
+      {
+        id: "w16-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w16-side-quest-1",
+            name: "Kill 2500 Worldboss (Arima)",
+            subtitle: "+200% Power, +125% Damage, +18 Potions II",
+          },
+        ],
+      },
+    ],
+  },
   {
     id: "global-achievements",
     name: "Achievements",
@@ -1565,13 +2080,15 @@ const CHECKLIST_DATA = [
         name: "Raids",
         type: "check",
         items: [
-          { id: "raid-lobby-1", name: "Lobby - Raid" },
+          { id: "raid-lobby-1", name: "Timeless Raid" },
           { id: "raid-w1-1", name: "Ninja Raid" },
           { id: "raid-w1-2", name: "Tomb Raid" },
           { id: "raid-w4-1", name: "Titan Wall Defense" },
           { id: "raid-w6-1", name: "Infinite Castle" },
           { id: "raid-w7-1", name: "Clover Raid" },
           { id: "raid-w10-1", name: "Soul Raid" },
+          { id: "raid-w11-1", name: "Cursed Rush" },
+          { id: "raid-w16-1", name: "Owl Suppression" },
         ],
       },
     ],
