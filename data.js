@@ -164,6 +164,9 @@ function comboLevels(costs, parts) {
     value: parts.map((p) => ({ label: p.label, unit: p.unit, value: p.values[i] })),
   }));
 }
+function comboNoCostLevels(parts) {
+  return comboLevels(new Array(parts[0].values.length).fill(null), parts);
+}
 
 const OBS_HAKI_COSTS = [
   2500, 3000, 3800, 4900, 6200, 7900, 10100, 12900, 16400, 21000, 26700,
@@ -597,9 +600,9 @@ const CHECKLIST_DATA = [
       {
         id: "w1-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w1-up-progression", name: "Ninja Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w1-up-progression", name: "Ninja Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
     ],
@@ -681,9 +684,9 @@ const CHECKLIST_DATA = [
       {
         id: "w2-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w2-up-ki-progression", name: "Ki Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w2-up-ki-progression", name: "Ki Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -781,9 +784,9 @@ const CHECKLIST_DATA = [
       {
         id: "w3-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w3-up-fruit-progression", name: "Fruit Progression", max: 100, maxCaption: "+10x Damage" },
+          { id: "w3-up-fruit-progression", name: "Fruit Progression", unit: "x", color: "#e5484d", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -951,9 +954,9 @@ const CHECKLIST_DATA = [
       {
         id: "w4-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w4-up-dmt-progression", name: "DMT Progression", max: 100, maxCaption: "+10x Damage" },
+          { id: "w4-up-dmt-progression", name: "DMT Progression", unit: "x", color: "#e5484d", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1036,9 +1039,9 @@ const CHECKLIST_DATA = [
       {
         id: "w5-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w5-up-mana-progression", name: "Mana Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w5-up-mana-progression", name: "Mana Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1151,9 +1154,16 @@ const CHECKLIST_DATA = [
       {
         id: "w6-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w6-up-slayer-progression", name: "Slayer Progression", max: 100, maxCaption: "+10x Power, +10 Luck" },
+          {
+            id: "w6-up-slayer-progression",
+            name: "Slayer Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Luck", unit: "Luck", values: linearLevels(0.1, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1272,9 +1282,16 @@ const CHECKLIST_DATA = [
       {
         id: "w7-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w7-up-magic-progression", name: "Magic Progression", max: 100, maxCaption: "+10x Power, +1x Yen" },
+          {
+            id: "w7-up-magic-progression",
+            name: "Magic Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Yen", unit: "x", values: linearLevels(0.01, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1389,9 +1406,16 @@ const CHECKLIST_DATA = [
       {
         id: "w8-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w8-up-summer-progression", name: "Summer Progression", max: 100, maxCaption: "+10x Power, +1x Yen" },
+          {
+            id: "w8-up-summer-progression",
+            name: "Summer Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Yen", unit: "x", values: linearLevels(0.01, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1448,16 +1472,29 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w9-gacha-battalion", name: "Battalion" },
+          {
+            id: "w9-gacha-battalion",
+            name: "Battalion",
+            rarityValues: [
+              "1.25x Power (2nd Company)",
+              "1.50x Power (5th Company)",
+              "2x Power (4th Company)",
+              "2.50x Power (3rd Company)",
+              "3.50x Power (1st Company)",
+              "5x Power (7th Company)",
+              "10x Power (8th Company)",
+              "15x Power (White Clads)",
+            ],
+          },
           { id: "w9-gacha-frame-cores", name: "Flame Cores" },
         ],
       },
       {
         id: "w9-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w9-up-fire-progression", name: "Fire Progression", max: 100 },
+          { id: "w9-up-fire-progression", name: "Fire Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1479,6 +1516,18 @@ const CHECKLIST_DATA = [
           { id: "w9-stat-damage", name: "Damage", unit: "x", color: "#e5484d", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_MULT_VALUES) },
           { id: "w9-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_XP_DROP_VALUES) },
           { id: "w9-stat-xp", name: "XP", unit: "x", color: "#e5548c", costUnit: "Dungeon Coins", levels: professionLevels(W9_DUNGEON_COIN_COSTS, WANO_XP_DROP_VALUES) },
+        ],
+      },
+      {
+        id: "w9-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w9-side-quest-1",
+            name: "Kill 2500 Worldboss (Sho)",
+            subtitle: "+100% Power, +50% Damage",
+          },
         ],
       },
     ],
@@ -1516,15 +1565,35 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w10-gacha-soul-artifacts", name: "Soul Artifacts" },
+          {
+            id: "w10-gacha-soul-artifacts",
+            name: "Soul Artifacts",
+            rarityValues: [
+              "1.25x Power (Soul Ticket)",
+              "1.50x Power (Hell Butterfly)",
+              "2x Power (Shinigami Badge)",
+              "2.50x Power (Quincy Cross)",
+              "3.50x Power (Hollow Mask)",
+              "5x Power (Hogyoku)",
+              "10x Power (Oken Key)",
+              "15x Power (Soul King Crystal)",
+            ],
+          },
         ],
       },
       {
         id: "w10-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w10-up-hueco-progression", name: "Hueco Progression", max: 100 },
+          {
+            id: "w10-up-hueco-progression",
+            name: "Hueco Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Drop", unit: "Drop", values: linearLevels(0.005, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1563,6 +1632,18 @@ const CHECKLIST_DATA = [
         type: "level",
         excludeFromProgress: true,
         items: [{ id: "w10-battlepass-level", name: "Battle Pass", max: 50 }],
+      },
+      {
+        id: "w10-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w10-side-quest-1",
+            name: "Kill 2500 Worldboss (Aiz)",
+            subtitle: "+125% Power, +50% Damage",
+          },
+        ],
       },
     ],
   },
@@ -1618,9 +1699,9 @@ const CHECKLIST_DATA = [
       {
         id: "w11-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w11-up-cursed-progression", name: "Cursed Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w11-up-cursed-progression", name: "Cursed Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1689,9 +1770,9 @@ const CHECKLIST_DATA = [
       {
         id: "w12-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w12-up-lion-progression", name: "Lion Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w12-up-lion-progression", name: "Lion Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1760,9 +1841,9 @@ const CHECKLIST_DATA = [
       {
         id: "w13-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w13-up-hero-progression", name: "Hero Progression", max: 100, maxCaption: "+10x Power" },
+          { id: "w13-up-hero-progression", name: "Hero Progression", unit: "x", color: "#a366e8", levels: noCostLevels(linearLevels(0.1, 100)) },
         ],
       },
       {
@@ -1867,9 +1948,16 @@ const CHECKLIST_DATA = [
       {
         id: "w14-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w14-up-tempest-progression", name: "Tempest Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+          {
+            id: "w14-up-tempest-progression",
+            name: "Tempest Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Damage", unit: "x", values: linearLevels(0.05, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1940,9 +2028,16 @@ const CHECKLIST_DATA = [
       {
         id: "w15-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w15-up-hunter-progression", name: "Hunter Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+          {
+            id: "w15-up-hunter-progression",
+            name: "Hunter Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Damage", unit: "x", values: linearLevels(0.05, 100) },
+            ]),
+          },
         ],
       },
       {
@@ -1959,27 +2054,27 @@ const CHECKLIST_DATA = [
       {
         id: "w15-nen-awakening",
         name: "Nen Awakening",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w15-nen-enhancement", name: "Enhancement", max: 150, color: "#e5484d", maxCaption: "+1000% Damage" },
-          { id: "w15-nen-emission", name: "Emission", max: 150, color: "#a366e8", maxCaption: "+1000% Power" },
-          { id: "w15-nen-transmutation", name: "Transmutation", max: 150, color: "#f2c94c", maxCaption: "+1000% Yen" },
-          { id: "w15-nen-conjuration", name: "Conjuration", max: 150, color: "#5b8cff", maxCaption: "+1.00 Drop" },
-          { id: "w15-nen-manipulation", name: "Manipulation", max: 150, color: "#4ade80", maxCaption: "+10.00 Luck" },
-          { id: "w15-nen-specialization", name: "Specialization", max: 150, color: "#e5548c", maxCaption: "+200% XP" },
+          { id: "w15-nen-enhancement", name: "Enhancement", unit: "%", color: "#e5484d", levels: noCostLevels(linearLevels(1000 / 150, 150)) },
+          { id: "w15-nen-emission", name: "Emission", unit: "%", color: "#a366e8", levels: noCostLevels(linearLevels(1000 / 150, 150)) },
+          { id: "w15-nen-transmutation", name: "Transmutation", unit: "%", color: "#f2c94c", levels: noCostLevels(linearLevels(1000 / 150, 150)) },
+          { id: "w15-nen-conjuration", name: "Conjuration", unit: "Drop", color: "#5b8cff", levels: noCostLevels(linearLevels(1 / 150, 150)) },
+          { id: "w15-nen-manipulation", name: "Manipulation", unit: "Luck", color: "#4ade80", levels: noCostLevels(linearLevels(10 / 150, 150)) },
+          { id: "w15-nen-specialization", name: "Specialization", unit: "%", color: "#e5548c", levels: noCostLevels(linearLevels(200 / 150, 150)) },
         ],
       },
       {
         id: "w15-skill-tree",
         name: "Zaban Skill Tree",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w15-skill-power", name: "Power", max: 10, color: "#a366e8", maxCaption: "+135%" },
-          { id: "w15-skill-drop", name: "Drop", max: 10, color: "#5b8cff", maxCaption: "+1.00" },
-          { id: "w15-skill-damage", name: "Damage", max: 10, color: "#e5484d", maxCaption: "+130%" },
-          { id: "w15-skill-yen", name: "Yen", max: 10, color: "#f2c94c", maxCaption: "+130%" },
-          { id: "w15-skill-luck", name: "Luck", max: 10, color: "#4ade80", maxCaption: "+2.5" },
-          { id: "w15-skill-xp", name: "XP", max: 10, color: "#e5548c", maxCaption: "+100%" },
+          { id: "w15-skill-power", name: "Power", unit: "%", color: "#a366e8", levels: noCostLevels(linearLevels(13.5, 10)) },
+          { id: "w15-skill-drop", name: "Drop", unit: "Drop", color: "#5b8cff", levels: noCostLevels(linearLevels(0.1, 10)) },
+          { id: "w15-skill-damage", name: "Damage", unit: "%", color: "#e5484d", levels: noCostLevels(linearLevels(13, 10)) },
+          { id: "w15-skill-yen", name: "Yen", unit: "%", color: "#f2c94c", levels: noCostLevels(linearLevels(13, 10)) },
+          { id: "w15-skill-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: noCostLevels(linearLevels(0.25, 10)) },
+          { id: "w15-skill-xp", name: "XP", unit: "%", color: "#e5548c", levels: noCostLevels(linearLevels(10, 10)) },
         ],
       },
       {
@@ -2050,9 +2145,16 @@ const CHECKLIST_DATA = [
       {
         id: "w16-upgrades",
         name: "Upgrades",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w16-up-ghoul-progression", name: "Ghoul Progression", max: 100, maxCaption: "+10x Power, +5x Damage" },
+          {
+            id: "w16-up-ghoul-progression",
+            name: "Ghoul Progression",
+            levels: comboNoCostLevels([
+              { label: "Power", unit: "x", values: linearLevels(0.1, 100) },
+              { label: "Damage", unit: "x", values: linearLevels(0.05, 100) },
+            ]),
+          },
         ],
       },
       {
