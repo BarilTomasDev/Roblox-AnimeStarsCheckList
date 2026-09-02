@@ -362,6 +362,10 @@ function renderLevelItem(item) {
     renderAll();
   });
 
+  const caption = item.maxCaption
+    ? el("div", { class: "index-caption", text: `Max: ${item.maxCaption}` })
+    : null;
+
   const wrapper = el(
     "div",
     {
@@ -369,7 +373,7 @@ function renderLevelItem(item) {
       "data-item-id": item.id,
       "data-level-id": item.id,
     },
-    [top, bar]
+    caption ? [top, bar, caption] : [top, bar]
   );
   if (item.color) wrapper.style.setProperty("--stat-color", item.color);
   return wrapper;

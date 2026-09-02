@@ -84,6 +84,12 @@ function noCostLevels(values) {
 function linearLevels(step, count) {
   return Array.from({ length: count }, (_, i) => Math.round(step * (i + 1) * 1000) / 1000);
 }
+function rangeLevels(start, end, count) {
+  return Array.from(
+    { length: count },
+    (_, i) => Math.round((start + ((end - start) * i) / (count - 1)) * 1000) / 1000
+  );
+}
 const W6_POWER_VALUES = linearLevels(0.1, 60);
 const W6_XP_DROP_VALUES = linearLevels(1.5 / 60, 60);
 const W6_LUCK_VALUES = linearLevels(9.0 / 60, 60);
@@ -564,11 +570,23 @@ const CHECKLIST_DATA = [
         items: [{ id: "w1-medal-event-done", name: "Medal Event" }],
       },
       {
+        id: "w1-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w1-side-quest-1",
+            name: "Kill 2500 Worldboss (Itache)",
+            subtitle: "+50% Power, +18 Potions II",
+          },
+        ],
+      },
+      {
         id: "w1-upgrades",
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w1-up-progression", name: "Ninja Progression", max: 100 },
+          { id: "w1-up-progression", name: "Ninja Progression", max: 100, maxCaption: "+10x Power" },
         ],
       },
     ],
@@ -606,19 +624,45 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w2-gacha-races", name: "Races" },
-          { id: "w2-gacha-divine-techniques", name: "Divine Techniques" },
+          {
+            id: "w2-gacha-races",
+            name: "Races",
+            rarityValues: [
+              "1.25x Power (Human)",
+              "1.50x Power (Namekian)",
+              "2x Power (Saiyan)",
+              "2.50x Power (Androide)",
+              "3.50x Power (Maijin)",
+              "5x Power (Kaioshin)",
+              "10x Power (GOD)",
+              "15x Power (Angel)",
+            ],
+          },
+          {
+            id: "w2-gacha-divine-techniques",
+            name: "Divine Techniques",
+            rarityValues: [
+              "1.25x Power, 1.05x Damage (Mafuba)",
+              "1.50x Power, 1.10x Damage (Makankosappo)",
+              "2x Power, 1.15x Damage (Galick Gun)",
+              "2.50x Power, 1.20x Damage (Kamehameha)",
+              "3.50x Power, 1.25x Damage (Final Flash)",
+              "5x Power, 1.50x Damage (Big Bang Kamehameha)",
+              "10x Power, 2x Damage (Genkidama)",
+              "15x Power, 3x Damage (Hakai)",
+            ],
+          },
         ],
       },
       {
         id: "w2-passives",
         name: "Passives",
-        type: "level",
+        type: "scale",
         items: [
-          { id: "w2-passive-damage", name: "Damage", max: 8, color: "#e5484d" },
-          { id: "w2-passive-yen", name: "Yen", max: 8, color: "#f2c94c" },
-          { id: "w2-passive-luck", name: "Luck", max: 8, color: "#4ade80" },
-          { id: "w2-passive-power", name: "Power", max: 8, color: "#a366e8" },
+          { id: "w2-passive-damage", name: "Damage", unit: "x", color: "#e5484d", estimated: true, levels: noCostLevels(rangeLevels(1.1, 10, 8)) },
+          { id: "w2-passive-yen", name: "Yen", unit: "x", color: "#f2c94c", estimated: true, levels: noCostLevels(rangeLevels(1.1, 10, 8)) },
+          { id: "w2-passive-luck", name: "Luck", unit: "Luck", color: "#4ade80", estimated: true, levels: noCostLevels(rangeLevels(0.1, 5, 8)) },
+          { id: "w2-passive-power", name: "Power", unit: "x", color: "#a366e8", estimated: true, levels: noCostLevels(rangeLevels(1.1, 11, 8)) },
         ],
       },
       {
@@ -626,7 +670,7 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w2-up-ki-progression", name: "Ki Progression", max: 100 },
+          { id: "w2-up-ki-progression", name: "Ki Progression", max: 100, maxCaption: "+10x Power" },
         ],
       },
       {
@@ -641,6 +685,18 @@ const CHECKLIST_DATA = [
             color: "#a366e8",
             costUnit: "Shards",
             levels: professionLevels(KI_EVOLUTION_COSTS, KI_EVOLUTION_VALUES),
+          },
+        ],
+      },
+      {
+        id: "w2-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w2-side-quest-1",
+            name: "Kill 2500 Worldboss (Brolew)",
+            subtitle: "+50% Power, +18 Potions II",
           },
         ],
       },
