@@ -1144,27 +1144,6 @@ const CHECKLIST_DATA = [
         ],
       },
       {
-        id: "w6-sword-passives",
-        name: "Sword Passives",
-        type: "tier",
-        items: [
-          {
-            id: "w6-sword-passive-1",
-            name: "Sword Passive",
-            rarityValues: [
-              "+5% Damage (Water Breathing)",
-              "+10% Damage (Beast Breathing)",
-              "+20% Damage (Thunder Breathing)",
-              "+35% Damage (Flame Breathing)",
-              "+55% Damage (Serpent Breathing)",
-              "+80% Damage (Wind Breathing)",
-              "+125% Damage (Moon Breathing)",
-              "+200% Damage (Sun Breathing)",
-            ],
-          },
-        ],
-      },
-      {
         id: "w6-stats",
         name: "Stat Upgrades",
         type: "scale",
