@@ -1105,8 +1105,34 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w6-gacha-demon-moons", name: "Demon Moons" },
-          { id: "w6-gacha-nichirin-saya", name: "Nichirin Saya" },
+          {
+            id: "w6-gacha-demon-moons",
+            name: "Demon Moons",
+            rarityValues: [
+              "1.25x Power (Rui)",
+              "1.50x Power (Daki)",
+              "2x Power (Gyutaro)",
+              "2.50x Power (Gyokko)",
+              "3.50x Power (Hantengu)",
+              "5x Power (Akaza)",
+              "10x Power (Douma)",
+              "15x Power (Kokushibo)",
+            ],
+          },
+          {
+            id: "w6-gacha-nichirin-saya",
+            name: "Nichirin Saya",
+            rarityValues: [
+              "1.25x Power, 1.05x Yen (Water Saya)",
+              "1.50x Power, 1.10x Yen (Thunder Saya)",
+              "2x Power, 1.15x Yen (Beast Saya)",
+              "2.50x Power, 1.20x Yen (Flowing Water Saya)",
+              "3.50x Power, 1.25x Yen (Flame Saya)",
+              "5x Power, 1.50x Yen (Mist Saya)",
+              "10x Power, 2x Yen (Moon Saya)",
+              "15x Power, 3x Yen (Sun Saya)",
+            ],
+          },
         ],
       },
       {
@@ -1114,7 +1140,28 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w6-up-slayer-progression", name: "Slayer Progression", max: 100 },
+          { id: "w6-up-slayer-progression", name: "Slayer Progression", max: 100, maxCaption: "+10x Power, +10 Luck" },
+        ],
+      },
+      {
+        id: "w6-sword-passives",
+        name: "Sword Passives",
+        type: "tier",
+        items: [
+          {
+            id: "w6-sword-passive-1",
+            name: "Sword Passive",
+            rarityValues: [
+              "+5% Damage (Water Breathing)",
+              "+10% Damage (Beast Breathing)",
+              "+20% Damage (Thunder Breathing)",
+              "+35% Damage (Flame Breathing)",
+              "+55% Damage (Serpent Breathing)",
+              "+80% Damage (Wind Breathing)",
+              "+125% Damage (Moon Breathing)",
+              "+200% Damage (Sun Breathing)",
+            ],
+          },
         ],
       },
       {
@@ -1136,6 +1183,18 @@ const CHECKLIST_DATA = [
         type: "level",
         excludeFromProgress: true,
         items: [{ id: "w6-battlepass-level", name: "Battle Pass", max: 30 }],
+      },
+      {
+        id: "w6-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w6-side-quest-1",
+            name: "Kill 2500 Worldboss (Kokeshebo)",
+            subtitle: "+50% Power, +25% Damage, +18 Potions II",
+          },
+        ],
       },
     ],
   },
@@ -1172,7 +1231,20 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w7-gacha-magic-attributes", name: "Magic Attributes" },
+          {
+            id: "w7-gacha-magic-attributes",
+            name: "Magic Attributes",
+            rarityValues: [
+              "1.25x Power (Terra)",
+              "1.50x Power (Vento)",
+              "2x Power (Agua)",
+              "2.50x Power (Fogo)",
+              "3.50x Power (Raio)",
+              "5x Power (Darkness)",
+              "10x Power (Light)",
+              "15x Power (Anti Magic)",
+            ],
+          },
         ],
       },
       {
@@ -1185,11 +1257,32 @@ const CHECKLIST_DATA = [
         ],
       },
       {
+        id: "w7-magic-squad",
+        name: "Magic Squad",
+        type: "tier",
+        items: [
+          {
+            id: "w7-gacha-magic-squad",
+            name: "Magic Squad",
+            rarityValues: [
+              "1.25x Power, 1.05x Damage (Purple Orcas)",
+              "1.50x Power, 1.10x Damage (Green Mantis)",
+              "2x Power, 1.15x Damage (Aqua Deer)",
+              "2.50x Power, 1.20x Damage (Blue Rose Knights)",
+              "3.50x Power, 1.25x Damage (Silver Eagles)",
+              "5x Power, 1.50x Damage (Crimson Lion Kings)",
+              "10x Power, 2x Damage (Golden Dawn)",
+              "15x Power, 3x Damage (Black Bulls)",
+            ],
+          },
+        ],
+      },
+      {
         id: "w7-upgrades",
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w7-up-magic-progression", name: "Magic Progression", max: 100 },
+          { id: "w7-up-magic-progression", name: "Magic Progression", max: 100, maxCaption: "+10x Power, +1x Yen" },
         ],
       },
       {
@@ -1198,6 +1291,18 @@ const CHECKLIST_DATA = [
         type: "level",
         excludeFromProgress: true,
         items: [{ id: "w7-battlepass-level", name: "Battle Pass", max: 30 }],
+      },
+      {
+        id: "w7-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w7-side-quest-1",
+            name: "Kill 2500 Worldboss (Lucies)",
+            subtitle: "+75% Power, +25% Damage, +18 Potions II",
+          },
+        ],
       },
     ],
   },
@@ -1234,7 +1339,20 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w8-gacha-races-sao", name: "Races SAO" },
+          {
+            id: "w8-gacha-races-sao",
+            name: "Races SAO",
+            rarityValues: [
+              "1.25x Power (Human)",
+              "1.50x Power (Pooka)",
+              "2x Power (Undine)",
+              "2.50x Power (Cait Sith)",
+              "3.50x Power (Gnome)",
+              "5x Power (Springgan)",
+              "10x Power (Sylph)",
+              "15x Power (Salamander)",
+            ],
+          },
         ],
       },
       {
@@ -1245,8 +1363,35 @@ const CHECKLIST_DATA = [
         excludeFromProgress: true,
         items: [
           { id: "w8-dual-sword-gamepass", name: "Dual Sword Gamepass", type: "check" },
-          { id: "w8-sword-1", name: "Sword" },
-          { id: "w8-sword-2", name: "Sword (Dual)", requires: "w8-dual-sword-gamepass" },
+          {
+            id: "w8-sword-1",
+            name: "Sword",
+            rarityValues: [
+              "2.0x Power (Wind Nichirin)",
+              "2.5x Power (Ice Sword)",
+              "3.0x Power (Excalibur)",
+              "3.6x Power (Blue Rose)",
+              "4.7x Power (Elucidator)",
+              "6.8x Power (Repulser)",
+              "9.7x Power (Fragrant)",
+              "14.4x Power (Admin Sword)",
+            ],
+          },
+          {
+            id: "w8-sword-2",
+            name: "Sword (Dual)",
+            requires: "w8-dual-sword-gamepass",
+            rarityValues: [
+              "2.0x Power (Wind Nichirin)",
+              "2.5x Power (Ice Sword)",
+              "3.0x Power (Excalibur)",
+              "3.6x Power (Blue Rose)",
+              "4.7x Power (Elucidator)",
+              "6.8x Power (Repulser)",
+              "9.7x Power (Fragrant)",
+              "14.4x Power (Admin Sword)",
+            ],
+          },
         ],
       },
       {
@@ -1254,7 +1399,7 @@ const CHECKLIST_DATA = [
         name: "Upgrades",
         type: "level",
         items: [
-          { id: "w8-up-summer-progression", name: "Summer Progression", max: 100 },
+          { id: "w8-up-summer-progression", name: "Summer Progression", max: 100, maxCaption: "+10x Power, +1x Yen" },
         ],
       },
       {
@@ -1263,6 +1408,18 @@ const CHECKLIST_DATA = [
         type: "level",
         excludeFromProgress: true,
         items: [{ id: "w8-battlepass-level", name: "Battle Pass", max: 30 }],
+      },
+      {
+        id: "w8-side-quest",
+        name: "Side Quest",
+        type: "check",
+        items: [
+          {
+            id: "w8-side-quest-1",
+            name: "Kill 2500 Worldboss (Quinella)",
+            subtitle: "+75% Power, +25% Damage",
+          },
+        ],
       },
     ],
   },
