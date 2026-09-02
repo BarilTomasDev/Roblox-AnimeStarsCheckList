@@ -927,10 +927,10 @@ const CHECKLIST_DATA = [
         items: [
           { id: "w6-stat-power", name: "Power", unit: "x", color: "#a366e8", levels: noCostLevels(W6_POWER_VALUES) },
           { id: "w6-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w6-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: noCostLevels(W6_LUCK_VALUES) },
+          { id: "w6-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", estimated: true, levels: noCostLevels(W6_LUCK_VALUES) },
           { id: "w6-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w6-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: noCostLevels(W6_XP_DROP_VALUES) },
-          { id: "w6-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w6-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", estimated: true, levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w6-stat-xp", name: "XP", unit: "x", color: "#e5548c", estimated: true, levels: noCostLevels(W6_XP_DROP_VALUES) },
         ],
       },
       {
@@ -1186,12 +1186,12 @@ const CHECKLIST_DATA = [
         name: "Stat Upgrades",
         type: "scale",
         items: [
-          { id: "w10-stat-power", name: "Power", unit: "x", color: "#a366e8", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w10-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w10-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", levels: noCostLevels(W6_LUCK_VALUES) },
-          { id: "w10-stat-damage", name: "Damage", unit: "x", color: "#e5484d", levels: noCostLevels(W6_POWER_VALUES) },
-          { id: "w10-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", levels: noCostLevels(W6_XP_DROP_VALUES) },
-          { id: "w10-stat-xp", name: "XP", unit: "x", color: "#e5548c", levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w10-stat-power", name: "Power", unit: "x", color: "#a366e8", estimated: true, levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w10-stat-yen", name: "Yen", unit: "x", color: "#f2c94c", estimated: true, levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w10-stat-luck", name: "Luck", unit: "Luck", color: "#4ade80", estimated: true, levels: noCostLevels(W6_LUCK_VALUES) },
+          { id: "w10-stat-damage", name: "Damage", unit: "x", color: "#e5484d", estimated: true, levels: noCostLevels(W6_POWER_VALUES) },
+          { id: "w10-stat-drop", name: "Drop", unit: "x", color: "#5b8cff", estimated: true, levels: noCostLevels(W6_XP_DROP_VALUES) },
+          { id: "w10-stat-xp", name: "XP", unit: "x", color: "#e5548c", estimated: true, levels: noCostLevels(W6_XP_DROP_VALUES) },
         ],
       },
       {
