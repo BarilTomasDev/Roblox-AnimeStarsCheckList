@@ -524,7 +524,20 @@ const CHECKLIST_DATA = [
         name: "Gacha",
         type: "tier",
         items: [
-          { id: "w1-gacha-doujutsu", name: "Doujutsu" },
+          {
+            id: "w1-gacha-doujutsu",
+            name: "Doujutsu",
+            rarityValues: [
+              "1.25x Power (Sharingan)",
+              "1.50x Power (Byakugan)",
+              "2x Power (Ketsuryugan)",
+              "2.50x Power (Jogan)",
+              "3.50x Power (Tenseigan)",
+              "5x Power (Rinnegan)",
+              "10x Power (RinneSharingan)",
+              "15x Power (Kokugan)",
+            ],
+          },
         ],
       },
       {

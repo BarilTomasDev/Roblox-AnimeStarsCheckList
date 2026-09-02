@@ -543,6 +543,18 @@ function renderTierItem(item, tiers) {
   const barFill = el("div", { class: `tier-bar-fill ${currentRarityClass}` });
   barFill.style.width = pct + "%";
 
+  const caption = item.rarityValues
+    ? el("div", {
+        class: "index-caption",
+        text:
+          selected >= 0
+            ? selected < total - 1
+              ? `Current: ${item.rarityValues[selected]} - next: ${tiers[selected + 1].name} (${item.rarityValues[selected + 1]})`
+              : `Current: ${item.rarityValues[selected]} - maxed`
+            : `${tiers[0].name} gives ${item.rarityValues[0]}`,
+      })
+    : null;
+
   const ticks = el(
     "div",
     { class: "tier-ticks" },
@@ -569,7 +581,7 @@ function renderTierItem(item, tiers) {
   return el(
     "div",
     { class: "tier-item", "data-tier-id": item.id, "data-item-id": item.id },
-    [top, bar, labels]
+    caption ? [top, bar, labels, caption] : [top, bar, labels]
   );
 }
 
