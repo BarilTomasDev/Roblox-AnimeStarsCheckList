@@ -1245,6 +1245,52 @@ document.getElementById("restoreCodeBtn").addEventListener("click", () => {
   textarea.focus();
 });
 
+document.getElementById("mergeCodeBtn").addEventListener("click", () => {
+  const textarea = el("textarea", {
+    class: "modal-textarea",
+    placeholder: "Paste a partial code here...",
+  });
+  const errorText = el("p", { class: "modal-error" });
+
+  const mergeBtn = el("button", {
+    class: "btn",
+    text: "Merge",
+    onclick: () => {
+      const code = textarea.value.trim();
+      if (!code) return;
+      let imported;
+      try {
+        imported = JSON.parse(atob(code));
+      } catch {
+        imported = null;
+      }
+      if (typeof imported !== "object" || imported === null || Array.isArray(imported)) {
+        errorText.textContent = "That doesn't look like a valid code.";
+        return;
+      }
+      Object.assign(state, imported);
+      saveState();
+      renderAll();
+      closeModal();
+    },
+  });
+
+  showModal(
+    "Merge a Partial Code",
+    [
+      el("p", {
+        text:
+          "Paste a code below to merge it into your current progress - only the items in that code are updated, everything else stays as it is.",
+      }),
+      textarea,
+      errorText,
+    ],
+    [mergeBtn, el("button", { class: "btn", text: "Cancel", onclick: closeModal })]
+  );
+
+  textarea.focus();
+});
+
 function discordChip(username) {
   const iconWrapper = document.createElement("span");
   iconWrapper.className = "discord-chip-icon";

@@ -538,10 +538,12 @@ body {
 
 .backup-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 .backup-row .btn {
   flex: 1;
+  min-width: 70px;
   font-size: 11px;
   padding: 7px 6px;
 }
