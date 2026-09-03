@@ -2284,6 +2284,7 @@ const CHECKLIST_DATA = [
         id: "relics-list",
         name: "Relics",
         type: "level",
+        grid: true,
         items: [
           { id: "relic-w1", name: "Ninja Relic (World 1)", max: 200, maxCaption: "+4950% Yen" },
           { id: "relic-w2", name: "Dragon Relic (World 2)", max: 200, maxCaption: "+4900% Power" },

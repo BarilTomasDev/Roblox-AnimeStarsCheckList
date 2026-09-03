@@ -854,9 +854,10 @@ function renderCategory(category, world) {
       )
     );
   } else {
+    const useGrid = category.grid && category.items.length > 1;
     body = el(
       "div",
-      { class: "level-list" },
+      { class: `level-list${useGrid ? " scale-grid" : ""}` },
       category.items.map((item) => renderLevelItem(item))
     );
   }
