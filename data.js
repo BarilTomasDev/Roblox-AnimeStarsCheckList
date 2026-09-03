@@ -2225,7 +2225,7 @@ const CHECKLIST_DATA = [
           { id: "gp-5", rank: 5, tier: "A", name: "VIP", subtitle: "Note 1", color: "#ffd700", image: "https://tr.rbxcdn.com/180DAY-94f9d197a110129462030031f1ba130e/420/420/Image/Png/noFilter" },
           { id: "gp-6", rank: 6, tier: "A", name: "Fast Click", color: "#5b8cff", image: "https://tr.rbxcdn.com/180DAY-db077aef073d4a55d2a986632c2027c4/420/420/Image/Png/noFilter" },
           { id: "gp-7", rank: 7, tier: "A", name: "Z City Battle Pass" },
-          { id: "gp-8", rank: 8, tier: "A", name: "Bleach Battle Pass" },
+          { id: "gp-8", rank: 8, tier: "A", name: "Hueco World Battle Pass" },
           { id: "gp-9", rank: 9, tier: "B", name: "Summer Battle Pass" },
           { id: "gp-10", rank: 10, tier: "B", name: "2x Damage", color: "#e5484d", image: "https://tr.rbxcdn.com/180DAY-9d2be5b53c3bb94719bbb39ecb37326d/420/420/Image/Png/noFilter" },
           { id: "gp-11", rank: 11, tier: "B", name: "+2 Pet Equip", color: "#5b8cff", image: "https://tr.rbxcdn.com/180DAY-a4eb024b3a9d702ef386275ae5e405c7/420/420/Image/Png/noFilter" },
